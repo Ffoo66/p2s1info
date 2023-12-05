@@ -37,8 +37,12 @@ int min2 (int a, int b){
 	}
 	return m;
 }
+typedef struct data{
+	float nb; 
+}Data;
 
 typedef struct arbre{
+	Data d;
 	int n; 		   //entier
 	struct arbre* fg; //fils gauche
 	struct arbre* fd; //fils droit
@@ -422,7 +426,6 @@ pArbre insertAVL(pArbre a, int e, int* h){
 	return a;
 }
 
-/*
 pArbre suppMinAVL(pArbre a, int* h, int* pe){
 	pArbre tmp;
 	if (a->fg==NULL){
@@ -487,7 +490,7 @@ pArbre suppAVL(pArbre a, int e, int* h){
 	}
 	return a;
 }
-*/
+
 
 pArbre supp(pArbre a, int e);
 pArbre suppMax(pArbre a, int* p);
@@ -655,6 +658,25 @@ void printArray(int tab[], int size){
 	printf("|\n");
 
 }
+
+
+
+Data* top10(pArbre a){
+	Data top[10];
+	int i=0;
+	Data tmp;
+	pArbre pa=a;
+	for (i=0;i<10;i++){
+		pa=a;
+		while (pa->fd!=NULL){
+			pa=pa->fd;
+		}
+		top[i];
+		//a=suppAVL(pa); >>> def une fonction supp ne dependant pas de int 
+	}
+	return top;
+}
+	
 
 
 
