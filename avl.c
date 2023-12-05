@@ -671,7 +671,7 @@ Data* top10(pArbre a){
 		while (pa->fd!=NULL){
 			pa=pa->fd;
 		}
-		top[i];
+		top[i]=pa->d;
 		//a=suppAVL(pa); >>> def une fonction supp ne dependant pas de int 
 	}
 	return top;
