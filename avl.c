@@ -467,7 +467,7 @@ pArbre suppAVL(pArbre a, int e, int* h){
 		*h=-*h;
 	}
 	else if (existeFd(a)){
-		a->fg=suppMinAVL(a->fd, h , &(a->n));
+		a=suppMinAVL(a->fd, h , &(a->n));
 	}
 	else {
 		tmp=a;
