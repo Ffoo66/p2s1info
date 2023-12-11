@@ -6,9 +6,9 @@ then
 	exit 1
 fi
 
-if [ ! -d  $1 ]
+if [ ! $1 == directory ]
 then
-	echo "You're dumb (first arg has to be a directory)"
+	echo "You're dumb (first arg has to be the right directory (directory))"
 	exit 2
 fi
 
@@ -21,33 +21,50 @@ do
 	fi
 done
 
+tmparg=0
+
 for arg in `seq 2 $#`
 do
 	case ${!arg} in
-		-d1) echo "Option d1 (TBA)";;
+		-d1) echo "Option d1 (TBA)"
+		tmparg=1 ;;
 		
-		-d2) echo "Option d2 (TBA)";;
+		-d2) echo "Option d2 (TBA)"
+		tmparg=1 ;;
 		
-		-l) echo "Option l (TBA)";;
+		-l) echo "Option l (TBA)"
+		tmparg=1 ;;
 		
-		-t) echo "Option t (TBA)";;
+		-t) echo "Option t (TBA)"
+		tmparg=1 ;;
 		
-		-s) echo "Option s (TBA)";;
-		
-		*) 
-		echo "Failure (TBA)";;
+		-s) echo "Option s (TBA)"
+		tmparg=1 ;;
 	esac
 done
+
+if [ $tmparg -le 0 ]
+then
+	echo "No valid argument, try -h or --help to get help"
+	exit 4
+fi
+
+cd $1
 
 tmpc=0
 tmpimage=0
 
-for j in `ls $1`
+for j in `ls`
 do
-	echo $j
-	if [ $j == c.exe ]
+	if [ $j == progc ]
 	then
-		tmpc=$((tmpc + 1))
+		for k in `ls progc`
+		do
+			if [ $k == c.exe ]
+			then
+				tmpc=1
+			fi
+		done
 	fi
 	if [ $j == temp ]
 	then
@@ -55,7 +72,7 @@ do
 	fi
 	if [ $j == images ]
 	then
-		tmpimage=$((tmpimage + 1))
+		tmpimage=1
 	fi
 done
 
@@ -65,11 +82,17 @@ echo $tmpc $tmpimage
 
 if [ $tmpc -le 0 ]
 then
-	gcc -o c.exe c.c 2> temp/tempgccerr.txt > temp/tempgcc.txt
+	gcc -o progc/c.exe progc/c.c 2> temp/tempgccerr.txt > temp/tempgcc.txt
+	if [  ]
+	then
+		echo "Gcc error"
+		exit 5
+	fi
 fi
+
+echo "Is this real ?"
 
 if [ $tmpimage -le 0 ]
 then
 	mkdir images
 fi
-
