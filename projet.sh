@@ -96,3 +96,18 @@ if [ $tmpimage -le 0 ]
 then
 	mkdir images
 fi
+
+cd data
+
+for k in `ls`
+do
+	if [ $k == "data.csv" ]
+	then
+		rm data.csv
+	fi
+done
+
+for k in `ls`
+do
+	cat $k >> data.csv
+done
