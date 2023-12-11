@@ -2,3 +2,4 @@ official doc : http://www.gnuplot.info/docs_5.4/Gnuplot_5_4.pdf
 demos : http://www.gnuplot.info/demo/
 more helpful site : http://www.gnuplotting.org/
 re: about historigrams : http://www.gnuplotting.org/manpage-gnuplot-4-6/#Q1-1-147
+use -persist option with gnuplot to have the plots persist past the main program's end.
