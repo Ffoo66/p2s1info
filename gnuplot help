@@ -2,9 +2,10 @@ official doc : http://www.gnuplot.info/docs_5.4/Gnuplot_5_4.pdf
 demos : http://www.gnuplot.info/demo/
 more helpful site : http://www.gnuplotting.org/
 re: about historigrams : http://www.gnuplotting.org/manpage-gnuplot-4-6/#Q1-1-147
-use -persist option with gnuplot to have the plots persist past the main program's end.
 
-see filledcurves, historigrams
+Errorbars
+on each line of the data file — (x, y, xlow, xhigh, ylow, yhigh).
+see filledcurves, historigrams, errorbars
 
 csv files
 Syntax:
@@ -17,5 +18,9 @@ set datafile separator ";"
 See set datafile separator (p. 147). This applies only to files used for input. To create a csv file on
 output, use the corresponding separator option to set table.
 
+
+
+use -persist option with gnuplot to have the plots persist past the main program's end.
+set output {"<filename>"}
 
 grep ";1;" data.csv pour avoir ttes les 1ères étapes de chaque trajet
