@@ -126,12 +126,14 @@ echo $tmpc $tmpimage
 
 if [ $tmpc -le 0 ]
 then
-	gcc -o progc/c.exe progc/c.c 2>&1 > temp/tempgcc.txt
+	cd progc
+	make > ../temp/tempgcc.txt
 	if [ ! $? -eq 0 ]
 	then
 		echo "Gcc error"
 		exit 6
 	fi
+	cd ..
 fi
 
 echo "Is this real ?"
@@ -140,3 +142,5 @@ if [ $tmpimage -le 0 ]
 then
 	mkdir images
 fi
+
+rm -r temp
