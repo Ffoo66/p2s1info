@@ -126,8 +126,8 @@ echo $tmpc $tmpimage
 
 if [ $tmpc -le 0 ]
 then
-	gcc -o progc/c.exe progc/c.c 2> temp/tempgccerr.txt > temp/tempgcc.txt
-	if [  ]
+	gcc -o progc/c.exe progc/c.c 2>&1 > temp/tempgcc.txt
+	if [ ! $? -eq 0 ]
 	then
 		echo "Gcc error"
 		exit 6
