@@ -37,8 +37,14 @@ int min2 (int a, int b){
 	}
 	return m;
 }
+
 typedef struct data{
-	float nb; 
+	int trajet;
+	int etape;
+	char* conducteur;
+	char* depart;
+	char* arrivee;
+	float distance;
 }Data;
 
 typedef struct arbre{
