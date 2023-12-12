@@ -23,4 +23,6 @@ output, use the corresponding separator option to set table.
 use -persist option with gnuplot to have the plots persist past the main program's end.
 set output {"<filename>"}
 
+shell help:
+use AWK (see man awk for help) 
 grep ";1;" data.csv pour avoir ttes les 1ères étapes de chaque trajet
