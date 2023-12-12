@@ -3,3 +3,19 @@ demos : http://www.gnuplot.info/demo/
 more helpful site : http://www.gnuplotting.org/
 re: about historigrams : http://www.gnuplotting.org/manpage-gnuplot-4-6/#Q1-1-147
 use -persist option with gnuplot to have the plots persist past the main program's end.
+
+see filledcurves, historigrams
+
+csv files
+Syntax:
+set datafile separator {whitespace | tab | comma | "chars"}
+"csv" is short for "comma-separated values". The term "csv file" is loosely applied to files in which data
+fields are delimited by a specific character, not necessarily a comma. To read data from a csv file you must
+tell gnuplot what the field-delimiting character is. For instance to read from a file using semicolon as a field
+delimiter:
+set datafile separator ";"
+See set datafile separator (p. 147). This applies only to files used for input. To create a csv file on
+output, use the corresponding separator option to set table.
+
+
+grep ";1;" data.csv pour avoir ttes les 1ères étapes de chaque trajet
