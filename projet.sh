@@ -19,8 +19,8 @@ do
 		echo "Showing the help.
 		You must type the right directory as first argument (directory).
 		You must have at least one other valid argument:
-		- The -c argument merges the files in the data directory to create the data.csv file. You must use this argument at least once before using the other arguments.
 		- The -h or --help argument displays this help and cancels the other arguments.
+		- The -c or --create argument merges the files in the data directory to create the data.csv file. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments.
 		- The -d1 argument shows the d1 option.
 		- The -d2 argument shows the d2 option.
 		- The -l argument shows the l option.
@@ -35,7 +35,7 @@ cd $1
 
 for i in `seq 2 $#`
 do
-	if [ ${!i} == '-c' ] && [ $tmparg -le 0 ]
+	if [ ${!i} == '-c' ] || [ ${!i} == '--create' ] && [ $tmparg -le 0 ]
 	then
 		for j in `ls data`
 		do
