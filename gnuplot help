@@ -52,8 +52,6 @@ horizontal : Boxxyerror
 input : x y xlow xhigh ylow yhigh
 boxes from x to xhigh >> x=0; xhigh=value
            y to yhigh >> y=position of the box on the y axis; yhigh=position + width 
-
-
 -d1
 historigramme horizontal
 y: noms conducteurs
@@ -63,15 +61,33 @@ x: nb de trajets effectués
 historigramme horizontal
 y: noms conducteurs
 x: distance totale parcourue
+
 -l
 historigramme vertical
 x:id de trajet
 y: distance
+
+set boxwidth 0.9 relative   
+set style data histograms
+
 -t
 historigramme vertical regroupé  >> set style histogram clustered
 x:villes
 y1:nb trajets
 y2:nb conducteurs
+abscisse : noms des villes
+ordonnée : nb entiers de 0 à max(y1,y2)
+set boxwidth 0.9 relative   
+set style data histograms
+set style histogram cluster
+
+plot for [COL=2:4:2] 'file.dat' using COL
+This will produce a plot with clusters of two boxes (vertical bars) centered at each integral value on the
+x axis. If the first column of the input file contains labels, they may be placed along the x-axis using the
+variant command
+plot for [COL=2:4:2] 'file.dat' using COL:xticlabels(1)
+
+
 -s
 graphique de type courbes min-max-moyenne >> Errorbars (see above)
 3 courbes:
