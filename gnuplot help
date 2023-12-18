@@ -21,16 +21,47 @@ output, use the corresponding separator option to set table.
 
 
 use -persist option with gnuplot to have the plots persist past the main program's end.
+
+gnuplot -persist <<-EOFMarker
+	
+EOFMarker
+pause -1 "Hit any key to continue"
+
+
 set output {"<filename>"}
+
+for FILE in data*
+do
+    gnuplot <<- EOF
+        set xlabel "Label"
+        set ylabel "Label2"
+        set title "Graph title"   
+        set term png
+        set output "${FILE}.png"
+        plot "${FILE}" using 1:2:3:4 with errorbars
+EOF
+done
+
 
 shell help:
 use AWK (see man awk for help) 
 grep ";1;" data.csv pour avoir ttes les 1ères étapes de chaque trajet
 
+
+horizontal : Boxxyerror
+input : x y xlow xhigh ylow yhigh
+boxes from x to xhigh >> x=0; xhigh=value
+           y to yhigh >> y=position of the box on the y axis; yhigh=position + width 
+
+
 -d1
 historigramme horizontal
 y: noms conducteurs
 x: nb de trajets effectués
+
+
+
+
 -d2
 historigramme horizontal
 y: noms conducteurs
@@ -40,13 +71,12 @@ historigramme vertical
 x:id de trajet
 y: distance
 -t
-historigramme vertical regroupé
+historigramme vertical regroupé  >> set style histogram clustered
 x:villes
 y1:nb trajets
 y2:nb conducteurs
 -s
-graphique de type courbes min-max-
-moyenne
+graphique de type courbes min-max-moyenne >> Errorbars (see above)
 3 courbes:
 min(x)
 max(x)
