@@ -26,3 +26,31 @@ set output {"<filename>"}
 shell help:
 use AWK (see man awk for help) 
 grep ";1;" data.csv pour avoir ttes les 1ères étapes de chaque trajet
+
+-d1
+historigramme horizontal
+y: noms conducteurs
+x: nb de trajets effectués
+-d2
+historigramme horizontal
+y: noms conducteurs
+x: distance totale parcourue
+-l
+historigramme vertical
+x:id de trajet
+y: distance
+-t
+historigramme vertical regroupé
+x:villes
+y1:nb trajets
+y2:nb conducteurs
+-s
+graphique de type courbes min-max-
+moyenne
+3 courbes:
+min(x)
+max(x)
+moy(x)
+x: id de trajet
+y:distance en km
+
