@@ -145,7 +145,7 @@ set rrange [ * : * ] noreverse writeback
 set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinvert bdefault
 NO_ANIMATION = 1
 Shadecolor = "#80E0A080" 
-plot 'results.dat' using 1:($2+$3):($2-$3) \
+plot 'results.dat' using #à completer \
 with filledcurve fc rgb Shadecolor title "Intervalle des distances par trajet",\
 '' using 1:2 smooth mcspline lw 2   title "Moyenne des distances par trajet"
 
