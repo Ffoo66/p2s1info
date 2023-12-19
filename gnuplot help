@@ -52,34 +52,35 @@ horizontal : Boxxyerror
 input : x y xlow xhigh ylow yhigh
 boxes from x to xhigh >> x=0; xhigh=value
            y to yhigh >> y=position of the box on the y axis; yhigh=position + width 
+histogramme :
+set boxwidth 0.9 relative   
+set style data histograms
+histogramme regroupé:
+set style histogram cluster
+
 -d1
-historigramme horizontal
+histogramme horizontal
 y: noms conducteurs
 x: nb de trajets effectués
 
 -d2
-historigramme horizontal
+histogramme horizontal
 y: noms conducteurs
 x: distance totale parcourue
 
 -l
-historigramme vertical
+histogramme vertical
 x:id de trajet
 y: distance
 
-set boxwidth 0.9 relative   
-set style data histograms
-
 -t
-historigramme vertical regroupé  >> set style histogram clustered
+histogramme vertical regroupé  >> set style histogram clustered
 x:villes
 y1:nb trajets
 y2:nb conducteurs
 abscisse : noms des villes
 ordonnée : nb entiers de 0 à max(y1,y2)
-set boxwidth 0.9 relative   
-set style data histograms
-set style histogram cluster
+
 
 plot for [COL=2:4:2] 'file.dat' using COL
 This will produce a plot with clusters of two boxes (vertical bars) centered at each integral value on the
@@ -96,7 +97,9 @@ max(x)
 moy(x)
 x: id de trajet
 y:distance en km
-//A tester
+
+//A tester// Option -s //
+
 #!/usr/local/bin/gnuplot -persist
 # set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 
 #set output 'statistiques.png'
