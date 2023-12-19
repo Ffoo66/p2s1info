@@ -147,4 +147,19 @@ gnuplot -persist <<-EOFMarker
 	pause -1 "\n"
 EOFMarker
 
+//Format de results.dat
+
+x y ylow yhigh
+1 5 1 7
+2 10 4 14 
+3 13 7 18
+4 8 2 9
+5 5 2 6 
+
+avec    x: ID de trajet
+	y: moy des distances 
+	ylow: distance min
+	yhigh: distance max
+
+
 
