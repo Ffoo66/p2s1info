@@ -18,6 +18,21 @@ set datafile separator ";"
 See set datafile separator (p. 147). This applies only to files used for input. To create a csv file on
 output, use the corresponding separator option to set table.
 
+Set datafile missing
+Syntax:
+set datafile missing "<string>"
+set datafile missing NaN
+show datafile missing
+unset datafile
+The set datafile missing command tells gnuplot there is a special string used in input data files to denote
+a missing data entry. There is no default character for missing. Gnuplot makes a distinction between
+missing data and invalid data (e.g. "NaN", 1/0.). For example invalid data causes a gap in a line drawn
+through sequential data points; missing data does not.
+Non-numeric characters found in a numeric field will usually be interpreted as invalid rather than as a missing
+data point unless they happen to match the missing string.
+Conversely set datafile missing NaN causes all data or expressions evaluating to not-a-number (NaN) to
+be treated as missing data.
+
 
 
 use -persist option with gnuplot to have the plots persist past the main program's end.
@@ -57,6 +72,11 @@ set boxwidth 0.9 relative
 set style data histograms
 histogramme regroupé:
 set style histogram cluster
+plot for [COL=2:4:2] 'file.dat' using COL
+This will produce a plot with clusters of two boxes (vertical bars) centered at each integral value on the
+x axis. If the first column of the input file contains labels, they may be placed along the x-axis using the
+variant command
+plot for [COL=2:4:2] 'file.dat' using COL:xticlabels(1)
 
 -d1
 histogramme horizontal
@@ -80,13 +100,6 @@ y1:nb trajets
 y2:nb conducteurs
 abscisse : noms des villes
 ordonnée : nb entiers de 0 à max(y1,y2)
-
-
-plot for [COL=2:4:2] 'file.dat' using COL
-This will produce a plot with clusters of two boxes (vertical bars) centered at each integral value on the
-x axis. If the first column of the input file contains labels, they may be placed along the x-axis using the
-variant command
-plot for [COL=2:4:2] 'file.dat' using COL:xticlabels(1)
 
 
 -s
