@@ -120,9 +120,8 @@ x: id de trajet
 y:distance en km
 
 // Option -s // Fonctionne mais output à gérer
-#!/usr/local/bin/gnuplot -persist
 gnuplot -persist <<-EOFMarker
-	#set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 
+	set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	unset errorbars
 	set key right box   
 	set grid layerdefault 
@@ -131,10 +130,10 @@ gnuplot -persist <<-EOFMarker
 	set ytics  norangelimit autofreq  
 	set title "Statistiques sur les étapes : distances minimales, maximales et moyennes par trajet" 
 	set xlabel "Identifiant de trajet" 
-	set xrange [ * : * ] noreverse writeback
-	set x2range [ * : * ] noreverse writeback
+	set xrange [ * : *] noreverse writeback
+	set x2range [ * : *] noreverse writeback
 	set ylabel "Distance (km)" 
-	set yrange [ * : * ] noreverse writeback
+	set yrange [ 0.000 : 100.0 ] noreverse writeback
 	set y2range [ * : * ] noreverse writeback
 	set zrange [ * : * ] noreverse writeback
 	set cbrange [ * : * ] noreverse writeback
