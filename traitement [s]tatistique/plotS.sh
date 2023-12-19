@@ -15,7 +15,7 @@ gnuplot -persist <<-EOFMarker
 	set xrange [ * : *] noreverse writeback
 	set x2range [ * : *] noreverse writeback
 	set ylabel "Distance (km)" 
-	set yrange [ 0.000 : 100.0 ] noreverse writeback
+	set yrange [ 0.000 : 200.000 ] noreverse writeback
 	set y2range [ * : * ] noreverse writeback
 	set zrange [ * : * ] noreverse writeback
 	set cbrange [ * : * ] noreverse writeback
