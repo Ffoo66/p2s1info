@@ -7,6 +7,8 @@ Errorbars
 on each line of the data file — (x, y, xlow, xhigh, ylow, yhigh).
 see filledcurves, historigrams, errorbars
 
+Voir using dans la doc
+
 csv files
 Syntax:
 set datafile separator {whitespace | tab | comma | "chars"}
