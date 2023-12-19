@@ -33,6 +33,12 @@ data point unless they happen to match the missing string.
 Conversely set datafile missing NaN causes all data or expressions evaluating to not-a-number (NaN) to
 be treated as missing data.
 
+Key The layout of certain plot styles (column-stacked histograms, spider plots) is such that it would make
+no sense to generate plot titles from a data column header. Also it would make no sense to generate axis tic
+labels from the content of a data column (e.g. using 2:3:xticlabels(1)). These plots styles instead use the
+form using 2:3:key(1) to generate plot titles for the key from the text content of a data column, usually a
+first column of row headers
+
 
 
 use -persist option with gnuplot to have the plots persist past the main program's end.
