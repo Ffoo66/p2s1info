@@ -20,7 +20,7 @@ do
 		You must type the right directory as first argument (directory).
 		You must have at least one other valid argument:
 		- The -h or --help argument displays this help and cancels the other arguments.
-		- The -c or --create argument merges the files in the data directory to create the data.csv file and to make the c executable. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while so you should only use this option once.
+		- The -c or --create argument merges the files in the data directory to create the data.csv file and to make the c executable. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while (roughly one minute) so you should only use this option once.
 		- The -d1 argument shows the d1 option.
 		- The -d2 argument shows the d2 option.
 		- The -l argument shows the l option.
@@ -31,6 +31,7 @@ do
 done
 
 tmparg=0
+tmpc=0
 cd $1
 
 for i in `seq 2 $#`
@@ -55,10 +56,10 @@ do
 		make
 		cd ..
 		tmparg=1
+		tmpc=1
 	fi
 done
 
-tmpc=0
 tmpimage=0
 
 for j in `ls`
@@ -112,17 +113,23 @@ do
 		tmparg=1 ;;
 		
 		-l) echo "Option l (TBA)"
-		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/temprid.txt
+		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata.txt
 		cd progc
 		make
 		cd ..
-		tempdir=`realpath temp/temprid.txt`
-		echo $tempdir
-		./progc/c.exe 1 $tempdir | tail -10 | sort -n
+		tempdir=`realpath temp/tempdata.txt`
+		./progc/c.exe 1 $tempdir | tail -10 | sort -n > temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-t) echo "Option t (TBA)"
-		cut -d';' -f1,3,4 --output-delimiter=' ' data/data.csv > temp/temprid.txt
+		cut -d';' -f1,3 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
+		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
+		cd progc
+		make
+		cd ..
+		tempdir1=`realpath temp/tempdata1.txt`
+		tempdir2=`realpath temp/tempdata2.txt`
+		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -10 | sort > temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
