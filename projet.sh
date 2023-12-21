@@ -55,56 +55,6 @@ do
 	fi
 done
 
-tmpdata=0
-
-for arg in `seq 2 $#`
-do
-	case ${!arg} in
-		-d1)
-		tmparg=1 ;;
-		
-		-d2) echo "Option d2 (TBA)"
-		tmparg=1 ;;
-		
-		-l) echo "Option l (TBA)"
-		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/temprid.txt
-		cd progc
-		make
-		cd ..
-		tempdir=`realpath temp/temprid.txt`
-		echo $tempdir
-		./progc/c.exe 1 $tempdir | tail -10
-		tmparg=1 ;;
-		
-		-t) echo "Option t (TBA)"
-		tmparg=1 ;;
-		
-		-s) echo "Option s (TBA)"
-		tmparg=1 ;;
-	esac
-done
-
-for i in `ls data`
-do
-	if [ $i == "data.csv" ]
-	then
-		tmpdata=1
-	fi
-done
-
-
-if [ $tmparg -le 0 ]
-then
-	echo "No valid argument, try -h or --help to get help"
-	exit 4
-fi
-
-if [ $tmpdata -le 0 ]
-then
-	echo "data.csv wasn't created yet, please add a -c argument to create data.csv"
-	exit 5
-fi
-
 tmpc=0
 tmpimage=0
 
@@ -144,12 +94,61 @@ then
 	cd ..
 fi
 
-echo "Is this real ?"
-
 if [ $tmpimage -le 0 ]
 then
 	mkdir images
 fi
+
+for arg in `seq 2 $#`
+do
+	case ${!arg} in
+		-d1)
+		tmparg=1 ;;
+		
+		-d2) echo "Option d2 (TBA)"
+		tmparg=1 ;;
+		
+		-l) echo "Option l (TBA)"
+		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/temprid.txt
+		cd progc
+		make
+		cd ..
+		tempdir=`realpath temp/temprid.txt`
+		echo $tempdir
+		./progc/c.exe 1 $tempdir | tail -10 | sort -n
+		tmparg=1 ;;
+		
+		-t) echo "Option t (TBA)"
+		tmparg=1 ;;
+		
+		-s) echo "Option s (TBA)"
+		tmparg=1 ;;
+	esac
+done
+
+if [ $tmparg -le 0 ]
+then
+	echo "No valid argument, try -h or --help to get help"
+	exit 4
+fi
+
+tmpdata=0
+
+for i in `ls data`
+do
+	if [ $i == "data.csv" ]
+	then
+		tmpdata=1
+	fi
+done
+
+if [ $tmpdata -le 0 ]
+then
+	echo "data.csv wasn't created yet, please add a -c argument to create data.csv"
+	exit 5
+fi
+
+echo "Is this real ?"
 
 cd temp
 rm *.txt
