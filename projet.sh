@@ -20,7 +20,7 @@ do
 		You must type the right directory as first argument (directory).
 		You must have at least one other valid argument:
 		- The -h or --help argument displays this help and cancels the other arguments.
-		- The -c or --create argument merges the files in the data directory to create the data.csv file. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while so you should only use this option once.
+		- The -c or --create argument merges the files in the data directory to create the data.csv file and to make the c executable. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while so you should only use this option once.
 		- The -d1 argument shows the d1 option.
 		- The -d2 argument shows the d2 option.
 		- The -l argument shows the l option.
@@ -51,6 +51,9 @@ do
 				cat data/$j >> data/data.csv
 			fi
 		done
+		cd progc
+		make
+		cd ..
 		tmparg=1
 	fi
 done
@@ -119,6 +122,7 @@ do
 		tmparg=1 ;;
 		
 		-t) echo "Option t (TBA)"
+		cut -d';' -f1,3,4 --output-delimiter=' ' data/data.csv > temp/temprid.txt
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
