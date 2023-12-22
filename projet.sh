@@ -53,7 +53,12 @@ do
 			fi
 		done
 		cd progc
-		make
+		make > ../temp/tempgcc.txt
+		if [ ! $? -eq 0 ]
+		then
+			echo "Gcc error"
+			exit 4
+		fi
 		cd ..
 		tmparg=1
 		tmpc=1
@@ -93,7 +98,7 @@ then
 	if [ ! $? -eq 0 ]
 	then
 		echo "Gcc error"
-		exit 6
+		exit 5
 	fi
 	cd ..
 fi
@@ -118,18 +123,18 @@ do
 		make
 		cd ..
 		tempdir=`realpath temp/tempdata.txt`
-		./progc/c.exe 1 $tempdir | tail -10 | sort -n > temp/tempgraph.txt
+		./progc/c.exe 1 $tempdir | tail -10 | sort -n #> temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-t) echo "Option t (TBA)"
 		cut -d';' -f1,3 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
-		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
+		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
 		cd progc
 		make
 		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
 		tempdir2=`realpath temp/tempdata2.txt`
-		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -10 | sort > temp/tempgraph.txt
+		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -100 #| sort > temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
@@ -140,7 +145,7 @@ done
 if [ $tmparg -le 0 ]
 then
 	echo "No valid argument, try -h or --help to get help"
-	exit 4
+	exit 6
 fi
 
 tmpdata=0
@@ -156,7 +161,7 @@ done
 if [ $tmpdata -le 0 ]
 then
 	echo "data.csv wasn't created yet, please add a -c argument to create data.csv"
-	exit 5
+	exit 7
 fi
 
 echo "Is this real ?"
