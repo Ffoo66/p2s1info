@@ -536,7 +536,7 @@ pTree ajouterABRrec(pTree a, int e, float x, char* city, int count, int fcount){
 	}
 }
 
-void ajouterABRit(pTree a, int e, float x, char* city, int count, fcount){
+void ajouterABRit(pTree a, int e, float x, char* city, int count, int fcount){
 	if (a == NULL){
 		a = creerArbre(e, x, city, count, fcount);
 	}
