@@ -521,7 +521,7 @@ pTree ajouterABRrec(pTree a, int e, float x, char* city, int count){
 			a->r = creerArbre(e, x, city, count);
 		}
 		else{
-			ajouterABRref(a->r, e, x, city, count);
+			ajouterABRrec(a->r, e, x, city, count);
 		}
 	}
 	else if (count < a->count){
@@ -529,7 +529,7 @@ pTree ajouterABRrec(pTree a, int e, float x, char* city, int count){
 			a->l = creerArbre(e, x, city, count);
 		}
 		else{
-			ajouterABRref(a->l, e, x, city, count);
+			ajouterABRrec(a->l, e, x, city, count);
 		}
 	}
 }
