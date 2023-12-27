@@ -261,8 +261,8 @@ void traiter2(pTree a){
 
 void traiter3(pTree a){
 	if (a != NULL){
-		printf("%s ", a->city);
-		printf("%d\n", a->count);
+		printf("%d ", a->count);
+		printf("%s", a->city);
 	}
 }
 
