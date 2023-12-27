@@ -831,7 +831,7 @@ int main(int argc, char** argv){
 		parcoursInfixe2(ad);
 	}
 	else if (arg == 2){
-		char* c = malloc(50*sizeof(char));
+		char* c = malloc(40*sizeof(char));
 		FILE* data2 = NULL;
 		data2 = fopen(argv[3], "r");
 		if (data2 == NULL){
@@ -840,18 +840,18 @@ int main(int argc, char** argv){
 		}
 		t = fscanf(data1, "%d", &n);
 		fgetc(data1);
-		c = fgets(c, 49, data1);
+		c = fgets(c, 39, data1);
 		ai = creerArbre(n, 0, c, 1);
 		free(c);
 		while(t != EOF){
 			int tmpi = 0;
-			char* tmpc = malloc(30*sizeof(char));
+			char* tmpc = malloc(40*sizeof(char));
 			t = fscanf(data1, "%d", &tmpi);
 			if (t == EOF){
 				break;
 			}
 			fgetc(data1);
-			tmpc = fgets(tmpc, 29, data1);
+			tmpc = fgets(tmpc, 39, data1);
 			if (tmpc == NULL){
 				break;
 			}
@@ -863,13 +863,13 @@ int main(int argc, char** argv){
 		t = 0;
 		while(t != EOF){
 			int tmpi = 0;
-			char* tmpc = malloc(30*sizeof(char));
+			char* tmpc = malloc(40*sizeof(char));
 			t = fscanf(data2, "%d", &tmpi);
 			if (t == EOF){
 				break;
 			}
 			fgetc(data2);
-			tmpc = fgets(tmpc, 29, data2);
+			tmpc = fgets(tmpc, 39, data2);
 			if (tmpc == NULL){
 				break;
 			}
