@@ -256,15 +256,13 @@ void ajouterFilsDroit(pTree a, int e, float x, char* city, int count, int fcount
 
 void traiter2(pTree a){
   if (a != NULL){
-    printf("%d ", a->n);
-    printf("%f\n", a->f);
+    printf("%d %f\n", a->n, a->f);
   }
 }
 
 void traiter3(pTree a){
   if (a != NULL){
-    printf("%d ", a->count);
-    printf("%s", a->city);
+    printf("%d %d %s", a->count, a->fcount, a->city);
   }
 }
 
@@ -710,6 +708,7 @@ pTree insertAVLt(pTree a, int e, float x, char* city, int count, int fcount, int
   else{
     *h=0;
     a->count++;
+    a->fcount += fcount;
     return a;
   }
   if(*h!=0){	
@@ -833,6 +832,7 @@ int main(int argc, char** argv){
     parcoursInfixe2(ad);
   }
   else if (arg == 2){
+    int m = 0;
     char* c = malloc(40*sizeof(char));
     FILE* data2 = NULL;
     data2 = fopen(argv[3], "r");
@@ -841,14 +841,24 @@ int main(int argc, char** argv){
       exit(2);
     }
     t = fscanf(data1, "%d", &n);
+    t = fscanf(data1, "%d", &m);
     fgetc(data1);
     c = fgets(c, 39, data1);
-    ai = creerArbre(n, 0, c, 1, 0);		// à changer
+    if (m == 1){
+      ai = creerArbre(n, 0, c, 1, 1);		// à changer
+    }
+    else {
+      ai = creerArbre(n, 0, c, 1, 0);		// à changer
+    }
     free(c);
     while(t != EOF){
-      int tmpi = 0;
+      int tmpn = 0, tmpm = 0;
       char* tmpc = malloc(40*sizeof(char));
-      t = fscanf(data1, "%d", &tmpi);
+      t = fscanf(data1, "%d", &tmpn);
+      if (t == EOF){
+        break;
+      }
+      t = fscanf(data1, "%d", &tmpm);
       if (t == EOF){
         break;
       }
@@ -857,9 +867,13 @@ int main(int argc, char** argv){
       if (tmpc == NULL){
         break;
       }
-      insertAVLt(ai, tmpi, 0, tmpc, 1, 0, &h);
+      if (tmpm == 1){
+        insertAVLt(ai, tmpn, 0, tmpc, 1, 1, &h);
+      }
+      else{
+        insertAVLt(ai, tmpn, 0, tmpc, 1, 0, &h);
+      }
     }
-    parcoursInfixe3(ai);
     t = 0;
     while(t != EOF){
       int tmpi = 0;
