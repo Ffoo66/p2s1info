@@ -127,14 +127,14 @@ do
 		tmparg=1 ;;
 		
 		-t) echo "Option t (TBA)"
-		cut -d';' -f1,3 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
+		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
 		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
 		cd progc
 		make
 		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
 		tempdir2=`realpath temp/tempdata2.txt`
-		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -100 #| sort > temp/tempgraph.txt
+		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -100 # > temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
