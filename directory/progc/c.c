@@ -693,22 +693,53 @@ pTree insertAVLl(pTree a, int e, float x, char* city, int count, int fcount, int
   return a;
 }
 
-pTree insertAVLt(pTree a, int e, float x, char* city, int count, int fcount, int* h){
+pTree insertAVLt1(pTree a, int e, float x, char* city, int count, int fcount, int* h){
   if (a==NULL){
     *h=1;
     return creerArbre(e, x, city, count, fcount);
   }
   else if (strcmp(city, a->city) < 0){
-    a->l=insertAVLt(a->l, e, x, city, count, fcount, h);
+    a->l=insertAVLt1(a->l, e, x, city, count, fcount, h);
     *h=-*h;
   }
   else if (strcmp(city, a->city) > 0){
-    a->r=insertAVLt(a->r, e, x, city, count, fcount, h);
+    a->r=insertAVLt1(a->r, e, x, city, count, fcount, h);
   }
   else{
     *h=0;
     a->count++;
     a->fcount += fcount;
+    return a;
+  }
+  if(*h!=0){	
+    a->eq = a->eq + *h;
+    a=eqAVL(a);
+    if(a->eq==0){	
+      *h=0;
+    }
+    else{	
+      *h=1;
+    }
+  }
+  return a;
+}
+
+pTree insertAVLt2(pTree a, int e, float x, char* city, int count, int fcount, int* h){
+  if (a==NULL){
+    *h=1;
+    return creerArbre(e, x, city, count, fcount);
+  }
+  else if (strcmp(city, a->city) < 0){
+    a->l=insertAVLt2(a->l, e, x, city, count, fcount, h);
+    *h=-*h;
+  }
+  else if (strcmp(city, a->city) > 0){
+    a->r=insertAVLt2(a->r, e, x, city, count, fcount, h);
+  }
+  else{
+    *h=0;
+    a->count = e;
+    a->fcount = fcount;
     return a;
   }
   if(*h!=0){	
@@ -868,10 +899,10 @@ int main(int argc, char** argv){
         break;
       }
       if (tmpm == 1){
-        insertAVLt(ai, tmpn, 0, tmpc, 1, 1, &h);
+        insertAVLt1(ai, tmpn, 0, tmpc, 1, 1, &h);
       }
       else{
-        insertAVLt(ai, tmpn, 0, tmpc, 1, 0, &h);
+        insertAVLt1(ai, tmpn, 0, tmpc, 1, 0, &h);
       }
     }
     t = 0;
@@ -887,15 +918,53 @@ int main(int argc, char** argv){
       if (tmpc == NULL){
         break;
       }
-      insertAVLt(ai, tmpi, 0, tmpc, 1, 0, &h);
+      insertAVLt1(ai, tmpi, 0, tmpc, 1, 0, &h);
     }
     ad = creerABRdeArbret(ai);
     parcoursInfixe3(ad);
-    printf("Yes\n");
-    fflush(stdout);
     fclose(data2);
   }
   else if (arg == 3){
+    int m = 0, i = 1;
+    char* c = malloc(40*sizeof(char));
+    t = fscanf(data1, "%d", &n);
+    t = fscanf(data1, "%d", &m);
+    fgetc(data1);
+    c = fgets(c, 39, data1);
+    ai = creerArbre(0, 0, c, n, m);
+    /*
+    printf("%p\n", ai);  // erreur
+    fflush(stdout);
+    */
+    free(c);
+    while(t != EOF){
+      int tmpn = 0, tmpm = 0;
+      char* tmpc = malloc(40*sizeof(char));
+      t = fscanf(data1, "%d", &tmpn);
+      if (t == EOF){
+        break;
+      }
+      t = fscanf(data1, "%d", &tmpm);
+      if (t == EOF){
+        break;
+      }
+      fgetc(data1);
+      tmpc = fgets(tmpc, 39, data1);
+      if (tmpc == NULL){
+        break;
+      }
+      i++;
+      /*
+      printf("%d %d %s\n", tmpn, tmpm, tmpc);  // erreur
+      fflush(stdout);
+      */
+      insertAVLt2(ai, i, 0, tmpc, tmpn, tmpm, &h);
+    }
+    /*
+    printf("%d %d %s\n", ai->count, ai->fcount, ai->city);  // erreur
+    fflush(stdout);
+    */
+    parcoursInfixe3(ai);
   }
   else{
     printf("Error in shell\n");
