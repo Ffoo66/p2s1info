@@ -134,7 +134,9 @@ do
 		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
 		tempdir2=`realpath temp/tempdata2.txt`
-		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -100 # > temp/tempgraph.txt
+		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -10 > temp/tempt.txt
+    tempdir3=`realpath temp/tempt.txt`
+    ./progc/c.exe 3 $tempdir3 #>temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
