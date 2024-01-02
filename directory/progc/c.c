@@ -876,12 +876,11 @@ int main(int argc, char** argv){
     fgetc(data1);
     c = fgets(c, 39, data1);
     if (m == 1){
-      ai = creerArbre(n, 0, c, 1, 1);		// à changer
+      ai = creerArbre(n, 0, c, 1, 1);
     }
     else {
-      ai = creerArbre(n, 0, c, 1, 0);		// à changer
+      ai = creerArbre(n, 0, c, 1, 0);
     }
-    free(c);
     while(t != EOF){
       int tmpn = 0, tmpm = 0;
       char* tmpc = malloc(40*sizeof(char));
@@ -899,10 +898,10 @@ int main(int argc, char** argv){
         break;
       }
       if (tmpm == 1){
-        insertAVLt1(ai, tmpn, 0, tmpc, 1, 1, &h);
+        ai = insertAVLt1(ai, tmpn, 0, tmpc, 1, 1, &h);
       }
       else{
-        insertAVLt1(ai, tmpn, 0, tmpc, 1, 0, &h);
+        ai = insertAVLt1(ai, tmpn, 0, tmpc, 1, 0, &h);
       }
     }
     t = 0;
@@ -918,7 +917,7 @@ int main(int argc, char** argv){
       if (tmpc == NULL){
         break;
       }
-      insertAVLt1(ai, tmpi, 0, tmpc, 1, 0, &h);
+      ai = insertAVLt1(ai, tmpi, 0, tmpc, 1, 0, &h);
     }
     ad = creerABRdeArbret(ai);
     parcoursInfixe3(ad);
@@ -932,11 +931,6 @@ int main(int argc, char** argv){
     fgetc(data1);
     c = fgets(c, 39, data1);
     ai = creerArbre(0, 0, c, n, m);
-    /*
-    printf("%p\n", ai);  // erreur
-    fflush(stdout);
-    */
-    free(c);
     while(t != EOF){
       int tmpn = 0, tmpm = 0;
       char* tmpc = malloc(40*sizeof(char));
@@ -954,16 +948,8 @@ int main(int argc, char** argv){
         break;
       }
       i++;
-      /*
-      printf("%d %d %s\n", tmpn, tmpm, tmpc);  // erreur
-      fflush(stdout);
-      */
-      insertAVLt2(ai, i, 0, tmpc, tmpn, tmpm, &h);
+      ai = insertAVLt2(ai, i, 0, tmpc, tmpn, tmpm, &h);
     }
-    /*
-    printf("%d %d %s\n", ai->count, ai->fcount, ai->city);  // erreur
-    fflush(stdout);
-    */
     parcoursInfixe3(ai);
   }
   else{
