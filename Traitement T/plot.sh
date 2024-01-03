@@ -11,7 +11,7 @@ gnuplot -persist <<-EOFMarker
 	set style data histograms
 	set xtics nomirror rotate by -45  autojustify 
 	set xtics  norangelimit 
-	set title "Nombre d'étapes et de départs par ville" 
+	set title "Nombre de trajets et de départs par ville" 
 	set xrange [ * : * ] noreverse writeback
 	set x2range [ * : * ] noreverse writeback
 	set yrange [ * : * ] noreverse writeback
