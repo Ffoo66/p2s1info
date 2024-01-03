@@ -9,7 +9,7 @@ gnuplot -persist <<-EOFMarker
 	unset parametric
 	set datafile missing '-'
 	set style data histograms
-	set xtics nomirror rotate by -45  autojustify
+	set xtics nomirror rotate by -45  autojustify 
 	set xtics  norangelimit 
 	set title "Nombre d'étapes et de départs par ville" 
 	set xrange [ * : * ] noreverse writeback
