@@ -4,7 +4,7 @@ gnuplot -persist <<-EOFMarker
 	set output 'histograms.png'
 	set boxwidth 0.9 absolute
 	set style fill solid 1.00 border lt -1
-	set key right autotitle columnheader box
+	set key off
 	set style histogram gap 1 
 	unset parametric
 	set datafile missing '-'
