@@ -10,7 +10,7 @@ gnuplot -persist <<-EOFMarker
 	set datafile missing '-'
 	set style data histograms
 	set xtics nomirror rotate by -45  autojustify
- 	set xlabel "ID de trajet"
+ 	set xlabel "ID des trajets"
 	set ylabel "Distance (km)"
 	set mytics
 	set ytics autojustify
