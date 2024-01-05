@@ -4,12 +4,12 @@ gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	unset errorbars
 	set key right box   
-	set grid layerdefault
+	set grid xtics mxtics ytics mytics front
 	unset parametric
 	set style data lines   
-	set mxtics default
+	set mxtics
 	set ytics  norangelimit autofreq  
-	set mytics default
+	set mytics 
 	set title "Statistiques sur les étapes : distances minimales, maximales et moyennes par trajet" 
 	set xlabel "Identifiant de trajet" 
 	set xrange [ * : *] noreverse writeback
