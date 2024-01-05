@@ -1,7 +1,7 @@
 #!/usr/local/bin/gnuplot -persist
 
 gnuplot -persist <<-EOFMarker
-	set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 
+	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	unset errorbars
 	set key right box   
 	set grid layerdefault
