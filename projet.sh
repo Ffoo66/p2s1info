@@ -140,7 +140,14 @@ do
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
+		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata.txt
+		cd progc
+		make
+		cd ..
+		tempdir=`realpath temp/tempdata.txt`
+		./progc/c.exe 4 $tempdir | tail -10 | sort -n #> temp/tempgraph.txt
 		tmparg=1 ;;
+    
 	esac
 done
 
