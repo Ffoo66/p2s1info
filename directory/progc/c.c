@@ -952,6 +952,9 @@ int main(int argc, char** argv){
     }
     parcoursInfixe3(ai);
   }
+  else if (arg == 4){
+    printf("Option -s to be added\n");
+  }
   else{
     printf("Error in shell\n");
   }
