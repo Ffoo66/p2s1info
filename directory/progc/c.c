@@ -7,11 +7,14 @@
 typedef struct Tree{
   struct Tree* l;
   struct Tree* r;
+  char* city;
   int count;
   int fcount;
   int n;
   float f;
-  char* city;
+  float min;
+  float max;
+  float moy;
   short eq;
 }Tree;
 
@@ -76,13 +79,36 @@ pTree creerArbre(int e, float f, char* city, int count, int fcount){
     printf("Error creerArbre\n");
     exit(10);
   }
+  a->l = NULL;
+  a->r = NULL;
+  a->city = city;
   a->count = count;
   a->fcount = fcount;
   a->n = e;
   a->f = f;
-  a->city = city;
+  a->min = f;
+  a->max = f;
+  a->moy = f;
+  a->eq=hauteur(a->r)-hauteur(a->l);
+  return a;
+}
+
+pTree creerArbres(int e, float f, float min, float max, float moy){
+  pTree a = malloc(sizeof(Tree));
+  if (a == NULL){
+    printf("Error creerArbre\n");
+    exit(10);
+  }
   a->l = NULL;
   a->r = NULL;
+  a->city = NULL;
+  a->count = 1;
+  a->fcount = 0;
+  a->n = e;
+  a->f = f;
+  a->min = min;
+  a->max = max;
+  a->moy = moy;
   a->eq=hauteur(a->r)-hauteur(a->l);
   return a;
 }
@@ -266,6 +292,19 @@ void traiter3(pTree a){
   }
 }
 
+void traiter4(pTree a){
+  if (a != NULL){
+    a->moy = a->f/a->count;
+    a->f = a->max - a->min;
+  }
+}
+
+void traiter5(pTree a){
+  if (a != NULL){
+    printf("%d %f %f %f %f\n", a->n, a->f, a->min, a->max, a->moy);
+  }
+}
+
 void parcoursPrefixe(pTree a){
   if(a != NULL){
     traiter2(a);
@@ -303,6 +342,23 @@ void parcoursInfixe3(pTree a){
     parcoursInfixe3(a->l);
     traiter3(a);
     parcoursInfixe3(a->r);
+  }
+}
+
+void parcoursInfixe4(pTree a, File* f){
+  if(a != NULL){
+    parcoursInfixe4(a->l, f);
+    traiter4(a);
+    *f = enfiler(*f, a);
+    parcoursInfixe4(a->r, f);
+  }
+}
+
+void parcoursInfixe5(pTree a){
+  if(a != NULL){
+    parcoursInfixe5(a->r);
+    traiter5(a);
+    parcoursInfixe5(a->l);
   }
 }
 
@@ -534,6 +590,28 @@ pTree ajouterABRrec(pTree a, int e, float x, char* city, int count, int fcount){
   }
 }
 
+pTree ajouterABRres(pTree a, int e, float x, float min, float max, float moy){
+  if (a == NULL){
+    a = creerArbres(e, x, min, max, moy);
+  }
+  else if (x > a->f){
+    if(a->r == NULL){
+      a->r = creerArbres(e, x, min, max, moy);
+    }
+    else{
+      ajouterABRres(a->r, e, x, min, max, moy);
+    }
+  }
+  else if (x < a->f){
+    if(a->l == NULL){
+      a->l = creerArbres(e, x, min, max, moy);
+    }
+    else{
+      ajouterABRres(a->l, e, x, min, max, moy);
+    }
+  }
+}
+
 void ajouterABRit(pTree a, int e, float x, char* city, int count, int fcount){
   if (a == NULL){
     a = creerArbre(e, x, city, count, fcount);
@@ -755,6 +833,43 @@ pTree insertAVLt2(pTree a, int e, float x, char* city, int count, int fcount, in
   return a;
 }
 
+pTree insertAVLs(pTree a, int e, float x, char* city, int count, int fcount, int* h){
+  if (a==NULL){
+    *h=1;
+    return creerArbre(e, x, city, count, fcount);
+  }
+  else if (e < a->n){
+    a->l=insertAVLs(a->l, e, x, city, count, fcount, h);
+    *h=-*h;
+  }
+  else if (e > a->n){
+    a->r=insertAVLs(a->r, e, x, city, count, fcount, h);
+  }
+  else{
+    *h=0;
+    a->f += x;
+    a->count++;
+    if (x > a->max){
+      a->max = x;
+    }
+    if (x < a->min){
+      a->min = x;
+    }
+    return a;
+  }
+  if(*h!=0){	
+    a->eq = a->eq + *h;
+    a=eqAVL(a);
+    if(a->eq==0){	
+      *h=0;
+    }
+    else{	
+      *h=1;
+    }
+  }
+  return a;
+}
+
 short estEq(pTree a){
   if(estVide(a)){
     return 1;
@@ -825,6 +940,31 @@ pTree creerABRdeArbret(pTree a){
   while(f->head != NULL){
     n = defiler(f);
     ajouterABRrec(abr, n->n, n->f, n->city, n->count, n->fcount);
+  }
+  return abr;
+}
+
+pTree creerABRdeArbres(pTree a){
+  if(estABRf(a)){
+    return a;
+  }
+  pTree n = malloc(sizeof(Tree));
+  File* f = malloc(sizeof(File));
+  f->head = NULL;
+  f->tail = NULL;
+  if(n == NULL){
+    printf("error creerABRdeArbre\n");
+    exit(32);
+  }
+  parcoursInfixe4(a, f);
+  pTree abr = malloc(sizeof(Tree));
+  if(abr == NULL){
+    printf("error creerABRdeArbre\n");
+    exit(33);
+  }
+  while(f->head != NULL){
+    n = defiler(f);
+    ajouterABRres(abr, n->n, n->f, n->min, n->max, n->moy);
   }
   return abr;
 }
@@ -953,7 +1093,25 @@ int main(int argc, char** argv){
     parcoursInfixe3(ai);
   }
   else if (arg == 4){
-    printf("Option -s to be added\n");
+    float x = 0;
+    t = fscanf(data1, "%d", &n);
+    t = fscanf(data1, "%f", &x);
+    ai = creerArbre(n, x, NULL, 1, 0);
+    while(t != EOF){
+      int tmpi = 0;
+      float tmpf = 0;
+      t = fscanf(data1, "%d", &tmpi);
+      if (t == EOF){
+        break;
+      }
+      t = fscanf(data1, "%f", &tmpf);
+      if (t == EOF){
+        break;
+      }
+      insertAVLs(ai, tmpi, tmpf, NULL, 1, 0, &h);
+    }
+    ad = creerABRdeArbres(ai);
+    parcoursInfixe5(ad);
   }
   else{
     printf("Error in shell\n");
