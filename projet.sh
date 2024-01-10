@@ -118,34 +118,34 @@ do
 		tmparg=1 ;;
 		
 		-l) echo "Option l (TBA)"
-		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata.txt
-		cd progc
-		make
-		cd ..
-		tempdir=`realpath temp/tempdata.txt`
-		./progc/c.exe 1 $tempdir | tail -10 | sort -n #> temp/tempgraph.txt
-		tmparg=1 ;;
-		
-		-t) echo "Option t (TBA)"
-		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
-		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
+		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
 		cd progc
 		make
 		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
-		tempdir2=`realpath temp/tempdata2.txt`
-		./progc/c.exe 2 $tempdir1 $tempdir2 | tail -10 > temp/tempt.txt
-    tempdir3=`realpath temp/tempt.txt`
-    ./progc/c.exe 3 $tempdir3 #>temp/tempgraph.txt
+		./progc/c.exe 1 $tempdir1 | tail -10 | sort -n #> temp/tempgraph.txt
 		tmparg=1 ;;
 		
-		-s) echo "Option s (TBA)"
-		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata.txt
+		-t) echo "Option t (TBA)"
+		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
+		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata3.txt
 		cd progc
 		make
 		cd ..
-		tempdir=`realpath temp/tempdata.txt`
-		./progc/c.exe 4 $tempdir | tail -10 | sort -n #> temp/tempgraph.txt
+		tempdir2=`realpath temp/tempdata2.txt`
+		tempdir3=`realpath temp/tempdata3.txt`
+		./progc/c.exe 2 $tempdir2 $tempdir3 | tail -10 > temp/tempdata4.txt
+    tempdir4=`realpath temp/tempdata4.txt`
+    ./progc/c.exe 3 $tempdir4 #>temp/tempgraph.txt
+		tmparg=1 ;;
+		
+		-s) echo "Option s (TBA)"
+		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata5.txt
+		cd progc
+		make
+		cd ..
+		tempdir5=`realpath temp/tempdata5.txt`
+		./progc/c.exe 4 $tempdir5 | head -50 #> temp/tempgraph.txt
 		tmparg=1 ;;
     
 	esac
