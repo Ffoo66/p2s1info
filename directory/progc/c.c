@@ -305,6 +305,7 @@ void traiter5(pTree a){
   }
 }
 
+/*
 void parcoursPrefixe(pTree a){
   if(a != NULL){
     traiter2(a);
@@ -320,6 +321,7 @@ void parcoursPostfixe(pTree a){
     traiter2(a);
   }
 }
+*/
 
 void parcoursInfixe1(pTree a, File* f){
   if(a != NULL){
@@ -362,6 +364,7 @@ void parcoursInfixe5(pTree a){
   }
 }
 
+/*
 void parcoursLargeur(pTree a){
   if (a == NULL){
     printf("Error parcoursLargeur\n");
@@ -520,6 +523,7 @@ int nombreNoeud(pTree a){
   }
   return n;
 }
+*/
 
 pTree ajouterABRrei(pTree a, int e, float x, char* city, int count, int fcount){
   if (a == NULL){
@@ -612,6 +616,7 @@ pTree ajouterABRres(pTree a, int e, float x, float min, float max, float moy){
   }
 }
 
+/*
 void ajouterABRit(pTree a, int e, float x, char* city, int count, int fcount){
   if (a == NULL){
     a = creerArbre(e, x, city, count, fcount);
@@ -654,6 +659,7 @@ short recherche(pTree a, int e, int i){
     return recherche(a->r, e, i+1);
   }
 }
+*/
 
 short estABRf(pTree a){
   if (a == NULL){
