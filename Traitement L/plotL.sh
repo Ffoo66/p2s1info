@@ -29,6 +29,7 @@ gnuplot -persist <<-EOFMarker
 	NO_ANIMATION = 1
 	plot 'results.dat' using 2:xticlabels(1)
 	pause -1 "\n"
+	#replot in order to display the graph
  	unset output 
 	unset terminal
 	replot
