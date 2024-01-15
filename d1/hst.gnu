@@ -22,7 +22,7 @@ set xrange [ * : * ] noreverse writeback
 set x2range [ * : * ] noreverse writeback
 
 # Ajuster la plage et l'origine de l'axe y
-set yrange [ -0.3 : * ] noreverse writeback
+set yrange [ -25 : * ] noreverse writeback
 set y2range [ * : * ] noreverse writeback
 set zrange [ * : * ] noreverse writeback
 set cbrange [ * : * ] noreverse writeback
