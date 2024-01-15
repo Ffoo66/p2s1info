@@ -16,7 +16,7 @@ gnuplot -persist <<-EOFMarker
 	set mytics
 	set ytics autojustify
 	set xtics  norangelimit 
- 	set grid xtics mxtics ytics mytics front
+ 	set grid xtics mxtics ytics mytics 
 	set title "Distance par trajet" 
 	set xrange [  * : * ] noreverse writeback
 	set x2range [ * : * ] noreverse writeback
