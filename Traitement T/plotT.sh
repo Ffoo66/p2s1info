@@ -8,6 +8,7 @@ gnuplot -persist <<-EOFMarker
 	set style histogram clustered gap 1 
 	unset parametric
 	set datafile missing '-'
+	set datafile separator ";"
 	set style data histograms
 	set xtics nomirror rotate by -45  autojustify 
 	set xtics  norangelimit 
