@@ -13,6 +13,7 @@ gnuplot -persist <<-EOFMarker
 	set xtics nomirror rotate by -45  autojustify 
 	set xtics  norangelimit 
 	set mytics
+	set grid xtics mxtics ytics mytics front
 	set title "Nombre de trajets et de départs par ville" 
 	set xrange [ * : * ] noreverse writeback
 	set x2range [ * : * ] noreverse writeback
