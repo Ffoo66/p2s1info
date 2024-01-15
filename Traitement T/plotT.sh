@@ -1,10 +1,10 @@
 #!/usr/local/bin/gnuplot -persist
 gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
-	set output 'histogramsclustered.png'
+	set output 'histogramsclustered.png' 
 	set boxwidth 0.9 absolute
 	set style fill solid 1.00 border lt -1
-	set key right  noenhanced autotitle columnheader box
+	set key right  noenhanced autotitle columnheader box 
 	set style histogram clustered gap 1 
 	unset parametric
 	set datafile missing '-'
@@ -26,6 +26,7 @@ gnuplot -persist <<-EOFMarker
 	NO_ANIMATION = 1
 	plot for [COL=2:3] 'results.dat' using COL:xticlabels(1)
 	pause -1 "\n"
+ 	#replot in order to display the graph
 	unset output 
 	unset terminal
 	replot
