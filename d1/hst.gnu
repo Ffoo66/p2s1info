@@ -22,7 +22,7 @@ set xrange [ * : * ] noreverse writeback
 set x2range [ * : * ] noreverse writeback
 
 # Ajuster la plage et l'origine de l'axe y
-set yrange [ -25 : * ] noreverse writeback
+set yrange [ 0 : * ] noreverse writeback
 set y2range [ * : * ] noreverse writeback
 set zrange [ * : * ] noreverse writeback
 set cbrange [ * : * ] noreverse writeback
@@ -34,7 +34,7 @@ set xtics font ",10"  # Ajuster la taille de la police des étiquettes d'axe x
 set ytics font ",30"
 
 # Déplacer l'ensemble de l'axe x vers le haut d'une unité de la taille de la police
-set offsets 0, 0, 0, 2
+set offsets 0, 0, 0, 25
 
 
 set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front noinvert bdefault
