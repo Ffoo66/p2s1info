@@ -4,22 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 
-typedef struct Tree{
-	struct Tree* l;
-	struct Tree* r;
-	char* city;
-	int count;
-	int fcount;
-	int n;
-	float f;
-	float min;
-	float max;
-	float moy;
-	short eq;
-}Tree;
-
-typedef struct Tree* pTree;
-
 typedef struct Treel{
 	struct Treel* l;
 	struct Treel* r;
@@ -67,17 +51,6 @@ typedef struct Trees{
 }Trees;
 
 typedef struct Trees* pTrees;
-
-typedef struct Chainon{
-	struct Chainon* last;
-	pTree a;
-	struct Chainon* next;
-}Chain;
-
-typedef struct File{
-	Chain* head;
-	Chain* tail;
-}File;
 
 typedef struct Chainonl{
 	struct Chainonl* last;
@@ -140,20 +113,6 @@ int min2 (int a, int b){
 	return m;
 }
 
-short estVide(pTree a){
-	if (a == NULL){
-		return 1;
-	}
-	return 0;
-}
-
-int hauteur(pTree a){
-	if(estVide(a)){
-		return 0;
-	}
-	return 1 + max2(hauteur(a->l),hauteur(a->r));
-}
-
 short estVidel(pTreel a){
 	if (a == NULL){
 		return 1;
@@ -208,26 +167,6 @@ int hauteurs(pTrees a){
 		return 0;
 	}
 	return 1 + max2(hauteurs(a->l),hauteurs(a->r));
-}
-
-pTree creerArbre(int e, float f, char* city, int count, int fcount){
-	pTree a = malloc(sizeof(Tree));
-	if (a == NULL){
-		printf("Error creerArbre\n");
-		exit(10);
-	}
-	a->l = NULL;
-	a->r = NULL;
-	a->city = city;
-	a->count = count;
-	a->fcount = fcount;
-	a->n = e;
-	a->f = f;
-	a->min = f;
-	a->max = f;
-	a->moy = f;
-	a->eq=hauteur(a->r)-hauteur(a->l);
-	return a;
 }
 
 pTreel creerArbrel(int e, float f){
@@ -292,65 +231,6 @@ pTrees creerArbres(int e, float f, float min, float max, float moy){
 	a->moy = moy;
 	a->eq=hauteurs(a->r)-hauteurs(a->l);
 	return a;
-}
-
-Chain* creerChainon(pTree a){
-	Chain* c = malloc(sizeof(Chain));
-	if (c == NULL || a == NULL){
-		printf("Error creerChainon\n");
-		exit(11);
-	}
-	c->a = a;
-	c->next = NULL;
-	c->last = NULL;
-	return c;
-}
-
-File creerFile(pTree a){
-	if (a == NULL){
-		printf("Error creerFile\n");
-		exit(12);
-	}
-	File f;
-	Chain* c = creerChainon(a);
-	f.head = c;
-	f.tail = c;
-	return f;
-}
-
-File enfiler(File f, pTree a){
-	if (a == NULL){
-		return f;
-	}
-	if (f.tail == NULL){
-		f = creerFile(a);
-		return f;
-	}
-	Chain* c = creerChainon(a);
-	f.tail->next = c;
-	c->last = f.tail;
-	f.tail = f.tail->next;
-	return f;
-}
-
-pTree defiler(File* f){
-	if(f->head == NULL){
-		return NULL;
-	}
-	Chain* del = f->head;
-	pTree a = f->head->a;
-	if(f->head == f->tail){
-		f->head = NULL;
-		f->tail = NULL;
-		free(del);
-		return a;
-	}
-	else{
-		f->head = f->head->next;
-		f->head->last = NULL;
-		free(del);
-		return a;
-	}
 }
 
 Chainl* creerChainonl(pTreel a){
@@ -530,28 +410,6 @@ pTrees defilers(Files* f){
 	}
 }
 
-short existeFilsGauche(pTree a){
-	if (a == NULL){
-		printf("Error existeFilsGauche\n");
-		exit(22);
-	}
-	if (estVide(a->l)){
-		return 1;
-	}
-	return 0;
-}
-
-short existeFilsDroit(pTree a){
-	if (a == NULL){
-		printf("Error existeFilsDroit\n");
-		exit(23);
-	}
-	if (estVide(a->r)){
-		return 1;
-	}
-	return 0;
-}
-
 short existeFilsGauchel(pTreel a){
 	if (a == NULL){
 		printf("Error existeFilsGauchel\n");
@@ -671,14 +529,6 @@ void traiter2s(pTrees a){
 	}
 }
 
-void parcoursInfixe1(pTree a, File* f){
-	if(a != NULL){
-		parcoursInfixe1(a->l, f);
-		*f = enfiler(*f, a);
-		parcoursInfixe1(a->r, f);
-	}
-}
-
 void parcoursInfixe1l(pTreel a, Filel* f){
 	if(a != NULL){
 		parcoursInfixe1l(a->l, f);
@@ -737,7 +587,7 @@ void parcoursInfixe2s(pTrees a){
 	}
 }
 
-pTreel ajouterABRref(pTreel a, int e, float x){
+pTreel ajouterABRrel(pTreel a, int e, float x){
 	if (a == NULL){
 		a = creerArbrel(e, x);
 	}
@@ -746,7 +596,7 @@ pTreel ajouterABRref(pTreel a, int e, float x){
 			a->r = creerArbrel(e, x);
 		}
 		else{
-			ajouterABRref(a->r, e, x);
+			ajouterABRrel(a->r, e, x);
 		}
 	}
 	else if (x < a->f){
@@ -754,7 +604,7 @@ pTreel ajouterABRref(pTreel a, int e, float x){
 			a->l = creerArbrel(e, x);
 		}
 		else{
-			ajouterABRref(a->l, e, x);
+			ajouterABRrel(a->l, e, x);
 		}
 	}
 }
@@ -801,29 +651,6 @@ pTrees ajouterABRres(pTrees a, int e, float x, float min, float max, float moy){
 			ajouterABRres(a->l, e, x, min, max, moy);
 		}
 	}
-}
-
-short estABR(pTree a){
-	if (a == NULL){
-		return 1;
-	}
-	pTree n = malloc(sizeof(Tree));
-	File f;
-	f.head = NULL;
-	f.tail = NULL;
-	if(n == NULL){
-		printf("error estABR\n");
-		exit(31);
-	}
-	parcoursInfixe1(a, &f);
-	n = defiler(&f);
-	while(f.head != NULL){
-		if(n->f >= f.head->a->f){
-			return 0;
-		}
-		n = defiler(&f);
-	}
-	return 1;
 }
 
 short estABRl(pTreel a){
@@ -893,46 +720,6 @@ short estABRs(pTrees a){
 		n = defilers(&f);
 	}
 	return 1;
-}
-
-pTree rotationG (pTree a){
-	pTree pivot;
-	int eqA;
-	int eqP;
-	pivot = a->r;
-	a->r = pivot->l;
-	pivot->l = a;
-	eqA = a->eq;
-	eqP = pivot->eq;
-	a->eq = eqA - max2(eqP, 0) - 1;
-	pivot->eq = min2(min2(eqA-2,eqA+eqP-2), eqP-1);
-	a=pivot;
-	return a;
-}
-
-pTree rotationD (pTree a){
-	pTree pivot;
-	int eqA;
-	int eqP;
-	pivot = a->l;
-	a->l = pivot->r;
-	pivot->r = a;
-	eqA = a->eq;
-	eqP = pivot->eq;
-	a->eq = eqA - min2(eqP, 0) + 1;
-	pivot->eq = max2(max2(eqA+2,eqA+eqP+2), eqP+1);
-	a=pivot;
-	return a;
-}
-
-pTree doubleRotationG(pTree a){
-	a->r=rotationD(a->r);
-	return rotationG(a);
-}
-
-pTree doubleRotationD(pTree a){
-	a->l=rotationG(a->l);
-	return rotationD(a);
 }
 
 pTreel rotationGl (pTreel a){
@@ -1093,30 +880,6 @@ pTrees doubleRotationGs(pTrees a){
 pTrees doubleRotationDs(pTrees a){
 	a->l=rotationGs(a->l);
 	return rotationDs(a);
-}
-
-pTree eqAVL(pTree a){
-	if(existeFilsDroit(a)){
-		if(a->eq >= 2){
-			if(a->r->eq >= 0){
-				return rotationG(a);
-			}
-			else {
-				return doubleRotationG(a);
-			}
-		}
-	}
-	else if (a->eq <= -2){
-		if(existeFilsGauche(a)){
-			if(a->l->eq <= 0){
-				return rotationD(a);
-			}
-			else {
-				return doubleRotationD(a);
-			}
-		}
-	}
-	return a;
 }
 
 pTreel eqAVLl(pTreel a){
@@ -1364,7 +1127,7 @@ pTreel creerABRdeArbrel(pTreel a){
 	}
 	while(f->head != NULL){
 		n = defilerl(f);
-		ajouterABRref(abr, n->n, n->f);
+		ajouterABRrel(abr, n->n, n->f);
 	}
 	return abr;
 }
