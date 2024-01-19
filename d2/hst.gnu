@@ -21,7 +21,7 @@ set style histogram clustered gap 1
 set xtics autojustify rotate by 90 
 set mytics
 set ytics autojustify rotate by 90
-set xtics norangelimit
+
 
 
 # * means the range will be automatically determined.
