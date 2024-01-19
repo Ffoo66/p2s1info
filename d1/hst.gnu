@@ -4,7 +4,7 @@ data="results.data"
 stats data using 3 nooutput
 
 set terminal png size 800,1400
-set output "graph.png"
+set output "histogrammehoriz.png"
 set label "Option-d1: Nb routes=f(Driver)" at screen 0.02, 0.5 rotate by 90 center font ",16" tc rgb "black"
 set xlabel "DRIVERS NAMES" rotate by 180
 set ylabel "NB ROUTES"
