@@ -27,7 +27,7 @@ gnuplot -persist <<-EOFMarker
 	set rrange [ * : * ] noreverse writeback
 	set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinvert bdefault
 	NO_ANIMATION = 1
-	plot for [COL=1:2] 'results.dat' using COL:xticlabels(3) #plot the graph
+	plot for [COL=1:2] 'resultsT.dat' using COL:xticlabels(3) #plot the graph
 	pause -1 "\n"
  	#replot in order to display the graph
 	unset output 
