@@ -9,7 +9,8 @@ gnuplot -persist <<-EOFMarker
 	set style data lines   
  	set datafile missing '-'
  	set datafile separator ";"
-  	#set the grid, ranges, tics and labels 
+  	#set the grid, ranges, tics and labels
+   	set xtics nomirror rotate by -45  
 	set ytics  norangelimit autofreq  
  	set mxtics
 	set mytics 
