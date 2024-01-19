@@ -11,7 +11,7 @@ gnuplot -persist <<-EOFMarker
 	set datafile missing '-'
 	set datafile separator ";"
 	set style data histograms
-	 #set the grid, ranges, tics and labels 
+	#set the grid, ranges, tics and labels 
 	set xtics nomirror rotate by -45  autojustify 
 	set xtics  norangelimit 
 	set mytics
