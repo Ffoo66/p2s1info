@@ -1,4 +1,5 @@
 #!/usr/local/bin/gnuplot -persist
+cd ./L
 gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	set output 'histograms.png' #create or update a png file with the graph 
@@ -36,8 +37,6 @@ gnuplot -persist <<-EOFMarker
 	unset terminal
 	replot
 EOFMarker
-
-cd ./L
 mv ./histograms.png ../images/
 cd ../
 
