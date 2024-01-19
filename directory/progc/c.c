@@ -14,13 +14,23 @@ typedef struct Treel{
 
 typedef struct Treel* pTreel;
 
+typedef struct Treei{
+	struct Treei* l;
+	struct Treei* r;
+	int n;
+	short eq;
+}Treei;
+
+typedef struct Treei* pTreei;
+
 typedef struct Treet1{
 	struct Treet1* l;
 	struct Treet1* r;
 	char* city;
 	int count;
 	int fcount;
-	int n;
+	pTreei a;
+	short i;
 	short eq;
 }Treet1;
 
@@ -43,10 +53,11 @@ typedef struct Trees{
 	char* city;
 	int count;
 	int n;
-	float f;
-	float min;
-	float max;
-	float moy;
+	double f;
+	double min;
+	double max;
+	double moy;
+	double rank;
 	short eq;
 }Trees;
 
@@ -127,6 +138,20 @@ int hauteurl(pTreel a){
 	return 1 + max2(hauteurl(a->l),hauteurl(a->r));
 }
 
+short estVidei(pTreei a){
+	if (a == NULL){
+		return 1;
+	}
+	return 0;
+}
+
+int hauteuri(pTreei a){
+	if(estVidei(a)){
+		return 0;
+	}
+	return 1 + max2(hauteuri(a->l),hauteuri(a->r));
+}
+
 short estVidet1(pTreet1 a){
 	if (a == NULL){
 		return 1;
@@ -183,6 +208,19 @@ pTreel creerArbrel(int e, float f){
 	return a;
 }
 
+pTreei creerArbrei(int e){
+	pTreei a = malloc(sizeof(Treei));
+	if (a == NULL){
+		printf("Error creerArbrei\n");
+		exit(10);
+	}
+	a->l = NULL;
+	a->r = NULL;
+	a->n = e;
+	a->eq=hauteuri(a->r)-hauteuri(a->l);
+	return a;
+}
+
 pTreet1 creerArbret1(int e, char* city, int count, int fcount){
 	pTreet1 a = malloc(sizeof(Treet1));
 	if (a == NULL){
@@ -194,7 +232,8 @@ pTreet1 creerArbret1(int e, char* city, int count, int fcount){
 	a->city = city;
 	a->count = count;
 	a->fcount = fcount;
-	a->n = e;
+	a->a = creerArbrei(e);
+	a->i = 1;
 	a->eq=hauteurt1(a->r)-hauteurt1(a->l);
 	return a;
 }
@@ -214,7 +253,7 @@ pTreet2 creerArbret2(char* city, int count, int fcount){
 	return a;
 }
 
-pTrees creerArbres(int e, float f, float min, float max, float moy){
+pTrees creerArbres(int e, double f, double min, double max, double moy){
 	pTrees a = malloc(sizeof(Trees));
 	if (a == NULL){
 		printf("Error creerArbres\n");
@@ -229,6 +268,7 @@ pTrees creerArbres(int e, float f, float min, float max, float moy){
 	a->min = min;
 	a->max = max;
 	a->moy = moy;
+	a->rank = max - min;
 	a->eq=hauteurs(a->r)-hauteurs(a->l);
 	return a;
 }
@@ -432,6 +472,28 @@ short existeFilsDroitl(pTreel a){
 	return 0;
 }
 
+short existeFilsGauchei(pTreei a){
+	if (a == NULL){
+		printf("Error existeFilsGauchei\n");
+		exit(22);
+	}
+	if (estVidei(a->l)){
+		return 1;
+	}
+	return 0;
+}
+
+short existeFilsDroiti(pTreei a){
+	if (a == NULL){
+		printf("Error existeFilsDroiti\n");
+		exit(23);
+	}
+	if (estVidei(a->r)){
+		return 1;
+	}
+	return 0;
+}
+
 short existeFilsGauchet1(pTreet1 a){
 	if (a == NULL){
 		printf("Error existeFilsGauchet1\n");
@@ -519,13 +581,13 @@ void traitert2(pTreet2 a){
 void traiter1s(pTrees a){
 	if (a != NULL){
 		a->moy = a->f/a->count;
-		a->f = a->max - a->min;
+		a->rank = a->max - a->min;
 	}
 }
 
 void traiter2s(pTrees a){
 	if (a != NULL){
-		printf("%d;%f;%f;%f\n", a->n, a->min, a->max, a->moy);
+		printf("%d;%lf;%lf;%lf\n", a->n, a->moy, a->min, a->max);
 	}
 }
 
@@ -631,11 +693,11 @@ pTreet1 ajouterABRret(pTreet1 a, int e, char* city, int count, int fcount){
 	}
 }
 
-pTrees ajouterABRres(pTrees a, int e, float x, float min, float max, float moy){
+pTrees ajouterABRres(pTrees a, int e, double x, double min, double max, double moy){
 	if (a == NULL){
 		a = creerArbres(e, x, min, max, moy);
 	}
-	else if (x > a->f){
+	else if (x > a->rank){
 		if(a->r == NULL){
 			a->r = creerArbres(e, x, min, max, moy);
 		}
@@ -643,7 +705,7 @@ pTrees ajouterABRres(pTrees a, int e, float x, float min, float max, float moy){
 			ajouterABRres(a->r, e, x, min, max, moy);
 		}
 	}
-	else if (x < a->f){
+	else if (x < a->rank){
 		if(a->l == NULL){
 			a->l = creerArbres(e, x, min, max, moy);
 		}
@@ -760,6 +822,46 @@ pTreel doubleRotationGl(pTreel a){
 pTreel doubleRotationDl(pTreel a){
 	a->l=rotationGl(a->l);
 	return rotationDl(a);
+}
+
+pTreei rotationGi (pTreei a){
+	pTreei pivot;
+	int eqA;
+	int eqP;
+	pivot = a->r;
+	a->r = pivot->l;
+	pivot->l = a;
+	eqA = a->eq;
+	eqP = pivot->eq;
+	a->eq = eqA - max2(eqP, 0) - 1;
+	pivot->eq = min2(min2(eqA-2,eqA+eqP-2), eqP-1);
+	a=pivot;
+	return a;
+}
+
+pTreei rotationDi (pTreei a){
+	pTreei pivot;
+	int eqA;
+	int eqP;
+	pivot = a->l;
+	a->l = pivot->r;
+	pivot->r = a;
+	eqA = a->eq;
+	eqP = pivot->eq;
+	a->eq = eqA - min2(eqP, 0) + 1;
+	pivot->eq = max2(max2(eqA+2,eqA+eqP+2), eqP+1);
+	a=pivot;
+	return a;
+}
+
+pTreei doubleRotationGi(pTreei a){
+	a->r=rotationDi(a->r);
+	return rotationGi(a);
+}
+
+pTreei doubleRotationDi(pTreei a){
+	a->l=rotationGi(a->l);
+	return rotationDi(a);
 }
 
 pTreet1 rotationGt1 (pTreet1 a){
@@ -906,6 +1008,30 @@ pTreel eqAVLl(pTreel a){
 	return a;
 }
 
+pTreei eqAVLi(pTreei a){
+	if(existeFilsDroiti(a)){
+		if(a->eq >= 2){
+			if(a->r->eq >= 0){
+				return rotationGi(a);
+			}
+			else {
+				return doubleRotationGi(a);
+			}
+		}
+	}
+	else if (a->eq <= -2){
+		if(existeFilsGauchei(a)){
+			if(a->l->eq <= 0){
+				return rotationDi(a);
+			}
+			else {
+				return doubleRotationDi(a);
+			}
+		}
+	}
+	return a;
+}
+
 pTreet1 eqAVLt1(pTreet1 a){
 	if(existeFilsDroitt1(a)){
 		if(a->eq >= 2){
@@ -985,7 +1111,7 @@ pTreel insertAVLl(pTreel a, int e, float x, int* h){
 	}
 	else if (e < a->n){
 		a->l=insertAVLl(a->l, e, x, h);
-	*h=-*h;
+		*h=-*h;
 	}
 	else if (e > a->n){
 		a->r=insertAVLl(a->r, e, x, h);
@@ -998,6 +1124,36 @@ pTreel insertAVLl(pTreel a, int e, float x, int* h){
 	if(*h!=0){	
 		a->eq = a->eq + *h;
 		a=eqAVLl(a);
+		if(a->eq==0){	
+			*h=0;
+		}
+		else{	
+			*h=1;
+		}
+	}
+	return a;
+}
+
+pTreei insertAVLi(pTreei a, int e, int* i, int* h){
+	if (a==NULL){
+		*h=1;
+		*i=1;
+		return creerArbrei(e);
+	}
+	else if (e < a->n){
+		a->l=insertAVLi(a->l, e, i, h);
+		*h=-*h;
+	}
+	else if (e > a->n){
+		a->r=insertAVLi(a->r, e, i, h);
+	}
+	else{
+		*h=0;
+		return a;
+	}
+	if(*h!=0){	
+		a->eq = a->eq + *h;
+		a=eqAVLi(a);
 		if(a->eq==0){	
 			*h=0;
 		}
@@ -1021,9 +1177,13 @@ pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h)
 		a->r=insertAVLt1(a->r, e, city, count, fcount, h);
 	}
 	else{
+		int n = 0;
+		a->a = insertAVLi(a->a, e, &n, h);
+		if (n){
+			a->count++;
+			a->fcount += fcount;
+		}
 		*h=0;
-		a->count++;
-		a->fcount += fcount;
 		return a;
 	}
 	if(*h!=0){	
@@ -1070,7 +1230,7 @@ pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h){
 	return a;
 }
 
-pTrees insertAVLs(pTrees a, int e, float x, int* h){
+pTrees insertAVLs(pTrees a, int e, double x, int* h){
 	if (a==NULL){
 		*h=1;
 		return creerArbres(e, x, x, x, x);
@@ -1152,7 +1312,7 @@ pTreet1 creerABRdeArbret(pTreet1 a){
 	}
 	while(f->head != NULL){
 	n = defilert(f);
-	ajouterABRret(abr, n->n, n->city, n->count, n->fcount);
+	ajouterABRret(abr, n->a->n, n->city, n->count, n->fcount);
 	}
 	return abr;
 }
@@ -1177,7 +1337,7 @@ pTrees creerABRdeArbres(pTrees a){
 	}
 	while(f->head != NULL){
 		n = defilers(f);
-		ajouterABRres(abr, n->n, n->f, n->min, n->max, n->moy);
+		ajouterABRres(abr, n->n, n->rank, n->min, n->max, n->moy);
 	}
 	return abr;
 }
@@ -1319,7 +1479,7 @@ int main(int argc, char** argv){
 		parcoursInfixe2t2(ai);
 	}
 	else if (arg == 4){
-		float x = 0;
+		double x = 0;
 		pTrees ai = malloc(sizeof(Trees));
 		pTrees ad = malloc(sizeof(Trees));
 		if (ai == NULL || ad == NULL){
@@ -1327,19 +1487,21 @@ int main(int argc, char** argv){
 			exit(1);
 		}
 		t = fscanf(data1, "%d", &n);
-		t = fscanf(data1, "%f", &x);
+		t = fscanf(data1, "%lf", &x);
 		ai = creerArbres(n, x, x, x, x);
 		while(t != EOF){
 			int tmpi = 0;
-			float tmpf = 0;
+			double tmpf = 0;
 			t = fscanf(data1, "%d", &tmpi);
 			if (t == EOF){
 				break;
 			}
-			t = fscanf(data1, "%f", &tmpf);
+			fgetc(data1);
+			t = fscanf(data1, "%lf", &tmpf);
 			if (t == EOF){
 				break;
 			}
+			fgetc(data1);
 			insertAVLs(ai, tmpi, tmpf, &h);
 		}
 		ad = creerABRdeArbres(ai);
