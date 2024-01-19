@@ -123,7 +123,7 @@ do
 		make
 		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
-		./progc/c.exe 1 $tempdir1 | tail -10 | sort -n #> temp/tempgraph.txt
+		./progc/c.exe 1 $tempdir1 | head -10 | sort -n #> temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-t) echo "Option t (TBA)"
@@ -134,9 +134,9 @@ do
 		cd ..
 		tempdir2=`realpath temp/tempdata2.txt`
 		tempdir3=`realpath temp/tempdata3.txt`
-		./progc/c.exe 2 $tempdir2 $tempdir3 | tail -10 > temp/tempdata4.txt
-    tempdir4=`realpath temp/tempdata4.txt`
-    ./progc/c.exe 3 $tempdir4 #>temp/tempgraph.txt
+		./progc/c.exe 2 $tempdir2 $tempdir3 | head -10 > temp/tempdata4.txt
+		tempdir4=`realpath temp/tempdata4.txt`
+		./progc/c.exe 3 $tempdir4 #>temp/tempgraph.txt
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
@@ -147,7 +147,7 @@ do
 		tempdir5=`realpath temp/tempdata5.txt`
 		./progc/c.exe 4 $tempdir5 | head -50 #> temp/tempgraph.txt
 		tmparg=1 ;;
-    
+		
 	esac
 done
 
