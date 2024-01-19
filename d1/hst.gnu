@@ -17,9 +17,9 @@ set style histogram clustered gap 1
 
 # adjustement of x and y due to rotation
 set xtics autojustify rotate by 90 
-set mytics
-set ytics autojustify rotate by 90
 set xtics norangelimit
+set ytics autojustify rotate by 90
+
 set xrange [ * : * ] noreverse writeback
 set x2range [ * : * ] noreverse writeback
 
