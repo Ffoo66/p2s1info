@@ -36,5 +36,6 @@ gnuplot -persist <<-EOFMarker
 	unset terminal
 	replot
 EOFMarker
+mv ./histograms.png ../images/
 
 
