@@ -3,21 +3,23 @@
 gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	unset errorbars
+	#set the graph's type and appearance
 	set key right box   
-	set grid xtics mxtics ytics mytics front
 	unset parametric
 	set style data lines   
-	set mxtics
+ 	set datafile missing '-'
+ 	set datafile separator ";"
+  	#set the grid, ranges, tics and labels 
 	set ytics  norangelimit autofreq  
+ 	set mxtics
 	set mytics 
 	set title "Statistiques sur les étapes : distances minimales, maximales et moyennes par trajet" 
 	set xlabel "Identifiant de trajet" 
+ 	set ylabel "Distance (km)" 
+ 	set grid xtics mxtics ytics mytics front
 	set xrange [ * : *] noreverse writeback
 	set x2range [ * : *] noreverse writeback
-	set ylabel "Distance (km)" 
 	set yrange [ 0.000 : 200.000 ] noreverse writeback
- 	set datafile missing '-'
- 	set datafile separator ";"
 	set y2range [ * : * ] noreverse writeback
 	set zrange [ * : * ] noreverse writeback
 	set cbrange [ * : * ] noreverse writeback
@@ -26,9 +28,9 @@ gnuplot -persist <<-EOFMarker
 	NO_ANIMATION = 1
 	Shadecolor = "#80E0A080" 
 	set term png
-	set output 'statistiques.png'
+	set output 'statistiques.png' #create or update a png file with the graph 
 	plot 'results.dat' using 1:3:4:xticlabels(1) with filledcurve fc rgb Shadecolor \
- title "Intervalle des distances par trajet",'' using 1:2  smooth mcspline lw 2   title "Moyenne des distances par trajet"
+ title "Intervalle des distances par trajet",'' using 1:2  smooth mcspline lw 2   title "Moyenne des distances par trajet" #plot the graph
 	pause -1 "\n"
 	#replot in order to display the graph
  	unset output 
