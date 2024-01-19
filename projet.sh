@@ -112,9 +112,25 @@ for arg in `seq 2 $#`
 do
 	case ${!arg} in
 		-d1)
+		#grep ";1;" data01.csv  | cut -d";" -f6 | sort | uniq -c | sort -n -r | head -n10 > results.data
+		
+		awk -F';' '$2 == 1 { count[$6]++ } END { for (driver in count) print driver, count[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/results.data
+		#pour creer un histogramme horizontal on tourne l'histogramme vertical 
+		
+		gnuplot -e "load 'hst.gnu'"
+		cd ./images
+		mogrify -rotate 90 "histogrammehoriz.png"
+		
 		tmparg=1 ;;
 		
 		-d2) echo "Option d2 (TBA)"
+		
+		LC_NUMERIC="C" awk -F';' '{sum[$6] += sprintf("%f", $5) } END { for (driver in sum) printf "%s %.3f\n",driver, sum[driver] }' data.csv | sort -k3,3nr | head -n 10 >results.data
+		# to create a horizontale histogram turn the image by 90 degrees
+		gnuplot -e "load 'hst2.gnu'"
+		# convert is used to create new images while mogrify modifies the existing file
+		mogrify -rotate 90 "graph.png"
+		
 		tmparg=1 ;;
 		
 		-l) echo "Option l (TBA)"
@@ -123,7 +139,9 @@ do
 		make
 		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
-		./progc/c.exe 1 $tempdir1 | head -10 | sort -n #> temp/tempgraph.txt
+		./progc/c.exe 1 $tempdir1 | head -10 | sort -n > temp/resultsL.dat
+		bash ../plotL.sh
+		
 		tmparg=1 ;;
 		
 		-t) echo "Option t (TBA)"
@@ -136,7 +154,9 @@ do
 		tempdir3=`realpath temp/tempdata3.txt`
 		./progc/c.exe 2 $tempdir2 $tempdir3 | head -10 > temp/tempdata4.txt
 		tempdir4=`realpath temp/tempdata4.txt`
-		./progc/c.exe 3 $tempdir4 #>temp/tempgraph.txt
+		./progc/c.exe 3 $tempdir4 > temp/resultsT.dat
+		bash ../plotT.sh
+		
 		tmparg=1 ;;
 		
 		-s) echo "Option s (TBA)"
@@ -145,7 +165,9 @@ do
 		make
 		cd ..
 		tempdir5=`realpath temp/tempdata5.txt`
-		./progc/c.exe 4 $tempdir5 | head -50 #> temp/tempgraph.txt
+		./progc/c.exe 4 $tempdir5 | head -50 > temp/resultsS.dat
+		bash ../plotS.sh
+		
 		tmparg=1 ;;
 		
 	esac
