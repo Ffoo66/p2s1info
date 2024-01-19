@@ -38,3 +38,4 @@ gnuplot -persist <<-EOFMarker
 	unset terminal
 	replot
 EOFMarker
+mv ./statistiques.png ../images/
