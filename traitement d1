@@ -1,3 +1,0 @@
-awk -F';' '$2 == 1 { count[$6]++ } END { for (driver in count) print driver, count[driver] }' data1.txt | sort -k3,3nr | head -n 10 >txt
-#pour creer un histogramme horizontal on tourne l'histogramme vertical et on inverse les valeurs
-mogrify -rotate 90 "graph.png"
