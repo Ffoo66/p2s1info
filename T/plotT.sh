@@ -34,4 +34,6 @@ gnuplot -persist <<-EOFMarker
 	replot
 EOFMarker
 
+cd ./T
 mv ./histogramsclustered.png ../images/
+cd ../
