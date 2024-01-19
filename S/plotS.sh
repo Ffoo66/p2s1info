@@ -39,4 +39,6 @@ gnuplot -persist <<-EOFMarker
 	replot
 EOFMarker
 
+cd ./S
 mv ./statistiques.png ../images/
+cd ../
