@@ -1,5 +1,5 @@
 #!/usr/local/bin/gnuplot -persist
-
+cd ./S
 gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	unset errorbars
@@ -38,7 +38,5 @@ gnuplot -persist <<-EOFMarker
 	unset terminal
 	replot
 EOFMarker
-
-cd ./S
 mv ./statistiques.png ../images/
 cd ../
