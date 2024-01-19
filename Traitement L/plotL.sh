@@ -1,8 +1,9 @@
 #!/usr/local/bin/gnuplot -persist
 gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
-	set output 'histograms.png'
-	set boxwidth 0.9 absolute
+	set output 'histograms.png' #create or update a png file with the graph 
+	#set the graph's type and appearance
+ 	set boxwidth 0.9 absolute 
 	set style fill solid 1.00 border lt -1
 	set key off
 	set style histogram clustered gap 1 
@@ -10,6 +11,7 @@ gnuplot -persist <<-EOFMarker
 	set datafile missing '-'
  	set datafile separator ";"
 	set style data histograms
+ 	#set the grid, ranges, tics and labels 
 	set xtics out nomirror rotate by -45  autojustify
  	set xlabel "ID des trajets"
 	set ylabel "Distance (km)"
