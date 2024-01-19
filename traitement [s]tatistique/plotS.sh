@@ -3,7 +3,7 @@
 gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	unset errorbars
-	#set the graph's type and appearance
+	#set the graph's type and appearance, as well as the key's
 	set key right box   
 	unset parametric
 	set style data lines   
