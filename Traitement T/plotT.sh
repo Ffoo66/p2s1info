@@ -2,7 +2,7 @@
 gnuplot -persist <<-EOFMarker
 	set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
 	set output 'histogramsclustered.png' #create or update a png file with the graph 
- 	#set the graph's type  
+ 	#set the graph's type and appearance, as well as the key
 	set boxwidth 0.9 absolute
 	set style fill solid 1.00 border lt -1
 	set key right  noenhanced autotitle columnheader box 
