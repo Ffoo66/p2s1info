@@ -30,8 +30,8 @@ gnuplot -persist <<-EOFMarker
 	Shadecolor = "#80E0A080" 
 	set term png
 	set output 'statistiques.png' #create or update a png file with the graph 
-	plot 'resultsS.dat' using 1:3:4:xticlabels(1) with filledcurve fc rgb Shadecolor \
- title "Intervalle des distances par trajet",'' using 1:2  smooth mcspline lw 2   title "Moyenne des distances par trajet" #plot the graph
+	plot 'resultsS.dat' using 0:3:4:xticlabels(1) with filledcurve fc rgb Shadecolor \
+ title "Intervalle des distances par trajet",'' using 0:2  smooth mcspline lw 2   title "Moyenne des distances par trajet" #plot the graph
 	pause -1 "\n"
 	#replot in order to display the graph
  	unset output 
