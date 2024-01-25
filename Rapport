@@ -8,9 +8,10 @@ Planning de réalisation :
 Script Shell hors traitement de données : 4 décembre au 11 décembre
 Récupération des données pour les traitements -l -t -s : 11 décembre au 15 janvier
 Réalisation des graphiques pour les traitements -l -t -s : du 19 décembre au 19 janvier
-Commentaires sur le code C, readme et rapport : 15 janvier au 28 janvier
+Commentaires sur le code, readme, rapport et optimisation du code : 15 janvier au 28 janvier
 
 
 
 Limitations fonctionnelles :
-
+Le code peut avoir des problèmes si le chemin absolu du dossier contient certains caractères spéciaux tels que des espaces (notamment les options -l, -t et -s).
+L'option -t prend aux alentours d'une minute.
