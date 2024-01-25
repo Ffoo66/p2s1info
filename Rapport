@@ -1,9 +1,11 @@
 Projet d'informatique PréIng2-S1-2023/2024:  
 Répartition des tâches:
-Christelle Millet : réalisation des graphiques pour les traitements -l, -s et -t.
+Christelle Millet : code C général sur les AVL, réalisation des graphiques pour les traitements -l, -t et -s.
+Marek Sedlacek : traitement complet (récupération des données et réalisation des graphiques) pour les options -d1 et -d2.
+Hoang-Minh-Hung Florian Vo : vérification des arguments vers le script Shell, de l'existence des dossiers et fichiers requis et création si besoin, choix des options selon les arguments, récupération des données pour les options -l, -t et -s
 
 Planning de réalisation:
-Réalisation des graphiques pour les traitements -s -t -l : du 19 décembre au - janvier
+Réalisation des graphiques pour les traitements -l -t -s : du 19 décembre au - janvier
 
 
 
