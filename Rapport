@@ -5,12 +5,10 @@ Marek Sedlacek : traitement complet (récupération des données et réalisation
 Hoang-Minh-Hung Florian Vo : vérification des arguments vers le script Shell, de l'existence des dossiers et fichiers requis et création si besoin, choix des options selon les arguments, suppression des fichiers temporaires, récupération des données pour les options -l, -t et -s
 
 Planning de réalisation :
-Script Shell hors traitement de données : 4 décembre
-Récupération des données pour le traitement -l : 11 décembre au 19 décembre
-Récupération des données pour le traitement -t : 18 décembre au 19 janvier
-Récupération des données pour le traitement -s : 26 décembre au 15 janvier
+Script Shell hors traitement de données : 4 décembre au 11 décembre
+Récupération des données pour les traitements -l -t -s : 11 décembre au 15 janvier
 Réalisation des graphiques pour les traitements -l -t -s : du 19 décembre au 19 janvier
-Commentaires sur le code C, readme et rapport : 
+Commentaires sur le code C, readme et rapport : 15 janvier au 28 janvier
 
 
 
