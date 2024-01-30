@@ -111,40 +111,187 @@ fi
 for arg in `seq 2 $#`
 do
 	case ${!arg} in
-		-d1)
-		#grep ";1;" data01.csv  | cut -d";" -f6 | sort | uniq -c | sort -n -r | head -n10 > results.data
+		-d1) echo "Executing the d1 option"
 		
 		awk -F';' '$2 == 1 { count[$6]++ } END { for (driver in count) print driver, count[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/results.data
-		#pour creer un histogramme horizontal on tourne l'histogramme vertical 
+		# pour creer un histogramme horizontal on tourne l'histogramme vertical 
+		cd temp
+		gnuplot <<-EOFMarker
+			reset
+			# Using stats to obtain statistics on data
+			data="results.data"
+			stats data using 3 nooutput
+			
+			set terminal png size 800,1400
+			set output "histogrammehoriz.png"
+			set label "Option-d1: Nb routes=f(Driver)" at screen 0.02, 0.5 rotate by 90 center font ",16" tc rgb "black"
+			set xlabel "DRIVERS NAMES" rotate by 180
+			set ylabel "NB ROUTES"
+			set style data histogram
+			set style fill solid
+			set boxwidth 0.9 relative
+			set key off
+			set style histogram clustered gap 1
+			# adjustement of x and y due to rotation
+			set xtics autojustify rotate by 90 
+			set xtics norangelimit
+			set ytics autojustify rotate by 90
+			
+			set xrange [ * : * ] noreverse writeback
+			set x2range [ * : * ] noreverse writeback
+			
+			# * means the range will be automatically determined.
+			set yrange [ 0 : * ] noreverse writeback
+			set y2range [ * : * ] noreverse writeback
+			set zrange [ * : * ] noreverse writeback
+			set cbrange [ * : * ] noreverse writeback
+			set rrange [ * : * ] noreverse writeback
+			
+			# Font size
+			set xlabel font ",10"
+			set ylabel font ",10"
+			set xtics font ",10"  # Ajuster la taille de la police des étiquettes d'axe x
+			set ytics font ",10"
+			
+			# Calculating offset as 1/6 of biggest y 
+			maxy=STATS_max  
+			offset_value = maxy / 6.0
+			
+			# Applying offset to x-axis
+			set offsets 0, 0, 0, offset_value
+			
+			
+			set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front noinvert bdefault
+			plot 'results.data' using  3:xticlabels(stringcolumn(1). ' '. stringcolumn(2)) with boxes linecolor rgb "green"
+		EOFMarker
 		
-		gnuplot -e "load 'hst.gnu'"
-		cd ./images
 		mogrify -rotate 90 "histogrammehoriz.png"
 		
+		mv histogrammehoriz.png ../images
+		
+		cd ..
+		
+		xdg-open images/histogrammehoriz.png
+		
 		tmparg=1 ;;
 		
-		-d2) echo "Option d2 (TBA)"
+		-d2) echo "Executing the d2 option"
 		
-		LC_NUMERIC="C" awk -F';' '{sum[$6] += sprintf("%f", $5) } END { for (driver in sum) printf "%s %.3f\n",driver, sum[driver] }' data.csv | sort -k3,3nr | head -n 10 >results.data
+		LC_NUMERIC="C" awk -F';' '{sum[$6] += sprintf("%f", $5) } END { for (driver in sum) printf "%s %.3f\n",driver, sum[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/results.data
 		# to create a horizontale histogram turn the image by 90 degrees
-		gnuplot -e "load 'hst2.gnu'"
+		
+		cd temp
+		
+		gnuplot <<-EOFMarker
+			reset
+			# Using stats to obtain statistics on data
+			data="results.data"
+			stats data using 3 nooutput
+			set terminal png size 800,1200
+			set output "graph.png"
+			set label "Option-d2: Distance=f(Driver)" at screen 0.02, 0.5 rotate by 90 center font ",16" tc rgb "black"
+			set xlabel "DRIVERS NAMES" rotate by 180  offset 0,1 center
+			set ylabel "DISTANCE(Km)" offset 3,0.5 center
+			set style data histogram
+			set style fill solid
+			set boxwidth 0.6 relative
+			set key off
+			set style histogram clustered gap 1
+			
+			# adjustement of x and y due to rotation
+			set xtics autojustify rotate by 90 
+			set ytics autojustify rotate by 90
+			
+			# * means the range will be automatically determined.
+			set xrange [ * : * ] noreverse writeback
+			set x2range [ * : * ] noreverse writeback
+			set yrange [ 0 : * ] noreverse writeback
+			set y2range [ * : * ] noreverse writeback
+			set zrange [ * : * ] noreverse writeback
+			set cbrange [ * : * ] noreverse writeback
+			set rrange [ * : * ] noreverse writeback
+			
+			# Font size
+			set xlabel font ",10"
+			set ylabel font ",10"
+			set xtics font ",10"  
+			set ytics font ",10"
+			
+			# Calculating offset as 1/6 of biggest y 
+			maxy=STATS_max  
+			offset_value = maxy / 6.0
+			
+			# Applying offset to x-axis
+			set offsets 0, 0, 0, offset_value
+			set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front noinvert bdefault
+			plot 'results.data' using  3:xticlabels(stringcolumn(1). ' '. stringcolumn(2)) with boxes linecolor rgb "green"  
+		EOFMarker
 		# convert is used to create new images while mogrify modifies the existing file
+		
 		mogrify -rotate 90 "graph.png"
 		
+		mv graph.png ../images
+		
+		cd ..
+		
+		xdg-open images/graph.png
+		
 		tmparg=1 ;;
 		
-		-l) echo "Option l (TBA)"
+		-l) echo "Executing the l option"
+		
 		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
 		cd progc
 		make
 		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
 		./progc/c.exe 1 $tempdir1 | head -10 | sort -n > temp/resultsL.dat
-		bash ../plotL.sh
+		
+		cd temp
+		gnuplot -persist <<-EOFMarker
+			set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
+			set output 'histograms.png' #create or update a png file with the graph 
+			#set the graph's type and appearance
+		 	set boxwidth 0.9 absolute 
+			set style fill solid 1.00 border lt -1
+			set key off
+			set style histogram clustered gap 1 
+			unset parametric
+			set datafile missing '-'
+		 	set datafile separator ";"
+			set style data histograms
+		 	#set the grid, ranges, tics and labels 
+			set xtics out nomirror rotate by -45  autojustify
+		 	set xlabel "ID des trajets"
+			set ylabel "Distance (km)"
+			set mytics
+			set ytics autojustify
+			set xtics  norangelimit 
+		 	set grid xtics mxtics ytics mytics 
+			set title "Distance par trajet" 
+			set xrange [  * : * ] noreverse writeback
+			set x2range [ * : * ] noreverse writeback
+			set yrange [0:*] noreverse writeback
+			set y2range [ * : * ] noreverse writeback
+			set zrange [ * : * ] noreverse writeback
+			set cbrange [ * : * ] noreverse writeback
+			set rrange [ * : * ] noreverse writeback
+			set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinvert bdefault
+			NO_ANIMATION = 1
+			plot 'resultsL.dat' using 2:xticlabels(1) #plot the graph
+			pause -1 "\n"
+			#replot in order to display the graph
+		 	unset output 
+			unset terminal
+			replot
+		EOFMarker
+		mv ./histograms.png ../images/
+		cd ../
 		
 		tmparg=1 ;;
 		
-		-t) echo "Option t (TBA)"
+		-t) echo "Executing the t option"
+		
 		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
 		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata3.txt
 		cd progc
@@ -154,19 +301,99 @@ do
 		tempdir3=`realpath temp/tempdata3.txt`
 		./progc/c.exe 2 $tempdir2 $tempdir3 | head -10 > temp/tempdata4.txt
 		tempdir4=`realpath temp/tempdata4.txt`
-		./progc/c.exe 3 $tempdir4 > temp/resultsT.dat
-		bash ../plotT.sh
+		echo "Nombre de trajets;Nombre de départs" > temp/resultsT.dat
+		./progc/c.exe 3 $tempdir4 >> temp/resultsT.dat
+		
+		cd temp
+		gnuplot -persist <<-EOFMarker
+			set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
+			set output 'histogramsclustered.png' #create or update a png file with the graph 
+		 	#set the graph's type and appearance, as well as the key's
+			set boxwidth 0.9 absolute
+			set style fill solid 1.00 border lt -1
+			set key right  noenhanced autotitle columnheader box 
+			set style histogram clustered gap 1 
+			unset parametric
+			set datafile missing '-'
+			set datafile separator ";"
+			set style data histograms
+			#set the grid, ranges, tics and labels 
+			set xtics nomirror rotate by -45  autojustify 
+			set xtics  norangelimit 
+			set mytics
+			set grid xtics mxtics ytics mytics 
+			set title "Nombre de trajets et de départs par ville" 
+			set xrange [ * : * ] noreverse writeback
+			set x2range [ * : * ] noreverse writeback
+			set yrange [ 0 : * ] noreverse writeback
+			set y2range [ * : * ] noreverse writeback
+			set zrange [ * : * ] noreverse writeback
+			set cbrange [ * : * ] noreverse writeback
+			set rrange [ * : * ] noreverse writeback
+			set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinvert bdefault
+			NO_ANIMATION = 1
+			plot for [COL=1:2] 'resultsT.dat' using COL:xticlabels(3) #plot the graph
+			pause -1 "\n"
+		 	#replot in order to display the graph
+			unset output 
+			unset terminal
+			replot
+		EOFMarker
+		mv ./histogramsclustered.png ../images/
+		cd ../
 		
 		tmparg=1 ;;
 		
-		-s) echo "Option s (TBA)"
+		-s) echo "Executing the s option"
+		
 		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata5.txt
 		cd progc
 		make
 		cd ..
 		tempdir5=`realpath temp/tempdata5.txt`
 		./progc/c.exe 4 $tempdir5 | head -50 > temp/resultsS.dat
-		bash ../plotS.sh
+		
+		cd temp
+		gnuplot -persist <<-EOFMarker
+			set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
+			unset errorbars
+			#set the graph's type and appearance, as well as the key's
+			set key right box   
+			unset parametric
+			set style data lines   
+		 	set datafile missing '-'
+		 	set datafile separator ";"
+		  	#set the grid, ranges, tics and labels
+		   	set xtics nomirror rotate by -45  
+			set ytics  norangelimit autofreq  
+		 	set mxtics
+			set mytics 
+			set title "Statistiques sur les étapes : distances minimales, maximales et moyennes par trajet" 
+			set xlabel "Identifiant de trajet" 
+		 	set ylabel "Distance (km)" 
+		 	set grid xtics mxtics ytics mytics front
+			set xrange [ * : *] noreverse writeback
+			set x2range [ * : *] noreverse writeback
+			set yrange [ 0.000 : * ] noreverse writeback
+			set y2range [ * : * ] noreverse writeback
+			set zrange [ * : * ] noreverse writeback
+			set cbrange [ * : * ] noreverse writeback
+			set rrange [ * : * ] noreverse writeback
+			set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinvert bdefault
+			NO_ANIMATION = 1
+			Shadecolor = "#80E0A080" 
+			set term png
+			set output 'statistiques.png' #create or update a png file with the graph 
+			plot 'resultsS.dat' using 0:3:4:xticlabels(1) with filledcurve fc rgb Shadecolor \
+		 title "Intervalle des distances par trajet",'' using 0:2  smooth mcspline lw 2   title "Moyenne des distances par trajet" #plot the graph
+			pause -1 "\n"
+			#replot in order to display the graph
+		 	unset output 
+			unset terminal
+			replot
+		EOFMarker
+		mv ./statistiques.png ../images/
+		cd ../
 		
 		tmparg=1 ;;
 		
