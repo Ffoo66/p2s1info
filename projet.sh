@@ -368,7 +368,7 @@ do
 			set ytics  norangelimit autofreq  
 		 	set mxtics
 			set mytics 
-			set title " Minimum, maximum eand average distance by route" 
+			set title " Minimum, maximum and average distance by route" 
 			set xlabel "Route ID" 
 		 	set ylabel "Distance(km)" 
 		 	set grid xtics mxtics ytics mytics front
