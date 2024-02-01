@@ -30,7 +30,7 @@ typedef struct Treet1{	// -t process tree to count how many times the city (char
 	int count;
 	int fcount;
 	pTreei a;
-	short i;
+	short i;	// to be checked
 	short eq;
 }Treet1;
 
@@ -50,7 +50,7 @@ typedef struct Treet2* pTreet2;
 typedef struct Trees{	// -s process tree, int count will be used to calculate the average distance, int n is the route ID, double f is the total distance, double min is the shortest step, double max is the longest one, double av is the average step distance, double rank is max - min
 	struct Trees* l;
 	struct Trees* r;
-	char* city;
+	char* city;	// to be checked
 	int count;
 	int n;
 	double f;
