@@ -331,9 +331,9 @@ pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h)
 	else if (strcmp(city, a->city) > 0){
 		a->r=insertAVLt1(a->r, e, city, count, fcount, h);
 	}
-	else{
+	else{						// if the city is already in the AVL, adds the route ID into an AVL linked to the city
 		int n = 0;
-		a->a = insertAVLi(a->a, e, &n, h);	// adds the route ID into an AVL linked to the city
+		a->a = insertAVLi(a->a, e, &n, h);
 		if (n){					// if the ID was already in the AVL, the counters aren't modified
 			a->count++;
 			a->fcount += fcount;
@@ -396,7 +396,7 @@ short isBSTt(pTreet1 a){	// checks if the tree is already sorted
 		printf("error isBSTt\n");
 		exit(31);
 	}
-	infix1t1(a, &f);	// usage of a queue to compare the values in the tree
+	infix1t1(a, &f);	// usage of a queue to compare the total count values
 	n = rmQueuet(&f);
 	while(f.head != NULL){
 		if(n->count >= f.head->a->count){
@@ -419,7 +419,7 @@ pTreet1 cBSTFromTreet(pTreet1 a){	// creates a tree sorted by total count from t
 		printf("error cBSTFromTreet\n");
 		exit(32);
 	}
-	infix1t1(a, f);			// usage of a queue to store the values from the tree
+	infix1t1(a, f);			// usage of a queue to get the values from the original tree
 	pTreet1 bst = malloc(sizeof(Treet1));
 	if(bst == NULL){
 		printf("error cBSTFromTreet\n");
@@ -427,7 +427,7 @@ pTreet1 cBSTFromTreet(pTreet1 a){	// creates a tree sorted by total count from t
 	}
 	while(f->head != NULL){
 		n = rmQueuet(f);
-		addBSTt(bst, n->a->n, n->city, n->count, n->fcount);
+		addBSTt(bst, n->a->n, n->city, n->count, n->fcount);	// sorts the cities by total count from lowest to highest instead of alphabetical order
 	}
 	return bst;
 }
