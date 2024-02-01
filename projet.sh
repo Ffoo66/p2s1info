@@ -364,7 +364,7 @@ do
 		 	set datafile missing '-'
 		 	set datafile separator ";"
 		  	#set the grid, ranges, tics and labels
-		   	set xtics nomirror 
+		   	set xtics nomirror rotate by -90
 			set ytics  norangelimit autofreq  
 		 	set mxtics
 			set mytics 
