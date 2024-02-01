@@ -426,3 +426,4 @@ fi
 
 cd temp
 rm *.dat
+rm *.txt
