@@ -2,13 +2,13 @@
 
 if [ $# -lt 2 ]
 then
-	echo "You're dumb (not enough arguments)"
+	echo "Not enough arguments."
 	exit 1
 fi
 
 if [ ! $1 == directory ]
 then
-	echo "You're dumb (first arg has to be the right directory (directory))"
+	echo "First arg has to be the right directory (directory)"
 	exit 2
 fi
 
@@ -422,7 +422,7 @@ then
 	exit 7
 fi
 
-echo "Is this real ?"
+
 
 cd temp
-rm *.txt
+rm *.dat
