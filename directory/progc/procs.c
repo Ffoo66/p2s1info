@@ -1,20 +1,20 @@
 #include "library.h"
 
-short isEmptys(pTrees a){
+short isEmptys(pTrees a){	// checks if the tree is empty
 	if (a == NULL){
 		return 1;
 	}
 	return 0;
 }
 
-int heights(pTrees a){
+int heights(pTrees a){		// calculates the height of the tree
 	if(isEmptys(a)){
 		return 0;
 	}
 	return 1 + max2(heights(a->l),heights(a->r));
 }
 
-pTrees cTrees(int e, double f, double min, double max, double av){
+pTrees cTrees(int e, double f, double min, double max, double av){	// creates a tree which stores the route ID and a few statistics (min, max and average step distance)
 	pTrees a = malloc(sizeof(Trees));
 	if (a == NULL){
 		printf("Error cTrees\n");
@@ -34,7 +34,7 @@ pTrees cTrees(int e, double f, double min, double max, double av){
 	return a;
 }
 
-Chains* cChains(pTrees a){
+Chains* cChains(pTrees a){	// creates a linked list for the queue
 	Chains* c = malloc(sizeof(Chains));
 	if (c == NULL || a == NULL){
 		printf("Error cChains\n");
@@ -46,7 +46,7 @@ Chains* cChains(pTrees a){
 	return c;
 }
 
-Queues cQueues(pTrees a){
+Queues cQueues(pTrees a){	// creates a queue which contains a tree
 	if (a == NULL){
 		printf("Error cQueues\n");
 		exit(12);
@@ -58,7 +58,7 @@ Queues cQueues(pTrees a){
 	return f;
 }
 
-Queues enters(Queues f, pTrees a){
+Queues enters(Queues f, pTrees a){	// enters the tree in the queue
 	if (a == NULL){
 		return f;
 	}
@@ -73,7 +73,7 @@ Queues enters(Queues f, pTrees a){
 	return f;
 }
 
-pTrees rmQueues(Queues* f){
+pTrees rmQueues(Queues* f){	// removes a slot from the queue and returns the tree which was inside
 	if(f->head == NULL){
 		return NULL;
 	}
@@ -93,7 +93,7 @@ pTrees rmQueues(Queues* f){
 	}
 }
 
-short existLBs(pTrees a){
+short existLBs(pTrees a){	// checks if the left branch of the tree exists
 	if (a == NULL){
 		printf("Error existLBs\n");
 		exit(22);
@@ -104,7 +104,7 @@ short existLBs(pTrees a){
 	return 0;
 }
 
-short existRBs(pTrees a){
+short existRBs(pTrees a){	// checks if the right branch of the tree exists
 	if (a == NULL){
 		printf("Error existRBs\n");
 		exit(23);
@@ -115,82 +115,7 @@ short existRBs(pTrees a){
 	return 0;
 }
 
-void process1s(pTrees a){
-	if (a != NULL){
-		a->av = a->f/a->count;
-		a->rank = a->max - a->min;
-	}
-}
-
-void process2s(pTrees a){
-	if (a != NULL){
-		printf("%d;%lf;%lf;%lf\n", a->n, a->av, a->min, a->max);
-	}
-}
-
-void infix1s(pTrees a, Queues* f){
-	if(a != NULL){
-		infix1s(a->l, f);
-		process1s(a);
-		*f = enters(*f, a);
-		infix1s(a->r, f);
-	}
-}
-
-void infix2s(pTrees a){
-	if(a != NULL){
-		infix2s(a->r);
-		process2s(a);
-		infix2s(a->l);
-	}
-}
-
-pTrees addBSTs(pTrees a, int e, double x, double min, double max, double av){
-	if (a == NULL){
-		a = cTrees(e, x, min, max, av);
-	}
-	else if (x > a->rank){
-		if(a->r == NULL){
-			a->r = cTrees(e, x, min, max, av);
-		}
-		else{
-			addBSTs(a->r, e, x, min, max, av);
-		}
-	}
-	else if (x < a->rank){
-		if(a->l == NULL){
-			a->l = cTrees(e, x, min, max, av);
-		}
-		else{
-			addBSTs(a->l, e, x, min, max, av);
-		}
-	}
-}
-
-short isBSTs(pTrees a){
-	if (a == NULL){
-		return 1;
-	}
-	pTrees n = malloc(sizeof(Trees));
-	Queues f;
-	f.head = NULL;
-	f.tail = NULL;
-	if(n == NULL){
-		printf("error isBSTs\n");
-		exit(31);
-	}
-	infix1s(a, &f);
-	n = rmQueues(&f);
-	while(f.head != NULL){
-		if(n->f >= f.head->a->f){
-			return 0;
-		}
-		n = rmQueues(&f);
-	}
-	return 1;
-}
-
-pTrees lRots (pTrees a){
+pTrees lRots (pTrees a){	// left rotation for the AVL
 	pTrees pivot;
 	int eqA;
 	int eqP;
@@ -205,7 +130,7 @@ pTrees lRots (pTrees a){
 	return a;
 }
 
-pTrees rRots (pTrees a){
+pTrees rRots (pTrees a){	// right rotation for the AVL
 	pTrees pivot;
 	int eqA;
 	int eqP;
@@ -220,17 +145,17 @@ pTrees rRots (pTrees a){
 	return a;
 }
 
-pTrees doubleLRots(pTrees a){
+pTrees doubleLRots(pTrees a){	// right-left rotation for the AVL
 	a->r=rRots(a->r);
 	return lRots(a);
 }
 
-pTrees doubleRRots(pTrees a){
+pTrees doubleRRots(pTrees a){	// left-right rotation for the AVL
 	a->l=lRots(a->l);
 	return rRots(a);
 }
 
-pTrees eqAVLs(pTrees a){
+pTrees eqAVLs(pTrees a){	// checks the tree's balance to determine if a rotation is needed and makes the correct rotation
 	if(existRBs(a)){
 		if(a->eq >= 2){
 			if(a->r->eq >= 0){
@@ -254,7 +179,7 @@ pTrees eqAVLs(pTrees a){
 	return a;
 }
 
-pTrees insertAVLs(pTrees a, int e, double x, int* h){
+pTrees insertAVLs(pTrees a, int e, double x, int* h){		// inserts a route ID with a distance into an AVL sorted by route ID, the stats are modified if the ID is already in the AVL
 	if (a==NULL){
 		*h=1;
 		return cTrees(e, x, x, x, x);
@@ -266,7 +191,7 @@ pTrees insertAVLs(pTrees a, int e, double x, int* h){
 	else if (e > a->n){
 		a->r=insertAVLs(a->r, e, x, h);
 	}
-	else{
+	else{							// if the route ID is already in the tree, changes the statistics according to the newly added distance and adds one to the step count
 		*h=0;
 		a->f += x;
 		a->count++;
@@ -291,8 +216,69 @@ pTrees insertAVLs(pTrees a, int e, double x, int* h){
 	return a;
 }
 
-pTrees cBSTFromTrees(pTrees a){
-	if(isBSTs(a)){
+void process1s(pTrees a){	// calculates the average distance per step and the max-min value
+	if (a != NULL){
+		a->av = a->f/a->count;
+		a->rank = a->max - a->min;
+	}
+}
+
+void infix1s(pTrees a, Queues* f){	// fills a queue with the tree which was sorted by route ID and calculates the average distance and the max-min value
+	if(a != NULL){
+		infix1s(a->l, f);
+		process1s(a);
+		*f = enters(*f, a);
+		infix1s(a->r, f);
+	}
+}
+
+pTrees addBSTs(pTrees a, int e, double x, double min, double max, double av){	// sorts the route IDs by max-min value from lowest to highest
+	if (a == NULL){
+		a = cTrees(e, x, min, max, av);
+	}
+	else if (x > a->rank){
+		if(a->r == NULL){
+			a->r = cTrees(e, x, min, max, av);
+		}
+		else{
+			addBSTs(a->r, e, x, min, max, av);
+		}
+	}
+	else if (x < a->rank){
+		if(a->l == NULL){
+			a->l = cTrees(e, x, min, max, av);
+		}
+		else{
+			addBSTs(a->l, e, x, min, max, av);
+		}
+	}
+}
+
+short isBSTs(pTrees a){		// checks if the tree is already sorted
+	if (a == NULL){
+		return 1;
+	}
+	pTrees n = malloc(sizeof(Trees));
+	Queues f;
+	f.head = NULL;
+	f.tail = NULL;
+	if(n == NULL){
+		printf("error isBSTs\n");
+		exit(31);
+	}
+	infix1s(a, &f);
+	n = rmQueues(&f);
+	while(f.head != NULL){
+		if(n->f >= f.head->a->f){	// usage of a queue to compare the max-min values
+			return 0;
+		}
+		n = rmQueues(&f);
+	}
+	return 1;
+}
+
+pTrees cBSTFromTrees(pTrees a){		// creates a tree sorted by max-min from the tree which was sorted by route ID
+	if(isBSTs(a)){			// doesn't create another tree if it's already sorted
 		return a;
 	}
 	pTrees n = malloc(sizeof(Trees));
@@ -303,7 +289,7 @@ pTrees cBSTFromTrees(pTrees a){
 		printf("error cBSTFromTrees\n");
 		exit(32);
 	}
-	infix1s(a, f);
+	infix1s(a, f);			// usage of a queue to get the values from the original tree
 	pTrees bst = malloc(sizeof(Trees));
 	if(bst == NULL){
 		printf("error cBSTFromTrees\n");
@@ -311,7 +297,21 @@ pTrees cBSTFromTrees(pTrees a){
 	}
 	while(f->head != NULL){
 		n = rmQueues(f);
-		addBSTs(bst, n->n, n->rank, n->min, n->max, n->av);
+		addBSTs(bst, n->n, n->rank, n->min, n->max, n->av);	// sorts the route IDs by max-min from lowest to highest instead of route ID
 	}
 	return bst;
+}
+
+void process2s(pTrees a){	// writes down the route ID and stats into a file which will be used to draw the graph
+	if (a != NULL){
+		printf("%d;%lf;%lf;%lf\n", a->n, a->av, a->min, a->max);
+	}
+}
+
+void infix2s(pTrees a){		// writes down the route ID and stats by max-min value from highest to lowest
+	if(a != NULL){
+		infix2s(a->r);
+		process2s(a);
+		infix2s(a->l);
+	}
 }
