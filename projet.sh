@@ -114,7 +114,7 @@ do
 		-d1) echo "Executing the d1 option"
 		
 		awk -F';' '$2 == 1 { count[$6]++ } END { for (driver in count) print driver, count[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/results.data
-		# pour creer un histogramme horizontal on tourne l'histogramme vertical 
+		# to create an horizontal histogram, we rotate a vertical one
 		cd temp
 		gnuplot <<-EOFMarker
 			reset
@@ -123,7 +123,7 @@ do
 			stats data using 3 nooutput
 			
 			set terminal png size 800,1400
-			set output "histogrammehoriz.png"
+			set output "histogramhorizd1.png"
 			set label "Option-d1: Nb routes=f(Driver)" at screen 0.02, 0.5 rotate by 90 center font ",16" tc rgb "black"
 			set xlabel "DRIVERS NAMES" rotate by 180
 			set ylabel "NB ROUTES"
@@ -165,13 +165,13 @@ do
 			plot 'results.data' using  3:xticlabels(stringcolumn(1). ' '. stringcolumn(2)) with boxes linecolor rgb "green"
 		EOFMarker
 		
-		mogrify -rotate 90 "histogrammehoriz.png"
+		mogrify -rotate 90 "histogramhorizd1.png"
 		
-		mv histogrammehoriz.png ../images
+		mv histogramhorizd1.png ../images
 		
 		cd ..
 		
-		xdg-open images/histogrammehoriz.png
+		xdg-open images/histogramhorizd1.png
 		
 		tmparg=1 ;;
 		
@@ -188,7 +188,7 @@ do
 			data="results.data"
 			stats data using 3 nooutput
 			set terminal png size 800,1200
-			set output "graph.png"
+			set output "graphd2.png"
 			set label "Option-d2: Distance=f(Driver)" at screen 0.02, 0.5 rotate by 90 center font ",16" tc rgb "black"
 			set xlabel "DRIVERS NAMES" rotate by 180  offset 0,1 center
 			set ylabel "DISTANCE(Km)" offset 3,0.5 center
@@ -228,13 +228,13 @@ do
 		EOFMarker
 		# convert is used to create new images while mogrify modifies the existing file
 		
-		mogrify -rotate 90 "graph.png"
+		mogrify -rotate 90 "graphd2.png"
 		
-		mv graph.png ../images
+		mv graphd2.png ../images
 		
 		cd ..
 		
-		xdg-open images/graph.png
+		xdg-open images/graphd2.png
 		
 		tmparg=1 ;;
 		
@@ -250,7 +250,7 @@ do
 		cd temp
 		gnuplot -persist <<-EOFMarker
 			set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
-			set output 'histograms.png' #create or update a png file with the graph 
+			set output 'histogramsL.png' #create or update a png file with the graph 
 			#set the graph's type and appearance
 		 	set boxwidth 0.9 absolute 
 			set style fill solid 1.00 border lt -1
@@ -262,13 +262,13 @@ do
 			set style data histograms
 		 	#set the grid, ranges, tics and labels 
 			set xtics out nomirror rotate by -45  autojustify
-		 	set xlabel "ID des trajets"
-			set ylabel "Distance (km)"
+		 	set xlabel "Route ID"
+			set ylabel "Distance(km)"
 			set mytics
 			set ytics autojustify
 			set xtics  norangelimit 
 		 	set grid xtics mxtics ytics mytics 
-			set title "Distance par trajet" 
+			set title "Distance by route" 
 			set xrange [  * : * ] noreverse writeback
 			set x2range [ * : * ] noreverse writeback
 			set yrange [0:*] noreverse writeback
@@ -285,7 +285,7 @@ do
 			unset terminal
 			replot
 		EOFMarker
-		mv ./histograms.png ../images/
+		mv ./histogramsL.png ../images/
 		cd ../
 		
 		tmparg=1 ;;
@@ -301,13 +301,13 @@ do
 		tempdir3=`realpath temp/tempdata3.txt`
 		./progc/c.exe 2 $tempdir2 $tempdir3 | head -10 > temp/tempdata4.txt
 		tempdir4=`realpath temp/tempdata4.txt`
-		echo "Nombre de trajets;Nombre de départs" > temp/resultsT.dat
+		echo "Number of routes;Number of departures" > temp/resultsT.dat
 		./progc/c.exe 3 $tempdir4 >> temp/resultsT.dat
 		
 		cd temp
 		gnuplot -persist <<-EOFMarker
 			set terminal pngcairo  enhanced font "arial,10" fontscale 1.0 size 600, 400 
-			set output 'histogramsclustered.png' #create or update a png file with the graph 
+			set output 'histogramsclusteredT.png' #create or update a png file with the graph 
 		 	#set the graph's type and appearance, as well as the key's
 			set boxwidth 0.9 absolute
 			set style fill solid 1.00 border lt -1
@@ -322,7 +322,7 @@ do
 			set xtics  norangelimit 
 			set mytics
 			set grid xtics mxtics ytics mytics 
-			set title "Nombre de trajets et de départs par ville" 
+			set title "Number of routes and departures by town" 
 			set xrange [ * : * ] noreverse writeback
 			set x2range [ * : * ] noreverse writeback
 			set yrange [ 0 : * ] noreverse writeback
@@ -339,7 +339,7 @@ do
 			unset terminal
 			replot
 		EOFMarker
-		mv ./histogramsclustered.png ../images/
+		mv ./histogramsclusteredT.png ../images/
 		cd ../
 		
 		tmparg=1 ;;
@@ -364,13 +364,13 @@ do
 		 	set datafile missing '-'
 		 	set datafile separator ";"
 		  	#set the grid, ranges, tics and labels
-		   	set xtics nomirror rotate by -45  
+		   	set xtics nomirror 
 			set ytics  norangelimit autofreq  
 		 	set mxtics
 			set mytics 
-			set title "Statistiques sur les étapes : distances minimales, maximales et moyennes par trajet" 
-			set xlabel "Identifiant de trajet" 
-		 	set ylabel "Distance (km)" 
+			set title " Minimum, maximum eand average distance by route" 
+			set xlabel "Route ID" 
+		 	set ylabel "Distance(km)" 
 		 	set grid xtics mxtics ytics mytics front
 			set xrange [ * : *] noreverse writeback
 			set x2range [ * : *] noreverse writeback
@@ -383,16 +383,16 @@ do
 			NO_ANIMATION = 1
 			Shadecolor = "#80E0A080" 
 			set term png
-			set output 'statistiques.png' #create or update a png file with the graph 
+			set output 'statsS.png' #create or update a png file with the graph 
 			plot 'resultsS.dat' using 0:3:4:xticlabels(1) with filledcurve fc rgb Shadecolor \
-		 title "Intervalle des distances par trajet",'' using 0:2  smooth mcspline lw 2   title "Moyenne des distances par trajet" #plot the graph
+		 title "Maximum and minimum distance by route",'' using 0:2  smooth mcspline lw 2   title "Average distance by route" #plot the graph
 			pause -1 "\n"
 			#replot in order to display the graph
 		 	unset output 
 			unset terminal
 			replot
 		EOFMarker
-		mv ./statistiques.png ../images/
+		mv ./statsS.png ../images/
 		cd ../
 		
 		tmparg=1 ;;
