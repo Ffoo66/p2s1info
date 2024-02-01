@@ -257,7 +257,7 @@ short isBSTl(pTreel a){				// checks if the tree is already sorted
 }
 
 pTreel cBSTFromTreel(pTreel a){			// creates a tree sorted by total distance from the tree which was sorted by route ID
-	if(isBSTl(a)){				// checks if the tree is already sorted
+	if(isBSTl(a)){				// doesn't create another tree if it's already sorted
 		return a;
 	}
 	pTreel n = malloc(sizeof(Treel));
