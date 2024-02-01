@@ -126,7 +126,7 @@ do
 			set output "histogramhorizd1.png"
 			set label "Option-d1: Nb routes=f(Driver)" at screen 0.02, 0.5 rotate by 90 center font ",16" tc rgb "black"
 			set xlabel "DRIVERS NAMES" rotate by 180
-			set ylabel "NB ROUTES"
+			set ylabel "NB ROUTES" offset 3,0.5 center
 			set style data histogram
 			set style fill solid
 			set boxwidth 0.9 relative
