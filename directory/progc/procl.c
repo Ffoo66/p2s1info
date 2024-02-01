@@ -109,73 +109,6 @@ short existRBl(pTreel a){
 	return 0;
 }
 
-void processl(pTreel a){
-	if (a != NULL){
-		printf("%d;%f\n", a->n, a->f);
-	}
-}
-
-void infix1l(pTreel a, Queuel* f){
-	if(a != NULL){
-		infix1l(a->l, f);
-		*f = enterl(*f, a);
-		infix1l(a->r, f);
-	}
-}
-
-void infix2l(pTreel a){
-	if(a != NULL){
-		infix2l(a->r);
-		processl(a);
-		infix2l(a->l);
-	}
-}
-
-pTreel addBSTl(pTreel a, int e, float x){
-	if (a == NULL){
-		a = cTreel(e, x);
-	}
-	else if (x > a->f){
-		if(a->r == NULL){
-			a->r = cTreel(e, x);
-		}
-		else{
-			addBSTl(a->r, e, x);
-		}
-	}
-	else if (x < a->f){
-		if(a->l == NULL){
-			a->l = cTreel(e, x);
-		}
-		else{
-			addBSTl(a->l, e, x);
-		}
-	}
-}
-
-short isBSTl(pTreel a){
-	if (a == NULL){
-		return 1;
-	}
-	pTreel n = malloc(sizeof(Treel));
-	Queuel f;
-	f.head = NULL;
-	f.tail = NULL;
-	if(n == NULL){
-		printf("error isBSTl\n");
-		exit(31);
-	}
-	infix1l(a, &f);
-	n = rmQueuel(&f);
-	while(f.head != NULL){
-		if(n->f >= f.head->a->f){
-			return 0;
-		}
-		n = rmQueuel(&f);
-	}
-	return 1;
-}
-
 pTreel lRotl (pTreel a){
 	pTreel pivot;
 	int eqA;
@@ -270,6 +203,59 @@ pTreel insertAVLl(pTreel a, int e, float x, int* h){
 	return a;
 }
 
+void infix1l(pTreel a, Queuel* f){
+	if(a != NULL){
+		infix1l(a->l, f);
+		*f = enterl(*f, a);
+		infix1l(a->r, f);
+	}
+}
+
+pTreel addBSTl(pTreel a, int e, float x){
+	if (a == NULL){
+		a = cTreel(e, x);
+	}
+	else if (x > a->f){
+		if(a->r == NULL){
+			a->r = cTreel(e, x);
+		}
+		else{
+			addBSTl(a->r, e, x);
+		}
+	}
+	else if (x < a->f){
+		if(a->l == NULL){
+			a->l = cTreel(e, x);
+		}
+		else{
+			addBSTl(a->l, e, x);
+		}
+	}
+}
+
+short isBSTl(pTreel a){
+	if (a == NULL){
+		return 1;
+	}
+	pTreel n = malloc(sizeof(Treel));
+	Queuel f;
+	f.head = NULL;
+	f.tail = NULL;
+	if(n == NULL){
+		printf("error isBSTl\n");
+		exit(31);
+	}
+	infix1l(a, &f);
+	n = rmQueuel(&f);
+	while(f.head != NULL){
+		if(n->f >= f.head->a->f){
+			return 0;
+		}
+		n = rmQueuel(&f);
+	}
+	return 1;
+}
+
 pTreel cBSTFromTreel(pTreel a){
 	if(isBSTl(a)){
 		return a;
@@ -293,4 +279,18 @@ pTreel cBSTFromTreel(pTreel a){
 		addBSTl(bst, n->n, n->f);
 	}
 	return bst;
+}
+
+void processl(pTreel a){
+	if (a != NULL){
+		printf("%d;%f\n", a->n, a->f);
+	}
+}
+
+void infix2l(pTreel a){
+	if(a != NULL){
+		infix2l(a->r);
+		processl(a);
+		infix2l(a->l);
+	}
 }
