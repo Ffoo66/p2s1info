@@ -113,13 +113,13 @@ do
 	case ${!arg} in
 		-d1) echo "Executing the d1 option"
 		
-		awk -F';' '$2 == 1 { count[$6]++ } END { for (driver in count) print driver, count[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/results.data
+		awk -F';' '$2 == 1 { count[$6]++ } END { for (driver in count) print driver, count[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/resultsd1.dat
 		# to create an horizontal histogram, we rotate a vertical one
 		cd temp
 		gnuplot <<-EOFMarker
 			reset
 			# Using stats to obtain statistics on data
-			data="results.data"
+			data="resultsd1.dat"
 			stats data using 3 nooutput
 			
 			set terminal png size 800,1400
@@ -162,7 +162,7 @@ do
 			
 			
 			set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front noinvert bdefault
-			plot 'results.data' using  3:xticlabels(stringcolumn(1). ' '. stringcolumn(2)) with boxes linecolor rgb "green"
+			plot 'resultsd1.dat' using  3:xticlabels(stringcolumn(1). ' '. stringcolumn(2)) with boxes linecolor rgb "green"
 		EOFMarker
 		
 		mogrify -rotate 90 "histogramhorizd1.png"
@@ -177,7 +177,7 @@ do
 		
 		-d2) echo "Executing the d2 option"
 		
-		LC_NUMERIC="C" awk -F';' '{sum[$6] += sprintf("%f", $5) } END { for (driver in sum) printf "%s %.3f\n",driver, sum[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/results.data
+		LC_NUMERIC="C" awk -F';' '{sum[$6] += sprintf("%f", $5) } END { for (driver in sum) printf "%s %.3f\n",driver, sum[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/resultsd2.dat
 		# to create a horizontale histogram turn the image by 90 degrees
 		
 		cd temp
@@ -185,7 +185,7 @@ do
 		gnuplot <<-EOFMarker
 			reset
 			# Using stats to obtain statistics on data
-			data="results.data"
+			data="resultsd2.dat"
 			stats data using 3 nooutput
 			set terminal png size 800,1200
 			set output "graphd2.png"
@@ -224,7 +224,7 @@ do
 			# Applying offset to x-axis
 			set offsets 0, 0, 0, offset_value
 			set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front noinvert bdefault
-			plot 'results.data' using  3:xticlabels(stringcolumn(1). ' '. stringcolumn(2)) with boxes linecolor rgb "green"  
+			plot 'resultsd2.dat' using  3:xticlabels(stringcolumn(1). ' '. stringcolumn(2)) with boxes linecolor rgb "green"  
 		EOFMarker
 		# convert is used to create new images while mogrify modifies the existing file
 		
