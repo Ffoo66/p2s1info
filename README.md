@@ -16,7 +16,7 @@ The -t option creates a vertical clustered histogram displaying the number of ro
 
 The -s option creates a graph displaying the minimum, maximum, and average distance by route for the 50 first routes ordered decreasingly according to the "max - min" value.
 
-The graphs created by the latest execution can be found in the directory images (found at ./directory/images from the program's main directory). 
+The graphs created by the latest execution can be found in the directory images (found at ./directory/images in the program's main directory). 
 A graph in the images directory will be replaced by a new version upon a new call of the corresponding option.
 
 The demo directory countains examples of the program's results (both graphs and the corresponding data).
