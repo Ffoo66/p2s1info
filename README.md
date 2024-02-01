@@ -1,4 +1,4 @@
-Make sure the directory in which you put the files does not contain spaces or special characters (for example *), otherwise some of the options will not work.
+Make sure the directory in which you put the files does not contain spaces or special characters (for example *), otherwise all or some of the options will not work.
 
 To launch the program use "bash projet.sh directory" followed by the desired options.
 
