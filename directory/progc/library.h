@@ -4,7 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 
-typedef struct Treel{
+typedef struct Treel{	// -l process tree, int n is the route ID, float f is the distance
 	struct Treel* l;
 	struct Treel* r;
 	int n;
@@ -14,7 +14,7 @@ typedef struct Treel{
 
 typedef struct Treel* pTreel;
 
-typedef struct Treei{
+typedef struct Treei{	// -t process tree to make sure a city isn't counted twice with the same route ID, int n is the route ID
 	struct Treei* l;
 	struct Treei* r;
 	int n;
@@ -23,7 +23,7 @@ typedef struct Treei{
 
 typedef struct Treei* pTreei;
 
-typedef struct Treet1{
+typedef struct Treet1{	// -t process tree to count how many times the city (char* city) is visited (int count) and how many times it's a departure city (int fcount), pTreei a checks if the ID wasn't already linked to the city
 	struct Treet1* l;
 	struct Treet1* r;
 	char* city;
@@ -36,7 +36,7 @@ typedef struct Treet1{
 
 typedef struct Treet1* pTreet1;
 
-typedef struct Treet2{
+typedef struct Treet2{	// -t process tree to order the cities by alphabetical order, int count and int fcount are the same as before
 	struct Treet2* l;
 	struct Treet2* r;
 	char* city;
@@ -47,7 +47,7 @@ typedef struct Treet2{
 
 typedef struct Treet2* pTreet2;
 
-typedef struct Trees{
+typedef struct Trees{	// -s process tree, int count will be used to calculate the average distance, int n is the route ID, double f is the total distance, double min is the shortest step, double max is the longest one, double av is the average step distance, double rank is max - min
 	struct Trees* l;
 	struct Trees* r;
 	char* city;
