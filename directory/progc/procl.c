@@ -1,20 +1,20 @@
 #include "library.h"
 
-short isEmptyl(pTreel a){
+short isEmptyl(pTreel a){	// checks if the tree is empty
 	if (a == NULL){
 		return 1;
 	}
 	return 0;
 }
 
-int heightl(pTreel a){
+int heightl(pTreel a){		// calculates the height of the tree
 	if(isEmptyl(a)){
 		return 0;
 	}
 	return 1 + max2(heightl(a->l),heightl(a->r));
 }
 
-pTreel cTreel(int e, float f){
+pTreel cTreel(int e, float f){		// creates a tree which stores the route ID and total distance
 	pTreel a = malloc(sizeof(Treel));
 	if (a == NULL){
 		printf("Error cTreel\n");
@@ -28,7 +28,7 @@ pTreel cTreel(int e, float f){
 	return a;
 }
 
-Chainl* cChainl(pTreel a){
+Chainl* cChainl(pTreel a){	// creates a linked list for the queue
 	Chainl* c = malloc(sizeof(Chainl));
 	if (c == NULL || a == NULL){
 		printf("Error cChainl\n");
@@ -40,7 +40,7 @@ Chainl* cChainl(pTreel a){
 	return c;
 }
 
-Queuel cQueuel(pTreel a){
+Queuel cQueuel(pTreel a){	// creates a queue which contains a tree
 	if (a == NULL){
 		printf("Error cQueuel\n");
 		exit(12);
@@ -52,7 +52,7 @@ Queuel cQueuel(pTreel a){
 	return f;
 }
 
-Queuel enterl(Queuel f, pTreel a){
+Queuel enterl(Queuel f, pTreel a){	// enters the tree in the queue
 	if (a == NULL){
 		return f;
 	}
@@ -67,7 +67,7 @@ Queuel enterl(Queuel f, pTreel a){
 	return f;
 }
 
-pTreel rmQueuel(Queuel* f){
+pTreel rmQueuel(Queuel* f){	// removes a slot from the queue and returns the tree which was inside
 	if(f->head == NULL){
 		return NULL;
 	}
@@ -87,7 +87,7 @@ pTreel rmQueuel(Queuel* f){
 	}
 }
 
-short existLBl(pTreel a){
+short existLBl(pTreel a){	// checks if the left branch of the tree exists
 	if (a == NULL){
 		printf("Error existLBl\n");
 		exit(22);
@@ -98,7 +98,7 @@ short existLBl(pTreel a){
 	return 0;
 }
 
-short existRBl(pTreel a){
+short existRBl(pTreel a){	// checks if the right branch of the tree exists
 	if (a == NULL){
 		printf("Error existRBl\n");
 		exit(23);
@@ -109,7 +109,7 @@ short existRBl(pTreel a){
 	return 0;
 }
 
-pTreel lRotl (pTreel a){
+pTreel lRotl (pTreel a){	// left rotation for the AVL
 	pTreel pivot;
 	int eqA;
 	int eqP;
@@ -124,7 +124,7 @@ pTreel lRotl (pTreel a){
 	return a;
 }
 
-pTreel rRotl (pTreel a){
+pTreel rRotl (pTreel a){	// right rotation for the AVL
 	pTreel pivot;
 	int eqA;
 	int eqP;
@@ -139,17 +139,17 @@ pTreel rRotl (pTreel a){
 	return a;
 }
 
-pTreel doubleLRotl(pTreel a){
+pTreel doubleLRotl(pTreel a){	// right-left rotation for the AVL
 	a->r=rRotl(a->r);
 	return lRotl(a);
 }
 
-pTreel doubleRRotl(pTreel a){
+pTreel doubleRRotl(pTreel a){	// left-right rotation for the AVL
 	a->l=lRotl(a->l);
 	return rRotl(a);
 }
 
-pTreel eqAVLl(pTreel a){
+pTreel eqAVLl(pTreel a){	// checks the tree's balance to determine if a rotation is needed and makes the correct rotation
 	if(existRBl(a)){
 		if(a->eq >= 2){
 			if(a->r->eq >= 0){
@@ -173,7 +173,7 @@ pTreel eqAVLl(pTreel a){
 	return a;
 }
 
-pTreel insertAVLl(pTreel a, int e, float x, int* h){
+pTreel insertAVLl(pTreel a, int e, float x, int* h){	// inserts a route ID and distance into an AVL
 	if (a==NULL){
 		*h=1;
 		return cTreel(e, x);
@@ -185,7 +185,7 @@ pTreel insertAVLl(pTreel a, int e, float x, int* h){
 	else if (e > a->n){
 		a->r=insertAVLl(a->r, e, x, h);
 	}
-	else{
+	else{						// if the ID is already in the tree, the distance will add to the ID's distance value
 		*h=0;
 		a->f += x;
 		return a;
@@ -203,7 +203,7 @@ pTreel insertAVLl(pTreel a, int e, float x, int* h){
 	return a;
 }
 
-void infix1l(pTreel a, Queuel* f){
+void infix1l(pTreel a, Queuel* f){	// fills a queue with the tree which was sorted by route ID
 	if(a != NULL){
 		infix1l(a->l, f);
 		*f = enterl(*f, a);
@@ -211,7 +211,7 @@ void infix1l(pTreel a, Queuel* f){
 	}
 }
 
-pTreel addBSTl(pTreel a, int e, float x){
+pTreel addBSTl(pTreel a, int e, float x){	// sorts the route IDs by their total distance from shortest to longest
 	if (a == NULL){
 		a = cTreel(e, x);
 	}
@@ -233,7 +233,7 @@ pTreel addBSTl(pTreel a, int e, float x){
 	}
 }
 
-short isBSTl(pTreel a){
+short isBSTl(pTreel a){				// checks if the tree is already sorted
 	if (a == NULL){
 		return 1;
 	}
@@ -248,7 +248,7 @@ short isBSTl(pTreel a){
 	infix1l(a, &f);
 	n = rmQueuel(&f);
 	while(f.head != NULL){
-		if(n->f >= f.head->a->f){
+		if(n->f >= f.head->a->f){	// usage of a queue to compare the distance values
 			return 0;
 		}
 		n = rmQueuel(&f);
@@ -256,8 +256,8 @@ short isBSTl(pTreel a){
 	return 1;
 }
 
-pTreel cBSTFromTreel(pTreel a){
-	if(isBSTl(a)){
+pTreel cBSTFromTreel(pTreel a){			// creates a tree sorted by total distance from the tree which was sorted by route ID
+	if(isBSTl(a)){				// checks if the tree is already sorted
 		return a;
 	}
 	pTreel n = malloc(sizeof(Treel));
@@ -268,7 +268,7 @@ pTreel cBSTFromTreel(pTreel a){
 		printf("error cBSTFromTreel\n");
 		exit(32);
 	}
-	infix1l(a, f);
+	infix1l(a, f);				// usage of a queue to get the values from the original tree
 	pTreel bst = malloc(sizeof(Treel));
 	if(bst == NULL){
 		printf("error cBSTFromTreel\n");
@@ -276,18 +276,18 @@ pTreel cBSTFromTreel(pTreel a){
 	}
 	while(f->head != NULL){
 		n = rmQueuel(f);
-		addBSTl(bst, n->n, n->f);
+		addBSTl(bst, n->n, n->f);	// sorts the route IDs by their total distance from shortest to longest instead of route ID
 	}
 	return bst;
 }
 
-void processl(pTreel a){
+void processl(pTreel a){	// writes down the route ID and distance into a file which will be used to draw the graph
 	if (a != NULL){
 		printf("%d;%f\n", a->n, a->f);
 	}
 }
 
-void infix2l(pTreel a){
+void infix2l(pTreel a){		// writes down the route ID and distance from longest distance to shortest
 	if(a != NULL){
 		infix2l(a->r);
 		processl(a);
