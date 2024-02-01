@@ -1,11 +1,5 @@
 #include "library.h"
 
-int scan(char** input){							// scanf function but deletes the end
-	int a=scanf("%s", input);
-	while(getchar() != '\n'){}
-	return a;
-}
-
 int max2 (int a, int b){
 	int m;
 	if (a>=b){
