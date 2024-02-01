@@ -164,19 +164,19 @@ pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h)
 pTreet1 cBSTFromTreet(pTreet1 a);							// creates a tree sorted by total count from the tree which was sorted by alphabetical order
 
 // List of functions and processes linked to the AVL which sorts by alphabetical order
-short isEmptyt2(pTreet2 a);
-int heightt2(pTreet2 a);
-pTreet2 cTreet2(char* city, int count, int fcount);
-short existLBt2(pTreet2 a);
-short existRBt2(pTreet2 a);
-void processt2(pTreet2 a);
-void infixt2(pTreet2 a);
-pTreet2 lRott2 (pTreet2 a);
-pTreet2 rRott2 (pTreet2 a);
-pTreet2 doubleLRott2(pTreet2 a);
-pTreet2 doubleRRott2(pTreet2 a);
-pTreet2 eqAVLt2(pTreet2 a);
-pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h);
+short isEmptyt2(pTreet2 a);							// checks if the final tree is empty
+int heightt2(pTreet2 a);							// calculates the height of the final tree
+pTreet2 cTreet2(char* city, int count, int fcount);				// creates a tree which stores the city and counters
+short existLBt2(pTreet2 a);							// checks if the left branch of the final tree exists
+short existRBt2(pTreet2 a);							// checks if the right branch of the final tree exists
+void processt2(pTreet2 a);							// writes down how many times a city is visited and how many times it was the departure city along with its name into a file which will be used to draw the graph
+void infixt2(pTreet2 a);							// writes down both counters and the city's name by alphabetical order
+pTreet2 lRott2 (pTreet2 a);							// left rotation for the final AVL
+pTreet2 rRott2 (pTreet2 a);							// right rotation for the final AVL
+pTreet2 doubleLRott2(pTreet2 a);						// right-left rotation for the final AVL
+pTreet2 doubleRRott2(pTreet2 a);						// left-right rotation for the final AVL
+pTreet2 eqAVLt2(pTreet2 a);							// checks the final tree's balance to determine if a rotation is needed
+pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h);	// inserts a city and a route ID into an AVL sorted by alphabetical order
 
 // List of functions and processes for the -s process
 short isEmptys(pTrees a);
