@@ -115,18 +115,18 @@ Queuel enterl(Queuel f, pTreel a);			// enters the tree in the queue
 pTreel rmQueuel(Queuel* f);				// removes a slot from the queue and returns the tree which was inside
 short existLBl(pTreel a);				// checks if the left branch of the tree exists
 short existRBl(pTreel a);				// checks if the right branch of the tree exists
-void processl(pTreel a);				// writes down the route ID and distance into a file which will be used to draw the graph
-void infix1l(pTreel a, Queuel* f);			// fills a queue with the tree which was sorted by route ID
-void infix2l(pTreel a);					// writes down the route ID and distance from longest distance to shortest
-pTreel addBSTl(pTreel a, int e, float x);		// sorts the route IDs by their total distance from shortest to longest
-short isBSTl(pTreel a);					// checks if the tree is already sorted
 pTreel lRotl (pTreel a);				// left rotation for the AVL
 pTreel rRotl (pTreel a);				// right rotation for the AVL
 pTreel doubleLRotl(pTreel a);				// right-left rotation for the AVL
 pTreel doubleRRotl(pTreel a);				// left-right rotation for the AVL
 pTreel eqAVLl(pTreel a);				// checks the tree's balance to determine if a rotation is needed
 pTreel insertAVLl(pTreel a, int e, float x, int* h);	// inserts a route ID and distance into an AVL, if the ID is already in the tree, the distance will add to the ID's distance value
+void infix1l(pTreel a, Queuel* f);			// fills a queue with the tree which was sorted by route ID
+pTreel addBSTl(pTreel a, int e, float x);		// sorts the route IDs by their total distance from shortest to longest
+short isBSTl(pTreel a);					// checks if the tree is already sorted
 pTreel cBSTFromTreel(pTreel a);				// creates a tree sorted by total distance from the tree which was sorted by route ID
+void processl(pTreel a);				// writes down the route ID and distance into a file which will be used to draw the graph
+void infix2l(pTreel a);					// writes down the route ID and distance from longest distance to shortest
 
 
 
