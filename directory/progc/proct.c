@@ -1,17 +1,146 @@
 #include "library.h"
 
-short isEmptyi(pTreei a){
+short isEmptyi(pTreei a){	// checks if the ID tree is empty
 	if (a == NULL){
 		return 1;
 	}
 	return 0;
 }
 
-int heighti(pTreei a){
+int heighti(pTreei a){		// calculates the height of the ID tree
 	if(isEmptyi(a)){
 		return 0;
 	}
 	return 1 + max2(heighti(a->l),heighti(a->r));
+}
+
+pTreei cTreei(int e){		// creates a tree which stores route IDs
+	pTreei a = malloc(sizeof(Treei));
+	if (a == NULL){
+		printf("Error cTreei\n");
+		exit(10);
+	}
+	a->l = NULL;
+	a->r = NULL;
+	a->n = e;
+	a->eq=heighti(a->r)-heighti(a->l);
+	return a;
+}
+
+short existLBi(pTreei a){	// checks if the left branch of the ID tree exists
+	if (a == NULL){
+		printf("Error existLBi\n");
+		exit(22);
+	}
+	if (isEmptyi(a->l)){
+		return 1;
+	}
+	return 0;
+}
+
+short existRBi(pTreei a){	// checks if the right branch of the ID tree exists
+	if (a == NULL){
+		printf("Error existRBi\n");
+		exit(23);
+	}
+	if (isEmptyi(a->r)){
+		return 1;
+	}
+	return 0;
+}
+
+pTreei lRoti (pTreei a){	// left rotation for the ID AVL
+	pTreei pivot;
+	int eqA;
+	int eqP;
+	pivot = a->r;
+	a->r = pivot->l;
+	pivot->l = a;
+	eqA = a->eq;
+	eqP = pivot->eq;
+	a->eq = eqA - max2(eqP, 0) - 1;
+	pivot->eq = min2(min2(eqA-2,eqA+eqP-2), eqP-1);
+	a=pivot;
+	return a;
+}
+
+pTreei rRoti (pTreei a){	// right rotation for the ID AVL
+	pTreei pivot;
+	int eqA;
+	int eqP;
+	pivot = a->l;
+	a->l = pivot->r;
+	pivot->r = a;
+	eqA = a->eq;
+	eqP = pivot->eq;
+	a->eq = eqA - min2(eqP, 0) + 1;
+	pivot->eq = max2(max2(eqA+2,eqA+eqP+2), eqP+1);
+	a=pivot;
+	return a;
+}
+
+pTreei doubleLRoti(pTreei a){	// right-left rotation for the ID AVL
+	a->r=rRoti(a->r);
+	return lRoti(a);
+}
+
+pTreei doubleRRoti(pTreei a){	// left-right rotation for the ID AVL
+	a->l=lRoti(a->l);
+	return rRoti(a);
+}
+
+pTreei eqAVLi(pTreei a){	// checks the ID tree's balance to determine if a rotation is needed and makes the correct rotation
+	if(existRBi(a)){
+		if(a->eq >= 2){
+			if(a->r->eq >= 0){
+				return lRoti(a);
+			}
+			else {
+				return doubleLRoti(a);
+			}
+		}
+	}
+	else if (a->eq <= -2){
+		if(existLBi(a)){
+			if(a->l->eq <= 0){
+				return rRoti(a);
+			}
+			else {
+				return doubleRRoti(a);
+			}
+		}
+	}
+	return a;
+}
+
+pTreei insertAVLi(pTreei a, int e, int* i, int* h){	// inserts a route ID into an AVL
+	if (a==NULL){
+		*h=1;
+		*i=1;
+		return cTreei(e);
+	}
+	else if (e < a->n){
+		a->l=insertAVLi(a->l, e, i, h);
+		*h=-*h;
+	}
+	else if (e > a->n){
+		a->r=insertAVLi(a->r, e, i, h);
+	}
+	else{
+		*h=0;
+		return a;
+	}
+	if(*h!=0){	
+		a->eq = a->eq + *h;
+		a=eqAVLi(a);
+		if(a->eq==0){	
+			*h=0;
+		}
+		else{	
+			*h=1;
+		}
+	}
+	return a;
 }
 
 short isEmptyt1(pTreet1 a){
@@ -28,33 +157,6 @@ int heightt1(pTreet1 a){
 	return 1 + max2(heightt1(a->l),heightt1(a->r));
 }
 
-short isEmptyt2(pTreet2 a){
-	if (a == NULL){
-		return 1;
-	}
-	return 0;
-}
-
-int heightt2(pTreet2 a){
-	if(isEmptyt2(a)){
-		return 0;
-	}
-	return 1 + max2(heightt2(a->l),heightt2(a->r));
-}
-
-pTreei cTreei(int e){
-	pTreei a = malloc(sizeof(Treei));
-	if (a == NULL){
-		printf("Error cTreei\n");
-		exit(10);
-	}
-	a->l = NULL;
-	a->r = NULL;
-	a->n = e;
-	a->eq=heighti(a->r)-heighti(a->l);
-	return a;
-}
-
 pTreet1 cTreet1(int e, char* city, int count, int fcount){
 	pTreet1 a = malloc(sizeof(Treet1));
 	if (a == NULL){
@@ -69,21 +171,6 @@ pTreet1 cTreet1(int e, char* city, int count, int fcount){
 	a->a = cTreei(e);
 	a->i = 1;
 	a->eq=heightt1(a->r)-heightt1(a->l);
-	return a;
-}
-
-pTreet2 cTreet2(char* city, int count, int fcount){
-	pTreet2 a = malloc(sizeof(Treet2));
-	if (a == NULL){
-		printf("Error cTreet2\n");
-		exit(10);
-	}
-	a->l = NULL;
-	a->r = NULL;
-	a->city = city;
-	a->count = count;
-	a->fcount = fcount;
-	a->eq=heightt2(a->r)-heightt2(a->l);
 	return a;
 }
 
@@ -146,28 +233,6 @@ pTreet1 rmQueuet(Queuet* f){
 	}
 }
 
-short existLBi(pTreei a){
-	if (a == NULL){
-		printf("Error existLBi\n");
-		exit(22);
-	}
-	if (isEmptyi(a->l)){
-		return 1;
-	}
-	return 0;
-}
-
-short existRBi(pTreei a){
-	if (a == NULL){
-		printf("Error existRBi\n");
-		exit(23);
-	}
-	if (isEmptyi(a->r)){
-		return 1;
-	}
-	return 0;
-}
-
 short existLBt1(pTreet1 a){
 	if (a == NULL){
 		printf("Error existLBt1\n");
@@ -190,38 +255,103 @@ short existRBt1(pTreet1 a){
 	return 0;
 }
 
-short existLBt2(pTreet2 a){
-	if (a == NULL){
-		printf("Error existLBt2\n");
-		exit(22);
-	}
-	if (isEmptyt2(a->l)){
-		return 1;
-	}
-	return 0;
+pTreet1 lRott1 (pTreet1 a){
+	pTreet1 pivot;
+	int eqA;
+	int eqP;
+	pivot = a->r;
+	a->r = pivot->l;
+	pivot->l = a;
+	eqA = a->eq;
+	eqP = pivot->eq;
+	a->eq = eqA - max2(eqP, 0) - 1;
+	pivot->eq = min2(min2(eqA-2,eqA+eqP-2), eqP-1);
+	a=pivot;
+	return a;
 }
 
-short existRBt2(pTreet2 a){
-	if (a == NULL){
-		printf("Error existRBt2\n");
-		exit(23);
-	}
-	if (isEmptyt2(a->r)){
-		return 1;
-	}
-	return 0;
+pTreet1 rRott1 (pTreet1 a){
+	pTreet1 pivot;
+	int eqA;
+	int eqP;
+	pivot = a->l;
+	a->l = pivot->r;
+	pivot->r = a;
+	eqA = a->eq;
+	eqP = pivot->eq;
+	a->eq = eqA - min2(eqP, 0) + 1;
+	pivot->eq = max2(max2(eqA+2,eqA+eqP+2), eqP+1);
+	a=pivot;
+	return a;
 }
 
-void processt1(pTreet1 a){
-	if (a != NULL){
-		printf("%d;%d;%s", a->count, a->fcount, a->city);
-	}
+pTreet1 doubleLRott1(pTreet1 a){
+	a->r=rRott1(a->r);
+	return lRott1(a);
 }
 
-void processt2(pTreet2 a){
-	if (a != NULL){
-		printf("%d;%d;%s", a->count, a->fcount, a->city);
+pTreet1 doubleRRott1(pTreet1 a){
+	a->l=lRott1(a->l);
+	return rRott1(a);
+}
+
+pTreet1 eqAVLt1(pTreet1 a){
+	if(existRBt1(a)){
+		if(a->eq >= 2){
+			if(a->r->eq >= 0){
+				return lRott1(a);
+			}
+			else {
+				return doubleLRott1(a);
+			}
+		}
 	}
+	else if (a->eq <= -2){
+		if(existLBt1(a)){
+			if(a->l->eq <= 0){
+				return rRott1(a);
+			}
+			else {
+				return doubleRRott1(a);
+			}
+		}
+	}
+	return a;
+}
+
+pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h){
+	if (a==NULL){
+		*h=1;
+		return cTreet1(e, city, count, fcount);
+	}
+	else if (strcmp(city, a->city) < 0){
+		a->l=insertAVLt1(a->l, e, city, count, fcount, h);
+		*h=-*h;
+	}
+	else if (strcmp(city, a->city) > 0){
+		a->r=insertAVLt1(a->r, e, city, count, fcount, h);
+	}
+	else{
+		int n = 0;
+		a->a = insertAVLi(a->a, e, &n, h);
+		if (n){
+			a->count++;
+			a->fcount += fcount;
+		}
+		*h=0;
+		return a;
+	}
+	if(*h!=0){	
+		a->eq = a->eq + *h;
+		a=eqAVLt1(a);
+		if(a->eq==0){	
+			*h=0;
+		}
+		else{	
+			*h=1;
+		}
+	}
+	return a;
 }
 
 void infix1t1(pTreet1 a, Queuet* f){
@@ -229,23 +359,6 @@ void infix1t1(pTreet1 a, Queuet* f){
 		infix1t1(a->l, f);
 		*f = entert(*f, a);
 		infix1t1(a->r, f);
-	}
-}
-
-void infix2t1(pTreet1 a){
-	if(a != NULL){
-		infix2t1(a->r);
-		processt1(a);
-		infix2t1(a->l);
-	}
-}
-
-
-void infixt2(pTreet2 a){
-	if(a != NULL){
-		infixt2(a->l);
-		processt2(a);
-		infixt2(a->r);
 	}
 }
 
@@ -294,84 +407,94 @@ short isBSTt(pTreet1 a){
 	return 1;
 }
 
-pTreei lRoti (pTreei a){
-	pTreei pivot;
-	int eqA;
-	int eqP;
-	pivot = a->r;
-	a->r = pivot->l;
-	pivot->l = a;
-	eqA = a->eq;
-	eqP = pivot->eq;
-	a->eq = eqA - max2(eqP, 0) - 1;
-	pivot->eq = min2(min2(eqA-2,eqA+eqP-2), eqP-1);
-	a=pivot;
+pTreet1 cBSTFromTreet(pTreet1 a){
+	if(isBSTt(a)){
+		return a;
+	}
+	pTreet1 n = malloc(sizeof(Treet1));
+	Queuet* f = malloc(sizeof(Queuet));
+	f->head = NULL;
+	f->tail = NULL;
+	if(n == NULL){
+		printf("error cBSTFromTreet\n");
+		exit(32);
+	}
+	infix1t1(a, f);
+	pTreet1 bst = malloc(sizeof(Treet1));
+	if(bst == NULL){
+		printf("error cBSTFromTreet\n");
+		exit(33);
+	}
+	while(f->head != NULL){
+	n = rmQueuet(f);
+	addBSTt(bst, n->a->n, n->city, n->count, n->fcount);
+	}
+	return bst;
+}
+
+void processt1(pTreet1 a){
+	if (a != NULL){
+		printf("%d;%d;%s", a->count, a->fcount, a->city);
+	}
+}
+
+void infix2t1(pTreet1 a){
+	if(a != NULL){
+		infix2t1(a->r);
+		processt1(a);
+		infix2t1(a->l);
+	}
+}
+
+short isEmptyt2(pTreet2 a){
+	if (a == NULL){
+		return 1;
+	}
+	return 0;
+}
+
+int heightt2(pTreet2 a){
+	if(isEmptyt2(a)){
+		return 0;
+	}
+	return 1 + max2(heightt2(a->l),heightt2(a->r));
+}
+
+pTreet2 cTreet2(char* city, int count, int fcount){
+	pTreet2 a = malloc(sizeof(Treet2));
+	if (a == NULL){
+		printf("Error cTreet2\n");
+		exit(10);
+	}
+	a->l = NULL;
+	a->r = NULL;
+	a->city = city;
+	a->count = count;
+	a->fcount = fcount;
+	a->eq=heightt2(a->r)-heightt2(a->l);
 	return a;
 }
 
-pTreei rRoti (pTreei a){
-	pTreei pivot;
-	int eqA;
-	int eqP;
-	pivot = a->l;
-	a->l = pivot->r;
-	pivot->r = a;
-	eqA = a->eq;
-	eqP = pivot->eq;
-	a->eq = eqA - min2(eqP, 0) + 1;
-	pivot->eq = max2(max2(eqA+2,eqA+eqP+2), eqP+1);
-	a=pivot;
-	return a;
+short existLBt2(pTreet2 a){
+	if (a == NULL){
+		printf("Error existLBt2\n");
+		exit(22);
+	}
+	if (isEmptyt2(a->l)){
+		return 1;
+	}
+	return 0;
 }
 
-pTreei doubleLRoti(pTreei a){
-	a->r=rRoti(a->r);
-	return lRoti(a);
-}
-
-pTreei doubleRRoti(pTreei a){
-	a->l=lRoti(a->l);
-	return rRoti(a);
-}
-
-pTreet1 lRott1 (pTreet1 a){
-	pTreet1 pivot;
-	int eqA;
-	int eqP;
-	pivot = a->r;
-	a->r = pivot->l;
-	pivot->l = a;
-	eqA = a->eq;
-	eqP = pivot->eq;
-	a->eq = eqA - max2(eqP, 0) - 1;
-	pivot->eq = min2(min2(eqA-2,eqA+eqP-2), eqP-1);
-	a=pivot;
-	return a;
-}
-
-pTreet1 rRott1 (pTreet1 a){
-	pTreet1 pivot;
-	int eqA;
-	int eqP;
-	pivot = a->l;
-	a->l = pivot->r;
-	pivot->r = a;
-	eqA = a->eq;
-	eqP = pivot->eq;
-	a->eq = eqA - min2(eqP, 0) + 1;
-	pivot->eq = max2(max2(eqA+2,eqA+eqP+2), eqP+1);
-	a=pivot;
-	return a;
-}
-
-pTreet1 doubleLRott1(pTreet1 a){
-	a->r=rRott1(a->r);
-	return lRott1(a);
-}
-
-pTreet1 doubleRRott1(pTreet1 a){
-	a->l=lRott1(a->l);
-	return rRott1(a);
+short existRBt2(pTreet2 a){
+	if (a == NULL){
+		printf("Error existRBt2\n");
+		exit(23);
+	}
+	if (isEmptyt2(a->r)){
+		return 1;
+	}
+	return 0;
 }
 
 pTreet2 lRott2 (pTreet2 a){
@@ -414,54 +537,6 @@ pTreet2 doubleRRott2(pTreet2 a){
 	return rRott2(a);
 }
 
-pTreei eqAVLi(pTreei a){
-	if(existRBi(a)){
-		if(a->eq >= 2){
-			if(a->r->eq >= 0){
-				return lRoti(a);
-			}
-			else {
-				return doubleLRoti(a);
-			}
-		}
-	}
-	else if (a->eq <= -2){
-		if(existLBi(a)){
-			if(a->l->eq <= 0){
-				return rRoti(a);
-			}
-			else {
-				return doubleRRoti(a);
-			}
-		}
-	}
-	return a;
-}
-
-pTreet1 eqAVLt1(pTreet1 a){
-	if(existRBt1(a)){
-		if(a->eq >= 2){
-			if(a->r->eq >= 0){
-				return lRott1(a);
-			}
-			else {
-				return doubleLRott1(a);
-			}
-		}
-	}
-	else if (a->eq <= -2){
-		if(existLBt1(a)){
-			if(a->l->eq <= 0){
-				return rRott1(a);
-			}
-			else {
-				return doubleRRott1(a);
-			}
-		}
-	}
-	return a;
-}
-
 pTreet2 eqAVLt2(pTreet2 a){
 	if(existRBt2(a)){
 		if(a->eq >= 2){
@@ -481,71 +556,6 @@ pTreet2 eqAVLt2(pTreet2 a){
 			else {
 				return doubleRRott2(a);
 			}
-		}
-	}
-	return a;
-}
-
-pTreei insertAVLi(pTreei a, int e, int* i, int* h){
-	if (a==NULL){
-		*h=1;
-		*i=1;
-		return cTreei(e);
-	}
-	else if (e < a->n){
-		a->l=insertAVLi(a->l, e, i, h);
-		*h=-*h;
-	}
-	else if (e > a->n){
-		a->r=insertAVLi(a->r, e, i, h);
-	}
-	else{
-		*h=0;
-		return a;
-	}
-	if(*h!=0){	
-		a->eq = a->eq + *h;
-		a=eqAVLi(a);
-		if(a->eq==0){	
-			*h=0;
-		}
-		else{	
-			*h=1;
-		}
-	}
-	return a;
-}
-
-pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h){
-	if (a==NULL){
-		*h=1;
-		return cTreet1(e, city, count, fcount);
-	}
-	else if (strcmp(city, a->city) < 0){
-		a->l=insertAVLt1(a->l, e, city, count, fcount, h);
-		*h=-*h;
-	}
-	else if (strcmp(city, a->city) > 0){
-		a->r=insertAVLt1(a->r, e, city, count, fcount, h);
-	}
-	else{
-		int n = 0;
-		a->a = insertAVLi(a->a, e, &n, h);
-		if (n){
-			a->count++;
-			a->fcount += fcount;
-		}
-		*h=0;
-		return a;
-	}
-	if(*h!=0){	
-		a->eq = a->eq + *h;
-		a=eqAVLt1(a);
-		if(a->eq==0){	
-			*h=0;
-		}
-		else{	
-			*h=1;
 		}
 	}
 	return a;
@@ -582,27 +592,16 @@ pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h){
 	return a;
 }
 
-pTreet1 cBSTFromTreet(pTreet1 a){
-	if(isBSTt(a)){
-		return a;
+void processt2(pTreet2 a){
+	if (a != NULL){
+		printf("%d;%d;%s", a->count, a->fcount, a->city);
 	}
-	pTreet1 n = malloc(sizeof(Treet1));
-	Queuet* f = malloc(sizeof(Queuet));
-	f->head = NULL;
-	f->tail = NULL;
-	if(n == NULL){
-		printf("error cBSTFromTreet\n");
-		exit(32);
+}
+
+void infixt2(pTreet2 a){
+	if(a != NULL){
+		infixt2(a->l);
+		processt2(a);
+		infixt2(a->r);
 	}
-	infix1t1(a, f);
-	pTreet1 bst = malloc(sizeof(Treet1));
-	if(bst == NULL){
-		printf("error cBSTFromTreet\n");
-		exit(33);
-	}
-	while(f->head != NULL){
-	n = rmQueuet(f);
-	addBSTt(bst, n->a->n, n->city, n->count, n->fcount);
-	}
-	return bst;
 }
