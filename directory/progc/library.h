@@ -63,40 +63,39 @@ typedef struct Trees{	// -s process tree, int count will be used to calculate th
 
 typedef struct Trees* pTrees;
 
-typedef struct Chainl{
+typedef struct Chainl{	// linked list for the -l process
 	struct Chainl* last;
 	pTreel a;
 	struct Chainl* next;
 }Chainl;
 
-typedef struct Queuel{
+typedef struct Queuel{	// queue for the -l process
 	Chainl* head;
 	Chainl* tail;
 }Queuel;
 
-typedef struct Chaint{
+typedef struct Chaint{	// linked list for the -t process
 	struct Chaint* last;
 	pTreet1 a;
 	struct Chaint* next;
 }Chaint;
 
-typedef struct Queuet{
+typedef struct Queuet{	// queue for the -t process
 	Chaint* head;
 	Chaint* tail;
 }Queuet;
 
-typedef struct Chains{
+typedef struct Chains{	// linked list for the -s process
 	struct Chains* last;
 	pTrees a;
 	struct Chains* next;
 }Chains;
 
-typedef struct Queues{
+typedef struct Queues{	// queue for the -s process
 	Chains* head;
 	Chains* tail;
 }Queues;
 
-int scan(char** input);
 int max2 (int a, int b);
 int min2 (int a, int b);
 int main(int argc, char** argv);
