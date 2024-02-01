@@ -2,13 +2,13 @@
 
 if [ $# -lt 2 ]
 then
-	echo "Not enough arguments."
+	echo "Error: not enough arguments"
 	exit 1
 fi
 
 if [ ! $1 == directory ]
 then
-	echo "First arg has to be the right directory (directory)"
+	echo "Error: first argument has to be 'directory'"
 	exit 2
 fi
 
@@ -17,58 +17,41 @@ do
 	if [ ${!i} == '-h' ] || [ ${!i} == '--help' ]
 	then
 		echo "Showing the help.
+		
 		You must type the right directory as first argument (directory).
+		
 		You must have at least one other valid argument:
+		
 		- The -h or --help argument displays this help and cancels the other arguments.
-		- The -c or --create argument merges the files in the data directory to create the data.csv file and to make the c executable. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while (roughly one minute) so you should only use this option once.
-		- The -d1 argument shows the d1 option.
-		- The -d2 argument shows the d2 option.
-		- The -l argument shows the l option.
-		- The -t argument shows the t option.
-		- The -s argument shows the s option."
+		
+		- The -c or --create argument finds the data.csv if it is in the same directory as the script Shell file (projet.sh) and the main directory (directory), copies it in the data directory, compiles the C files and makes the C executable. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while so you should only use this option once.
+		
+		- The -d1 argument shows the d1 option, it displays a graph showing the Drivers with the most routes.
+		
+		- The -d2 argument shows the d2 option, it displays a graph showing the Drivers with the highest total distance driven.
+		
+		- The -l argument shows the l option, it displays a graph showing the Longest routes.
+		
+		- The -t argument shows the t option, it displays a graph showing the towns Through which the routes go most often.
+		
+		- The -s argument shows the s option, it displays a graph showing Statistics regarding several routes such as the longest and shortest steps and the average step length."
 		exit 3
 	fi
 done
 
-tmparg=0
-tmpc=0
 cd $1
-
-for i in `seq 2 $#`
-do
-	if [ ${!i} == '-c' ] || [ ${!i} == '--create' ] && [ $tmparg -le 0 ]
-	then
-		for j in `ls data`
-		do
-			if [ $j == "data.csv" ]
-			then
-				rm data/data.csv
-			fi
-		done
-		for j in `ls data`
-		do
-			if [ $j != "data00.csv" ]
-			then
-				cat data/$j >> data/data.csv
-			fi
-		done
-		cd progc
-		make > ../temp/tempgcc.txt
-		if [ ! $? -eq 0 ]
-		then
-			echo "Gcc error"
-			exit 4
-		fi
-		cd ..
-		tmparg=1
-		tmpc=1
-	fi
-done
-
+tmpc=0
+tmpdata=0
+tmpprogc=0
+tmptemp=0
 tmpimage=0
 
 for j in `ls`
 do
+	if [ $j == data ]
+	then
+		tmpdata=1
+	fi
 	if [ $j == progc ]
 	then
 		for k in `ls progc`
@@ -78,6 +61,7 @@ do
 				tmpc=1
 			fi
 		done
+		tmpprogc=1
 	fi
 	if [ $j == temp ]
 	then
@@ -89,18 +73,14 @@ do
 	fi
 done
 
-mkdir temp
-
-if [ $tmpc -le 0 ]
+if [ $tmpdata -le 0 ]
 then
-	cd progc
-	make > ../temp/tempgcc.txt
-	if [ ! $? -eq 0 ]
-	then
-		echo "Gcc error"
-		exit 5
-	fi
-	cd ..
+	mkdir data
+fi
+
+if [ $tmpprogc -le 0 ]
+then
+	mkdir progc
 fi
 
 if [ $tmpimage -le 0 ]
@@ -108,10 +88,56 @@ then
 	mkdir images
 fi
 
+mkdir temp
+
+tmparg=0
+
+for i in `seq 2 $#`
+do
+	if [ ${!i} == '-c' ] || [ ${!i} == '--create' ] && [ $tmparg -le 0 ]
+	then
+		start=`date +%s`
+		for j in `ls data`
+		do
+			if [ $j == "data.csv" ]
+			then
+				rm data/data.csv
+			fi
+		done
+		cd ..
+		for j in `ls`
+		do
+			if [ $j == "data.csv" ]
+			then
+				tail -n+2 data.csv > directory/data/data.csv
+			fi
+		done
+		cd $1
+		if [ $tmpc -le 0 ]
+		then
+			cd progc
+			make > ../temp/tempgcc.txt
+			if [ ! $? -eq 0 ]
+			then
+				echo "Gcc error"
+				exit 5
+			fi
+			cd ..
+		fi
+		tmparg=1
+		end=`date +%s`
+		runtime=$((end-start))
+		echo $runtime "second(s)"
+	fi
+done
+
+
 for arg in `seq 2 $#`
 do
 	case ${!arg} in
 		-d1) echo "Executing the d1 option"
+		
+		start=`date +%s`
 		
 		awk -F';' '$2 == 1 { count[$6]++ } END { for (driver in count) print driver, count[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/resultsd1.dat
 		# to create an horizontal histogram, we rotate a vertical one
@@ -173,9 +199,15 @@ do
 		
 		xdg-open images/histogramhorizd1.png
 		
+		end=`date +%s`
+		runtime=$((end-start))
+		echo $runtime "second(s)"
+		
 		tmparg=1 ;;
 		
 		-d2) echo "Executing the d2 option"
+		
+		start=`date +%s`
 		
 		LC_NUMERIC="C" awk -F';' '{sum[$6] += sprintf("%f", $5) } END { for (driver in sum) printf "%s %.3f\n",driver, sum[driver] }' data/data.csv | sort -k3,3nr | head -n 10 > temp/resultsd2.dat
 		# to create a horizontale histogram turn the image by 90 degrees
@@ -236,9 +268,15 @@ do
 		
 		xdg-open images/graphd2.png
 		
+		end=`date +%s`
+		runtime=$((end-start))
+		echo $runtime "second(s)"
+		
 		tmparg=1 ;;
 		
 		-l) echo "Executing the l option"
+		
+		start=`date +%s`
 		
 		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
 		cd progc
@@ -288,9 +326,15 @@ do
 		mv ./histogramsL.png ../images/
 		cd ../
 		
+		end=`date +%s`
+		runtime=$((end-start))
+		echo $runtime "second(s)"
+		
 		tmparg=1 ;;
 		
 		-t) echo "Executing the t option"
+		
+		start=`date +%s`
 		
 		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
 		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata3.txt
@@ -342,9 +386,15 @@ do
 		mv ./histogramsclusteredT.png ../images/
 		cd ../
 		
+		end=`date +%s`
+		runtime=$((end-start))
+		echo $runtime "second(s)"
+		
 		tmparg=1 ;;
 		
 		-s) echo "Executing the s option"
+		
+		start=`date +%s`
 		
 		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata5.txt
 		cd progc
@@ -395,6 +445,10 @@ do
 		mv ./statsS.png ../images/
 		cd ../
 		
+		end=`date +%s`
+		runtime=$((end-start))
+		echo $runtime "second(s)"
+		
 		tmparg=1 ;;
 		
 	esac
@@ -406,24 +460,26 @@ then
 	exit 6
 fi
 
-tmpdata=0
+tmpcsv=0
 
 for i in `ls data`
 do
 	if [ $i == "data.csv" ]
 	then
-		tmpdata=1
+		tmpcsv=1
 	fi
 done
 
-if [ $tmpdata -le 0 ]
+if [ $tmpcsv -le 0 ]
 then
 	echo "data.csv wasn't created yet, please add a -c argument to create data.csv"
 	exit 7
 fi
 
-
-
-cd temp
-rm *.dat
-rm *.txt
+for j in `ls`
+do
+	if [ $j == temp ]
+	then
+		rm -r temp
+	fi
+done
