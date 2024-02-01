@@ -96,34 +96,38 @@ typedef struct Queues{	// queue for the -s process
 	Chains* tail;
 }Queues;
 
-int max2 (int a, int b);
-int min2 (int a, int b);
-int main(int argc, char** argv);
+// List of general functions
+int max2 (int a, int b);		// determines the highest value between two ints
+int min2 (int a, int b);		// determines the lowest value between two ints
+int main(int argc, char** argv);	// main function
 
 
-short isEmptyl(pTreel a);
-int heightl(pTreel a);
-pTreel cTreel(int e, float f);
-Chainl* cChainl(pTreel a);
-Queuel cQueuel(pTreel a);
-Queuel enterl(Queuel f, pTreel a);
-pTreel rmQueuel(Queuel* f);
-short existLBl(pTreel a);
-short existRBl(pTreel a);
-void processl(pTreel a);
-void infix1l(pTreel a, Queuel* f);
-void infix2l(pTreel a);
-pTreel addBSTl(pTreel a, int e, float x);
-short isBSTl(pTreel a);
-pTreel lRotl (pTreel a);
-pTreel rRotl (pTreel a);
-pTreel doubleLRotl(pTreel a);
-pTreel doubleRRotl(pTreel a);
-pTreel eqAVLl(pTreel a);
-pTreel insertAVLl(pTreel a, int e, float x, int* h);
-pTreel cBSTFromTreel(pTreel a);
+// List of functions and processes for the -l process
+short isEmptyl(pTreel a);				// checks if the tree is empty
+int heightl(pTreel a);					// calculates the height of the tree
+pTreel cTreel(int e, float f);				// creates a tree
+Chainl* cChainl(pTreel a);				// creates a linked list
+Queuel cQueuel(pTreel a);				// creates a queue
+Queuel enterl(Queuel f, pTreel a);			// enters the tree in the queue
+pTreel rmQueuel(Queuel* f);				// removes a slot of the queue and returns the tree which was inside
+short existLBl(pTreel a);				// checks if the left branch of the tree exists
+short existRBl(pTreel a);				// checks if the right branch of the tree exists
+void processl(pTreel a);				// writes down the route ID and distance
+void infix1l(pTreel a, Queuel* f);			// fills a queue with the tree which was sorted by route ID
+void infix2l(pTreel a);					// writes down the route ID and distance from longest distance to shortest
+pTreel addBSTl(pTreel a, int e, float x);		// sorts the route IDs by their total distance from shortest to longest
+short isBSTl(pTreel a);					// checks if the tree is already sorted
+pTreel lRotl (pTreel a);				// left rotation for the AVL
+pTreel rRotl (pTreel a);				// right rotation for the AVL
+pTreel doubleLRotl(pTreel a);				// right-left rotation for the AVL
+pTreel doubleRRotl(pTreel a);				// left-right rotation for the AVL
+pTreel eqAVLl(pTreel a);				// checks the tree's balance to determine if a rotation is needed
+pTreel insertAVLl(pTreel a, int e, float x, int* h);	// inserts a route ID and distance into an AVL, if the ID is already in the tree, the distance will add to the ID's distance value
+pTreel cBSTFromTreel(pTreel a);				// creates a tree sorted by total distance from the tree which was sorted by route ID
 
 
+// List of functions and processes for the -t process
+// List of functions linked to the AVL which sorts by route ID
 short isEmptyi(pTreei a);
 int heighti(pTreei a);
 pTreei cTreei(int e);
@@ -136,6 +140,7 @@ pTreei doubleRRoti(pTreei a);
 pTreei eqAVLi(pTreei a);
 pTreei insertAVLi(pTreei a, int e, int* i, int* h);
 
+// Main list of functions and processes 
 short isEmptyt1(pTreet1 a);
 int heightt1(pTreet1 a);
 pTreet1 cTreet1(int e, char* city, int count, int fcount);
@@ -158,6 +163,7 @@ pTreet1 eqAVLt1(pTreet1 a);
 pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h);
 pTreet1 cBSTFromTreet(pTreet1 a);
 
+// List of functions and processes linked to the AVL which sorts by alphabetical order
 short isEmptyt2(pTreet2 a);
 int heightt2(pTreet2 a);
 pTreet2 cTreet2(char* city, int count, int fcount);
@@ -172,7 +178,7 @@ pTreet2 doubleRRott2(pTreet2 a);
 pTreet2 eqAVLt2(pTreet2 a);
 pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h);
 
-
+// List of functions and processes for the -s process
 short isEmptys(pTrees a);
 int heights(pTrees a);
 pTrees cTrees(int e, double f, double min, double max, double av);
