@@ -96,16 +96,19 @@ typedef struct Queues{	// queue for the -s process
 	Chains* tail;
 }Queues;
 
+
+
 // List of general functions
 int max2 (int a, int b);		// determines the highest value between two ints
 int min2 (int a, int b);		// determines the lowest value between two ints
 int main(int argc, char** argv);	// main function
 
 
+
 // List of functions and processes for the -l process
 short isEmptyl(pTreel a);				// checks if the tree is empty
 int heightl(pTreel a);					// calculates the height of the tree
-pTreel cTreel(int e, float f);				// creates a tree
+pTreel cTreel(int e, float f);				// creates a tree which stores the route ID and total distance
 Chainl* cChainl(pTreel a);				// creates a linked list
 Queuel cQueuel(pTreel a);				// creates a queue
 Queuel enterl(Queuel f, pTreel a);			// enters the tree in the queue
@@ -124,6 +127,7 @@ pTreel doubleRRotl(pTreel a);				// left-right rotation for the AVL
 pTreel eqAVLl(pTreel a);				// checks the tree's balance to determine if a rotation is needed
 pTreel insertAVLl(pTreel a, int e, float x, int* h);	// inserts a route ID and distance into an AVL, if the ID is already in the tree, the distance will add to the ID's distance value
 pTreel cBSTFromTreel(pTreel a);				// creates a tree sorted by total distance from the tree which was sorted by route ID
+
 
 
 // List of functions and processes for the -t process
@@ -178,26 +182,27 @@ pTreet2 doubleRRott2(pTreet2 a);						// left-right rotation for the final AVL
 pTreet2 eqAVLt2(pTreet2 a);							// checks the final tree's balance to determine if a rotation is needed
 pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h);	// inserts a city and a route ID into an AVL sorted by alphabetical order
 
+
+
 // List of functions and processes for the -s process
-short isEmptys(pTrees a);
-int heights(pTrees a);
-pTrees cTrees(int e, double f, double min, double max, double av);
-Chains* cChains(pTrees a);
-Queues cQueues(pTrees a);
-Queues enters(Queues f, pTrees a);
-pTrees rmQueues(Queues* f);
-short existLBs(pTrees a);
-short existRBs(pTrees a);
-void process1s(pTrees a);
-void infix1s(pTrees a, Queues* f);
-void process2s(pTrees a);
-void infix2s(pTrees a);
-pTrees addBSTs(pTrees a, int e, double x, double min, double max, double av);
-short isBSTs(pTrees a);
-pTrees lRots (pTrees a);
-pTrees rRots (pTrees a);
-pTrees doubleLRots(pTrees a);
-pTrees doubleRRots(pTrees a);
-pTrees eqAVLs(pTrees a);
-pTrees insertAVLs(pTrees a, int e, double x, int* h);
-pTrees cBSTFromTrees(pTrees a);
+short isEmptys(pTrees a);							// checks if the tree is empty
+int heights(pTrees a);								// calculates the height of the tree
+pTrees cTrees(int e, double f, double min, double max, double av);		// creates a tree which stores the route ID and a few statistics
+Chains* cChains(pTrees a);							// creates a linked list
+Queues cQueues(pTrees a);							// creates a queue
+Queues enters(Queues f, pTrees a);						// enters the tree in the queue
+pTrees rmQueues(Queues* f);							// removes a slot from the queue and returns the tree which was inside
+short existLBs(pTrees a);							// checks if the left branch of the tree exists
+short existRBs(pTrees a);							// checks if the right branch of the tree exists
+void process1s(pTrees a);							// calculates the average distance per step and the max-min value
+void infix1s(pTrees a, Queues* f);						// fills a queue with the tree which was sorted by route ID and calculates the average distance and the max-min value
+void process2s(pTrees a);							// writes down the route ID and stats into a file which will be used to draw the graph
+void infix2s(pTrees a);								// writes down the route ID and stats by max-min value from highest to lowest
+pTrees addBSTs(pTrees a, int e, double x, double min, double max, double av);	// sorts the route IDs by max-min value from lowest to highest
+pTrees lRots (pTrees a);							// left rotation for the AVL
+pTrees rRots (pTrees a);							// right rotation for the AVL
+pTrees doubleLRots(pTrees a);							// right-left rotation for the AVL
+pTrees doubleRRots(pTrees a);							// left-right rotation for the AVL
+pTrees eqAVLs(pTrees a);							// checks the tree's balance to determine if a rotation is needed
+pTrees insertAVLs(pTrees a, int e, double x, int* h);				// inserts a route ID with a distance into an AVL sorted by route ID, the stats are modified if the ID is already in the AVL
+pTrees cBSTFromTrees(pTrees a);							// creates a tree sorted by max-min from the tree which was sorted by route ID
