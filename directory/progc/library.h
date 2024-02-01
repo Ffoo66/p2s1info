@@ -109,8 +109,8 @@ int main(int argc, char** argv);	// main function
 short isEmptyl(pTreel a);				// checks if the tree is empty
 int heightl(pTreel a);					// calculates the height of the tree
 pTreel cTreel(int e, float f);				// creates a tree which stores the route ID and total distance
-Chainl* cChainl(pTreel a);				// creates a linked list
-Queuel cQueuel(pTreel a);				// creates a queue
+Chainl* cChainl(pTreel a);				// creates a linked list for the queue
+Queuel cQueuel(pTreel a);				// creates a queue which contains a tree
 Queuel enterl(Queuel f, pTreel a);			// enters the tree in the queue
 pTreel rmQueuel(Queuel* f);				// removes a slot from the queue and returns the tree which was inside
 short existLBl(pTreel a);				// checks if the left branch of the tree exists
@@ -119,7 +119,7 @@ pTreel lRotl (pTreel a);				// left rotation for the AVL
 pTreel rRotl (pTreel a);				// right rotation for the AVL
 pTreel doubleLRotl(pTreel a);				// right-left rotation for the AVL
 pTreel doubleRRotl(pTreel a);				// left-right rotation for the AVL
-pTreel eqAVLl(pTreel a);				// checks the tree's balance to determine if a rotation is needed
+pTreel eqAVLl(pTreel a);				// checks the tree's balance to determine if a rotation is needed and makes the correct rotation
 pTreel insertAVLl(pTreel a, int e, float x, int* h);	// inserts a route ID and distance into an AVL, if the ID is already in the tree, the distance will add to the ID's distance value
 void infix1l(pTreel a, Queuel* f);			// fills a queue with the tree which was sorted by route ID
 pTreel addBSTl(pTreel a, int e, float x);		// sorts the route IDs by their total distance from shortest to longest
