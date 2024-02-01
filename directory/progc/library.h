@@ -128,17 +128,17 @@ pTreel cBSTFromTreel(pTreel a);				// creates a tree sorted by total distance fr
 
 // List of functions and processes for the -t process
 // List of functions linked to the AVL which sorts by route ID
-short isEmptyi(pTreei a);
-int heighti(pTreei a);
-pTreei cTreei(int e);
-short existLBi(pTreei a);
-short existRBi(pTreei a);
-pTreei lRoti (pTreei a);
-pTreei rRoti (pTreei a);
-pTreei doubleLRoti(pTreei a);
-pTreei doubleRRoti(pTreei a);
-pTreei eqAVLi(pTreei a);
-pTreei insertAVLi(pTreei a, int e, int* i, int* h);
+short isEmptyi(pTreei a);				// checks if the ID tree is empty
+int heighti(pTreei a);					// calculates the height of the ID tree
+pTreei cTreei(int e);					// creates a tree which stored route IDs
+short existLBi(pTreei a);				// checks if the left branch of the ID tree exists
+short existRBi(pTreei a);				// checks if the right branch of the ID tree exists
+pTreei lRoti (pTreei a);				// left rotation for the ID AVL
+pTreei rRoti (pTreei a);				// right rotation for the ID AVL
+pTreei doubleLRoti(pTreei a);				// right-left rotation for the ID AVL
+pTreei doubleRRoti(pTreei a);				// left-right rotation for the ID AVL
+pTreei eqAVLi(pTreei a);				// checks the ID tree's balance to determine if a rotation is needed
+pTreei insertAVLi(pTreei a, int e, int* i, int* h);	// inserts a route ID into an AVL
 
 // Main list of functions and processes 
 short isEmptyt1(pTreet1 a);
