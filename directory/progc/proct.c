@@ -396,10 +396,10 @@ short isBSTt(pTreet1 a){	// checks if the tree is already sorted
 		printf("error isBSTt\n");
 		exit(31);
 	}
-	infix1t1(a, &f);	// usage of a queue to compare the total count values
+	infix1t1(a, &f);
 	n = rmQueuet(&f);
 	while(f.head != NULL){
-		if(n->count >= f.head->a->count){
+		if(n->count >= f.head->a->count){	// usage of a queue to compare the total count values
 			return 0;
 		}
 		n = rmQueuet(&f);
