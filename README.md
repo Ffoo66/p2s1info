@@ -5,6 +5,7 @@ To launch the program use "bash projet.sh directory" followed by the desired opt
 Amongst the available options are -c to create a data.csv file if one does not already exist. One should use -c on the first execution to ensure the data file exist.
 
 Other options are -h or --help to display help. If selected it will cancel other arguments. 
+
 The -d1 option creates a horizontal histogram displaying the number of routes by driver for the 10 drivers having done the most routes.
 
 The -d2 option creates a horizontal histogram displaying the total distance by driver for the 10 drivers having the greatest totals.
