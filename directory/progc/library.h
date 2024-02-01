@@ -109,10 +109,10 @@ pTreel cTreel(int e, float f);				// creates a tree
 Chainl* cChainl(pTreel a);				// creates a linked list
 Queuel cQueuel(pTreel a);				// creates a queue
 Queuel enterl(Queuel f, pTreel a);			// enters the tree in the queue
-pTreel rmQueuel(Queuel* f);				// removes a slot of the queue and returns the tree which was inside
+pTreel rmQueuel(Queuel* f);				// removes a slot from the queue and returns the tree which was inside
 short existLBl(pTreel a);				// checks if the left branch of the tree exists
 short existRBl(pTreel a);				// checks if the right branch of the tree exists
-void processl(pTreel a);				// writes down the route ID and distance
+void processl(pTreel a);				// writes down the route ID and distance into a file which will be used to draw the graph
 void infix1l(pTreel a, Queuel* f);			// fills a queue with the tree which was sorted by route ID
 void infix2l(pTreel a);					// writes down the route ID and distance from longest distance to shortest
 pTreel addBSTl(pTreel a, int e, float x);		// sorts the route IDs by their total distance from shortest to longest
@@ -130,7 +130,7 @@ pTreel cBSTFromTreel(pTreel a);				// creates a tree sorted by total distance fr
 // List of functions linked to the AVL which sorts by route ID
 short isEmptyi(pTreei a);				// checks if the ID tree is empty
 int heighti(pTreei a);					// calculates the height of the ID tree
-pTreei cTreei(int e);					// creates a tree which stored route IDs
+pTreei cTreei(int e);					// creates a tree which stores route IDs
 short existLBi(pTreei a);				// checks if the left branch of the ID tree exists
 short existRBi(pTreei a);				// checks if the right branch of the ID tree exists
 pTreei lRoti (pTreei a);				// left rotation for the ID AVL
@@ -141,27 +141,27 @@ pTreei eqAVLi(pTreei a);				// checks the ID tree's balance to determine if a ro
 pTreei insertAVLi(pTreei a, int e, int* i, int* h);	// inserts a route ID into an AVL
 
 // Main list of functions and processes 
-short isEmptyt1(pTreet1 a);
-int heightt1(pTreet1 a);
-pTreet1 cTreet1(int e, char* city, int count, int fcount);
-Chaint* cChaint(pTreet1 a);
-Queuet cQueuet(pTreet1 a);
-Queuet entert(Queuet f, pTreet1 a);
-pTreet1 rmQueuet(Queuet* f);
-short existLBt1(pTreet1 a);
-short existRBt1(pTreet1 a);
-void processt1(pTreet1 a);
-void infix1t1(pTreet1 a, Queuet* f);
-void infix2t1(pTreet1 a);
-pTreet1 addBSTt(pTreet1 a, int e, char* city, int count, int fcount);
-short isBSTt(pTreet1 a);
-pTreet1 lRott1 (pTreet1 a);
-pTreet1 rRott1 (pTreet1 a);
-pTreet1 doubleLRott1(pTreet1 a);
-pTreet1 doubleRRott1(pTreet1 a);
-pTreet1 eqAVLt1(pTreet1 a);
-pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h);
-pTreet1 cBSTFromTreet(pTreet1 a);
+short isEmptyt1(pTreet1 a);								// checks if the main tree is empty
+int heightt1(pTreet1 a);								// calculates the height of the main tree
+pTreet1 cTreet1(int e, char* city, int count, int fcount);				// creates a tree which stores the cities along with an ID AVL and counters
+Chaint* cChaint(pTreet1 a);								// creates a linked list
+Queuet cQueuet(pTreet1 a);								// creates a queue
+Queuet entert(Queuet f, pTreet1 a);							// enters the tree in the queue
+pTreet1 rmQueuet(Queuet* f);								// removes a slot from the queue and returns the tree which was inside
+short existLBt1(pTreet1 a);								// checks if the left branch of the tree exists
+short existRBt1(pTreet1 a);								// checks if the right branch of the tree exists
+void processt1(pTreet1 a);								// writes down how many times a city is visited and how many times it was the departure city along with its name itself into a file which will be sorted by alphabetical order
+void infix1t1(pTreet1 a, Queuet* f);							// fills a queue with the tree which was sorted by alphabetical order
+void infix2t1(pTreet1 a);								// writes down both counters and the city's name from highest total count to lowest
+pTreet1 addBSTt(pTreet1 a, int e, char* city, int count, int fcount);			// sorts the cities from lowest total count to highest
+short isBSTt(pTreet1 a);								// checks if the tree is already sorted
+pTreet1 lRott1 (pTreet1 a);								// left rotation for the main AVL
+pTreet1 rRott1 (pTreet1 a);								// right rotation for the  main AVL
+pTreet1 doubleLRott1(pTreet1 a);							// right-left rotation for the  main AVL
+pTreet1 doubleRRott1(pTreet1 a);							// left-right rotation for the  main AVL
+pTreet1 eqAVLt1(pTreet1 a);								// checks the main tree's balance to determine if a rotation is needed
+pTreet1 insertAVLt1(pTreet1 a, int e, char* city, int count, int fcount, int* h);	// inserts a city and a route ID into an AVL, the right counters would be modified depending on whether a city/ID duo already exists in the AVL or not
+pTreet1 cBSTFromTreet(pTreet1 a);							// creates a tree sorted by total count from the tree which was sorted by alphabetical order
 
 // List of functions and processes linked to the AVL which sorts by alphabetical order
 short isEmptyt2(pTreet2 a);
