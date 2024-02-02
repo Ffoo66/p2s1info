@@ -3,7 +3,7 @@ This program compiles data from a voluminous csv file on the statistics of drive
 
 Make sure the path to the directory (directory included) in which you put the files does not contain spaces or special characters (for example *), otherwise some of the options will not work.
 
-Make sure the files you want to process are in .csv and that they have a header line which does not contain any data. You have to put those files in the same directory as project.sh and 'directory'. The separator between each column has to be ';'. The column have to be in this order: route ID;step ID;departure town;arrival town;distance.
+Make sure the files you want to process are in .csv and that they have a header line which does not contain any data. You have to put those files in the same directory as project.sh and 'directory'. The separator between each column has to be ';'. The columns have to be in this order: route ID;step ID;departure town;arrival town;distance.
 The towns' names mustn't be above 38 characters.
 
 To launch the program use "bash project.sh directory" followed by the desired options.
@@ -18,11 +18,11 @@ The -d2 option creates a horizontal histogram displaying the total distance by d
 
 The -l option creates a vertical histogram displaying the distance by route ID for the 10 longest routes.
 
-The -t option creates a vertical clustered histogram displaying the number of routes passing by and the number of routes starting from towns for the 10 towns with the most passages.
+The -t option creates a vertical clustered histogram displaying the number of routes passing through and the number of routes starting from towns for the 10 towns with the most passages.
 
-The -s option creates a graph displaying the minimum, maximum, and average distance by route for the 50 first routes ordered decreasingly according to the "max - min" value.
+The -s option creates a graph displaying the minimum, maximum, and average distances of steps by route for the 50 first routes ordered decreasingly according to the "max - min" value.
 
 The graphs created by the execution can be found in the images directory (found at ./directory/images in the program's main directory). 
 A graph in the images directory will be replaced by a new version upon a new call of the corresponding option.
 
-The demo directory contains examples of the program's results (both graphs and the corresponding data).
+The demo directory contains examples of the program's results (both graphs and the corresponding compiled data).
