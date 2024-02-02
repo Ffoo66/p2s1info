@@ -1,5 +1,6 @@
 This program compiles data from a voluminous csv file on the statistics of drivers and routes and produces more legible graphs presenting some of these statistics according to the selected options.
 
+The following instructions need to be respected in order for the program to function correctly.
 
 Make sure the path to the directory (directory included) in which you put the files does not contain spaces or special characters (for example *), otherwise some of the options will not work.
 
