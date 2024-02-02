@@ -23,7 +23,6 @@ pTrees cTrees(int e, double f, double min, double max, double av){
 	}
 	a->l = NULL;
 	a->r = NULL;
-	a->city = NULL;
 	a->count = 1;
 	a->n = e;
 	a->f = f;
