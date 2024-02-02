@@ -398,9 +398,9 @@ do
 		
 		start=`date +%s`
 		
-		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata5.txt
+		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata5.txt	# creates a file with only the route ID and distance
 		tempdir5=`realpath temp/tempdata5.txt`
-		./progc/c.exe 4 $tempdir5 | head -50 > temp/resultsS.dat
+		./progc/c.exe 4 $tempdir5 | head -50 > temp/resultsS.dat			# creates a file with the values which will be displayed on the graph
 		
 		cd temp
 		gnuplot -persist <<-EOFMarker
@@ -453,13 +453,13 @@ do
 	esac
 done
 
-if [ $tmparg -le 0 ]
+if [ $tmparg -le 0 ]		# sends an error message if no option was selected
 then
 	echo "No valid argument, try -h or --help to get help"
 	exit 6
 fi
 
-for j in `ls`
+for j in `ls`			# deletes the temp directory and the temporary files
 do
 	if [ $j == temp ]
 	then
