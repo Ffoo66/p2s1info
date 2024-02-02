@@ -46,7 +46,7 @@ tmpprogc=0
 tmptemp=0
 tmpimage=0
 
-for j in `ls`
+for j in `ls`	# checks if the required directories were already created
 do
 	if [ $j == data ]
 	then
@@ -56,14 +56,14 @@ do
 	then
 		for k in `ls progc`
 		do
-			if [ $k == c.exe ]
+			if [ $k == c.exe ]	# checks if the C executable was created
 			then
 				tmpc=1
 			fi
 		done
 		tmpprogc=1
 	fi
-	if [ $j == temp ]
+	if [ $j == temp ]	# deletes the temp directory
 	then
 		rm -r temp
 	fi
@@ -73,7 +73,7 @@ do
 	fi
 done
 
-if [ $tmpdata -le 0 ]
+if [ $tmpdata -le 0 ]	# creates the missing directories
 then
 	mkdir data
 fi
@@ -88,13 +88,14 @@ then
 	mkdir images
 fi
 
-mkdir temp
+mkdir temp		# recreates the temp directory
 
 tmparg=0
 
 for i in `seq 2 $#`
 do
 	if [ ${!i} == '-c' ] || [ ${!i} == '--create' ] && [ $tmparg -le 0 ]
+ # copy of the data files in the data directory and making of the C executable, the option is only used once even if the argument was called several times in the same command
 	then
 		start=`date +%s`
 		rm data/*
@@ -124,7 +125,7 @@ done
 
 tmpcsv=0
 
-for i in `ls data`
+for i in `ls data`	# checks if the data file was created
 do
 	if [ $i == "data.csv" ]
 	then
@@ -139,7 +140,7 @@ then
 fi
 
 
-for arg in `seq 2 $#`
+for arg in `seq 2 $#`		# main processes
 do
 	case ${!arg} in
 		-d1) echo "Executing the d1 option"
@@ -285,9 +286,9 @@ do
 		
 		start=`date +%s`
 		
-		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
+		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt	# creates a file with only the route ID and distance
 		tempdir1=`realpath temp/tempdata1.txt`
-		./progc/c.exe 1 $tempdir1 | head -10 | sort -n > temp/resultsL.dat
+		./progc/c.exe 1 $tempdir1 | head -10 | sort -n > temp/resultsL.dat		# creates a file with the values which will be displayed on the graph
 		
 		cd temp
 		gnuplot -persist <<-EOFMarker
@@ -340,14 +341,14 @@ do
 		
 		start=`date +%s`
 		
-		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
-		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata3.txt
+		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt	# creates a file with only the route ID, step ID and departure city
+		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata3.txt	# creates a file with only the route ID and arrival city
 		tempdir2=`realpath temp/tempdata2.txt`
 		tempdir3=`realpath temp/tempdata3.txt`
-		./progc/c.exe 2 $tempdir2 $tempdir3 | head -10 > temp/tempdata4.txt
+		./progc/c.exe 2 $tempdir2 $tempdir3 | head -10 > temp/tempdata4.txt		# creates a file with the values which will be displayed on the graph
 		tempdir4=`realpath temp/tempdata4.txt`
 		echo "Number of routes;Number of departures" > temp/resultsT.dat
-		./progc/c.exe 3 $tempdir4 >> temp/resultsT.dat
+		./progc/c.exe 3 $tempdir4 >> temp/resultsT.dat					# creates a file with the values sorted by alphabetical order
 		
 		cd temp
 		gnuplot -persist <<-EOFMarker
