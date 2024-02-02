@@ -91,6 +91,7 @@ fi
 mkdir temp		# recreates the temp directory
 
 tmparg=0
+tmpdat=0
 
 for i in `seq 2 $#`
 do
@@ -98,8 +99,15 @@ do
  # copy of the data files in the data directory and making of the C executable, the option is only used once even if the argument was called several times in the same command
 	then
 		start=`date +%s`
-		rm data/*
 		cd ..
+		for j in `ls | grep .csv`
+		do
+			tmpdat=1
+		done
+  		if [ tmpdat -eq 1 ]
+    		then
+      			rm directory/data/*
+		fi
 		for j in `ls | grep .csv`
 		do
 			tail -n+2 $j >> directory/data/data.csv
