@@ -31,6 +31,6 @@ A graph in the images directory will be replaced by a new version upon a new cal
 
 The compiled data used for the graphs and other temporary files are all removed at the end of the program's execution. 
 
-The c.exe and the data.csv remain until the next call of the -c option, at which point the old data file will be removed and a new one will be used (if one is provided in the main directory) and the c.exe will be recompiled. One should ensure they have an appropriate dat.csv in the program's main directory before making a new call fo the -c option.
+The c.exe and the data.csv remain until the next call of the -c option, at which point the old data file will be removed and a new one will be used (if one is provided in the main directory) and the c.exe will be recompiled. One should ensure they have an appropriate data.csv file in the program's main directory before making a new call fo the -c option.
 
 The demo directory contains examples of the program's results (both graphs and the corresponding compiled data).
