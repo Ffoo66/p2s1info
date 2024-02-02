@@ -1,3 +1,6 @@
+This program compiles data from a voluminous csv file on the statistics of drivers and routes and produces more legible graphs presenting some of these statistics according to the selected options.
+
+
 Make sure the path to the directory (directory included) in which you put the files does not contain spaces or special characters (for example *), otherwise some of the options will not work.
 
 Make sure the files you want to process are in .csv and that they have a header line which does not contain any data. You have to put those files in the same directory as project.sh and 'directory'. The separator between each column has to be ';'. The column have to be in this order: route ID;step ID;departure town;arrival town;distance.
