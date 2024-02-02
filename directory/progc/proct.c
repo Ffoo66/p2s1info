@@ -169,7 +169,6 @@ pTreet1 cTreet1(int e, char* city, int count, int fcount){	// creates a tree whi
 	a->count = count;
 	a->fcount = fcount;
 	a->a = cTreei(e);
-	a->i = 1;
 	a->eq=heightt1(a->r)-heightt1(a->l);
 	return a;
 }
