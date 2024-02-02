@@ -98,21 +98,31 @@ do
 	if [ ${!i} == '-c' ] || [ ${!i} == '--create' ] && [ $tmparg -le 0 ]
  # copy of the data files in the data directory and making of the C executable, the option is only used once even if the argument was called several times in the same command
 	then
+		tmpnonemptdat=0
 		start=`date +%s`
 		cd ..
 		for j in `ls | grep .csv`
 		do
 			tmpdat=1
 		done
-  		if [ tmpdat -eq 1 ]
+  		if [ $tmpdat -eq 1 ]
     		then
-      			rm directory/data/*
+    			for k in `ls directory/data`
+    			do
+    				tmpnonemptdat=1
+    			done
+    			if [ $tmpnonemptdat -eq 1 ]
+    			then
+      				rm directory/data/*
+      			fi
+			for k in `ls | grep .csv`
+			do
+				tail -n+2 $j >> directory/data/data.csv
+			done
+			cd $1
+		else
+			echo "No .csv was found in the correct directory, data.csv creation was cancelled."
 		fi
-		for j in `ls | grep .csv`
-		do
-			tail -n+2 $j >> directory/data/data.csv
-		done
-		cd $1
 		if [ $tmpc -le 0 ]
 		then
 			cd progc
