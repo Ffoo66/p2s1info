@@ -13,6 +13,8 @@ Amongst the available options are -c (or --create) to create a data.csv file in 
 
 Other options are -h or --help to display help. If selected it will cancel other arguments. 
 
+The following options can be chained in a single execution. They will then be processed successively in the order designed in the launch command.
+
 The -d1 option creates a horizontal histogram displaying the number of routes by driver for the 10 drivers having done the most routes.
 
 The -d2 option creates a horizontal histogram displaying the total distance by driver for the 10 drivers having the highest total distances.
