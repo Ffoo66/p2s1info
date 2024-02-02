@@ -427,12 +427,13 @@ pTreet1 cBSTFromTreet(pTreet1 a){	// creates a tree sorted by total count from t
 	}
 	while(f->head != NULL){
 		n = rmQueuet(f);
-		addBSTt(bst, n->a->n, n->city, n->count, n->fcount);	// sorts the cities by total count from lowest to highest instead of alphabetical order
+		addBSTt(bst, n->a->n, n->city, n->count, n->fcount);	// sorts from lowest total count to highest instead of alphabetical order
 	}
 	return bst;
 }
 
-void processt1(pTreet1 a){	// writes down how many times a city is visited and how many times it was the departure city along with its name itself into a file which will be sorted by alphabetical order
+void processt1(pTreet1 a){
+// writes down how many times a city is visited and how many times it was the departure city along with its name itself into a file which will be sorted by alphabetical order
 	if (a != NULL){
 		printf("%d;%d;%s", a->count, a->fcount, a->city);
 	}
@@ -561,7 +562,7 @@ pTreet2 eqAVLt2(pTreet2 a){	// checks the final tree's balance to determine if a
 	return a;
 }
 
-pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h){	// inserts a city and a route ID into an AVL sorted by alphabetical order
+pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h){	// inserts a city and a route ID in an AVL sorted by alphabetical order
 	if (a==NULL){
 		*h=1;
 		return cTreet2(city, count, fcount);
@@ -592,7 +593,8 @@ pTreet2 insertAVLt2(pTreet2 a, char* city, int count, int fcount, int* h){	// in
 	return a;
 }
 
-void processt2(pTreet2 a){	// writes down how many times a city is visited and how many times it was the departure city along with its name into a file which will be used to draw the graph
+void processt2(pTreet2 a){
+// writes down how many times a city is visited and how many times it was the departure city along with its name into a file which will be used to draw the graph
 	if (a != NULL){
 		printf("%d;%d;%s", a->count, a->fcount, a->city);
 	}
