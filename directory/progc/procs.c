@@ -14,7 +14,8 @@ int heights(pTrees a){		// calculates the height of the tree
 	return 1 + max2(heights(a->l),heights(a->r));
 }
 
-pTrees cTrees(int e, double f, double min, double max, double av){	// creates a tree which stores the route ID and a few statistics (min, max and average step distance)
+pTrees cTrees(int e, double f, double min, double max, double av){
+// creates a tree which stores the route ID and a few statistics (min, max and average step distance)
 	pTrees a = malloc(sizeof(Trees));
 	if (a == NULL){
 		printf("Error cTrees\n");
@@ -179,7 +180,8 @@ pTrees eqAVLs(pTrees a){	// checks the tree's balance to determine if a rotation
 	return a;
 }
 
-pTrees insertAVLs(pTrees a, int e, double x, int* h){		// inserts a route ID with a distance into an AVL sorted by route ID, the stats are modified if the ID is already in the AVL
+pTrees insertAVLs(pTrees a, int e, double x, int* h){
+// inserts a route ID with a distance into an AVL sorted by route ID, the stats are modified if the ID is already in the AVL
 	if (a==NULL){
 		*h=1;
 		return cTrees(e, x, x, x, x);
@@ -191,7 +193,7 @@ pTrees insertAVLs(pTrees a, int e, double x, int* h){		// inserts a route ID wit
 	else if (e > a->n){
 		a->r=insertAVLs(a->r, e, x, h);
 	}
-	else{							// if the route ID is already in the tree, changes the statistics according to the newly added distance and adds one to the step count
+	else{		// if the route ID is already in the tree, changes the statistics according to the distance and adds one to the step count
 		*h=0;
 		a->f += x;
 		a->count++;
@@ -223,7 +225,7 @@ void process1s(pTrees a){	// calculates the average distance per step and the ma
 	}
 }
 
-void infix1s(pTrees a, Queues* f){	// fills a queue with the tree which was sorted by route ID and calculates the average distance and the max-min value
+void infix1s(pTrees a, Queues* f){	// fills a queue with the tree sorted by route ID, calculates the average distance and the max-min value
 	if(a != NULL){
 		infix1s(a->l, f);
 		process1s(a);
