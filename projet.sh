@@ -111,7 +111,7 @@ do
 			if [ ! $? -eq 0 ]
 			then
 				echo "Gcc error"
-				exit 5
+				exit 4
 			fi
 			cd ..
 		fi
@@ -135,7 +135,7 @@ done
 if [ $tmpcsv -le 0 ] || [ $tmpc -le 0 ]
 then
 	echo "data.csv or the C executable wasn't created yet, please add a -c argument."
-	exit 7
+	exit 5
 fi
 
 
