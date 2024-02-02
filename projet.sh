@@ -24,7 +24,7 @@ do
 		
 		- The -h or --help argument displays this help and cancels the other arguments.
 		
-		- The -c or --create argument finds the data.csv if it is in the same directory as the script Shell file (projet.sh) and the main directory (directory), copies it in the data directory, compiles the C files and makes the C executable. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while so you should only use this option once.
+		- The -c or --create argument finds all of the .csv files which are in the same directory as the script Shell file (projet.sh) and the main directory (directory) and merges them into a single data.csv in the data directory. Make sure the .csv files have a header line which doesn't include any of the data. Also compiles the C files and makes the C executable. You must use this argument at least once before using the other arguments. It doesn't cancel the other arguments. It takes a while so you should only use this option once.
 		
 		- The -d1 argument shows the d1 option, it displays a graph showing the Drivers with the most routes.
 		
@@ -97,20 +97,11 @@ do
 	if [ ${!i} == '-c' ] || [ ${!i} == '--create' ] && [ $tmparg -le 0 ]
 	then
 		start=`date +%s`
-		for j in `ls data`
-		do
-			if [ $j == "data.csv" ]
-			then
-				rm data/data.csv
-			fi
-		done
+		rm data/*
 		cd ..
-		for j in `ls`
+		for j in `ls | grep .csv`
 		do
-			if [ $j == "data.csv" ]
-			then
-				tail -n+2 data.csv > directory/data/data.csv
-			fi
+			tail -n+2 $j >> directory/data/data.csv
 		done
 		cd $1
 		if [ $tmpc -le 0 ]
@@ -279,9 +270,6 @@ do
 		start=`date +%s`
 		
 		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata1.txt
-		cd progc
-		make
-		cd ..
 		tempdir1=`realpath temp/tempdata1.txt`
 		./progc/c.exe 1 $tempdir1 | head -10 | sort -n > temp/resultsL.dat
 		
@@ -338,9 +326,6 @@ do
 		
 		cut -d';' -f1-3 --output-delimiter=' ' data/data.csv > temp/tempdata2.txt
 		cut -d';' -f1,4 --output-delimiter=' ' data/data.csv > temp/tempdata3.txt
-		cd progc
-		make
-		cd ..
 		tempdir2=`realpath temp/tempdata2.txt`
 		tempdir3=`realpath temp/tempdata3.txt`
 		./progc/c.exe 2 $tempdir2 $tempdir3 | head -10 > temp/tempdata4.txt
@@ -397,9 +382,6 @@ do
 		start=`date +%s`
 		
 		cut -d';' -f1,5 --output-delimiter=' ' data/data.csv > temp/tempdata5.txt
-		cd progc
-		make
-		cd ..
 		tempdir5=`realpath temp/tempdata5.txt`
 		./progc/c.exe 4 $tempdir5 | head -50 > temp/resultsS.dat
 		
