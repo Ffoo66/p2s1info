@@ -1,8 +1,10 @@
 Make sure the directory in which you put the files does not contain spaces or special characters (for example *), otherwise some of the options will not work.
 
+Make sure the files you want to process are in .csv and that they have a header line which does not contain any data. You have to put those files in the same directory as project.sh and 'directory'. The separator between each column has to be ';'.
+
 To launch the program use "bash project.sh directory" followed by the desired options.
 
-Amongst the available options are -c (or --create) to create a data.csv file in the right directory, to compile the C file and create the executable. One should use -c on the first execution to ensure the data file and the executable exist. Make sure the files you want to process are in .csv and that they have a header line which does not contain any data. You have to put those files in the same directory as project.sh and 'directory'.
+Amongst the available options are -c (or --create) to create a data.csv file in the right directory, to compile the C file and create the executable. One should use -c on the first execution to ensure the data file and the executable exist.
 
 Other options are -h or --help to display help. If selected it will cancel other arguments. 
 
