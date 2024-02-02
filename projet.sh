@@ -12,7 +12,7 @@ then
 	exit 2
 fi
 
-for i in `seq 2 $#`
+for i in `seq 2 $#`		# displays the help and stops the program before any other option
 do
 	if [ ${!i} == '-h' ] || [ ${!i} == '--help' ]
 	then
@@ -121,6 +121,22 @@ do
 		echo $runtime "second(s)"
 	fi
 done
+
+tmpcsv=0
+
+for i in `ls data`
+do
+	if [ $i == "data.csv" ]
+	then
+		tmpcsv=1
+	fi
+done
+
+if [ $tmpcsv -le 0 ] || [ $tmpc -le 0 ]
+then
+	echo "data.csv or the C executable wasn't created yet, please add a -c argument."
+	exit 7
+fi
 
 
 for arg in `seq 2 $#`
@@ -440,22 +456,6 @@ if [ $tmparg -le 0 ]
 then
 	echo "No valid argument, try -h or --help to get help"
 	exit 6
-fi
-
-tmpcsv=0
-
-for i in `ls data`
-do
-	if [ $i == "data.csv" ]
-	then
-		tmpcsv=1
-	fi
-done
-
-if [ $tmpcsv -le 0 ]
-then
-	echo "data.csv wasn't created yet, please add a -c argument to create data.csv"
-	exit 7
 fi
 
 for j in `ls`
