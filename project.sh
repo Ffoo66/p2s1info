@@ -115,6 +115,7 @@ do
 				exit 4
 			fi
 			cd ..
+   			tmpc=1
 		fi
 		tmparg=1
 		end=`date +%s`
