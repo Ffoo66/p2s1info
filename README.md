@@ -29,6 +29,6 @@ The -s option creates a graph displaying the minimum, maximum, and average dista
 The graphs created by the execution can be found in the images directory (found at ./directory/images in the program's main directory). 
 A graph in the images directory will be replaced by a new version upon a new call of the corresponding option.
 
-The compiled data used for the graphs and other temporary files are all removed at the end of the program's execution whereas the c.exe and the data.csv remain until the next call of the -c option, at which point the old data file will be removed and a new one will be used if provided in the main directory and the c.exe will be recompiled.
+The compiled data used for the graphs and other temporary files are all removed at the end of the program's execution. The c.exe and the data.csv remain until the next call of the -c option, at which point the old data file will be removed and a new one will be used if provided in the main directory and the c.exe will be recompiled.
 
 The demo directory contains examples of the program's results (both graphs and the corresponding compiled data).
